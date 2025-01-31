@@ -31,8 +31,7 @@ public class ReservationResourceCreateController {
     public ModelAndView getReservationResourceCreate() {
 
         final ModelAndView model =
-                new ModelAndView(
-                        "com/wevserver/reservation/templates/reservation-resource-create");
+                new ModelAndView("com/wevserver/reservation/templates/reservation-resource-create");
         model.addObject("reservationResourceCreate", new ReservationResourceCreate());
 
         return model;
