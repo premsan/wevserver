@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{com/wevserver/ui/templates/head-fragment}" />
+    <header th:replace="~{com/wevserver/ui/templates/header-fragment}" />
+    <body id="top">
+        <section th:each="user: ${users}">
+            <div th:text="${user.id}">user.id</div>
+            <div th:text="${user.version}">user.version</div>
+            <div th:text="${user.ownerId}">user.ownerId</div>
+            <div th:text="${user.email}">user.email</div>
+            <div th:text="${user.disabled}">user.disabled</div>
+            <div th:text="${user.updatedAt}">user.updatedAt</div>
+            <div th:text="${user.updatedBy}">user.updatedBy</div>
+        </section>
+    </body>
+    <footer th:replace="~{com/wevserver/ui/templates/footer-fragment}" />
+</html>
