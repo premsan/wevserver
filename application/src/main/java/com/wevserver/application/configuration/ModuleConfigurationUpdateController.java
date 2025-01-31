@@ -42,8 +42,7 @@ public class ModuleConfigurationUpdateController {
             throws IOException {
 
         final ModelAndView modelAndView =
-                new ModelAndView(
-                        "com/wevserver/application/templates/module-configuration-update");
+                new ModelAndView("com/wevserver/application/templates/module-configuration-update");
         modelAndView.addObject("moduleId", moduleId);
 
         final Map<String, String> properties = new HashMap<>();
@@ -92,8 +91,7 @@ public class ModuleConfigurationUpdateController {
             throws IOException {
 
         final ModelAndView modelAndView =
-                new ModelAndView(
-                        "com/wevserver/application/templates/module-configuration-update");
+                new ModelAndView("com/wevserver/application/templates/module-configuration-update");
 
         if (bindingResult.hasErrors()) {
 

@@ -1,7 +1,5 @@
 package com.wevserver.partner;
 
-import com.wevserver.partner.api.PartnerAPI;
-import com.wevserver.security.webkey.WebKeyProvider;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -9,6 +7,8 @@ import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import com.wevserver.partner.api.PartnerAPI;
+import com.wevserver.security.webkey.WebKeyProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;

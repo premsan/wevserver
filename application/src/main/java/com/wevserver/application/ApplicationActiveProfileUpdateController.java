@@ -62,8 +62,7 @@ public class ApplicationActiveProfileUpdateController {
             throws IOException {
 
         final ModelAndView modelAndView =
-                new ModelAndView(
-                        "com/wevserver/application/templates/module-configuration-update");
+                new ModelAndView("com/wevserver/application/templates/module-configuration-update");
 
         if (bindingResult.hasErrors()) {
 

@@ -60,8 +60,7 @@ public class ReservationPlanCreateController {
 
         if (bindingResult.hasErrors()) {
 
-            modelAndView.setViewName(
-                    "com/wevserver/reservation/templates/reservation-plan-create");
+            modelAndView.setViewName("com/wevserver/reservation/templates/reservation-plan-create");
             modelAndView.addObject("reservationPlanCreate", reservationPlanCreate);
 
             return modelAndView;
@@ -74,8 +73,7 @@ public class ReservationPlanCreateController {
 
             bindingResult.rejectValue("resourceId", null, "Invalid resourceId");
 
-            modelAndView.setViewName(
-                    "com/wevserver/reservation/templates/reservation-plan-create");
+            modelAndView.setViewName("com/wevserver/reservation/templates/reservation-plan-create");
             modelAndView.addObject("reservationPlanCreate", reservationPlanCreate);
 
             return modelAndView;
