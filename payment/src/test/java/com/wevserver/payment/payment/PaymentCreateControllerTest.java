@@ -23,7 +23,8 @@ class PaymentCreateControllerTest {
     @WithMockUser(authorities = {"PAYMENT_PAYMENT_CREATE"})
     void getPaymentCreate() throws Exception {
 
-        mockMvc.perform(get("/paymentddd/payment-create"))
+        mockMvc.perform(get("/payment/payment-create"))
+
                 .andExpectAll(status().isOk(), content().contentType("text/html;charset=UTF-8"));
     }
 }
