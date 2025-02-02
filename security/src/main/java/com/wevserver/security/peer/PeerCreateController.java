@@ -26,7 +26,7 @@ public class PeerCreateController {
 
     @FeatureMapping
     @GetMapping("/security/peer-create")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PEER_PEER_CREATE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('SECURITY_PEER_CREATE')")
     public ModelAndView peerCreateGet() {
 
         final ModelAndView model = new ModelAndView("com/wevserver/security/templates/peer-create");
@@ -35,8 +35,8 @@ public class PeerCreateController {
         return model;
     }
 
-    @PostMapping("/peer/peer-create")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PEER_PEER_CREATE')")
+    @PostMapping("/security/peer-create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('SECURITY_PEER_CREATE')")
     public ModelAndView peerCreatePost(
             @Valid @ModelAttribute("peerCreate") final RequestParams requestParams,
             final BindingResult bindingResult,

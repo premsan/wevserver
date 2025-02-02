@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "peer_peer")
+@Table(name = "security_peer")
 public class Peer {
 
     @Id
