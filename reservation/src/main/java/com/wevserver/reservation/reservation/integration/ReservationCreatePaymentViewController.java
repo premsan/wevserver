@@ -4,11 +4,11 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.wevserver.api.PaymentCreate;
 import com.wevserver.application.entityintegration.EntityIntegrationMapping;
-import com.wevserver.partner.PartnerTokenProvider;
-import com.wevserver.partner.api.PartnerAPI;
-import com.wevserver.partner.api.PartnerAPIRepository;
 import com.wevserver.reservation.reservation.Reservation;
 import com.wevserver.reservation.reservation.ReservationRepository;
+import com.wevserver.security.peer.Peer;
+import com.wevserver.security.peer.PeerRepository;
+import com.wevserver.security.peer.PeerTokenProvider;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ReservationCreatePaymentViewController {
 
     private final ReservationRepository reservationRepository;
-    private final PartnerAPIRepository partnerAPIRepository;
+    private final PeerRepository peerRepository;
 
-    private final PartnerTokenProvider partnerTokenProvider;
+    private final PeerTokenProvider peerTokenProvider;
 
     @EntityIntegrationMapping(entity = Reservation.class)
     @GetMapping("/reservation/reservation-create-payment-view/{id}")
@@ -43,14 +43,14 @@ public class ReservationCreatePaymentViewController {
             return new ModelAndView("com/wevserver/ui/templates/not-found");
         }
 
-        final List<PartnerAPI> partnerAPIs = partnerAPIRepository.findByPath(PaymentCreate.PATH);
+        final List<Peer> peers = peerRepository.findByPath(PaymentCreate.PATH);
 
         final ModelAndView modelAndView =
                 new ModelAndView(
                         "com/wevserver/reservation/templates/reservation-create-payment-view");
 
         modelAndView.addObject("reservation", optionalReservation.get());
-        modelAndView.addObject("partnerAPIs", partnerAPIs);
+        modelAndView.addObject("peers", peers);
 
         return modelAndView;
     }
@@ -58,7 +58,7 @@ public class ReservationCreatePaymentViewController {
     @PostMapping("/reservation/reservation-create-payment-view/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('RESERVATION_RESERVATION_VIEW')")
     public Object postReservationCreatePaymentView(
-            @PathVariable String id, @RequestParam String partnerAPIId) throws JOSEException {
+            @PathVariable String id, @RequestParam String peerId) throws JOSEException {
 
         final Optional<Reservation> optionalReservation = reservationRepository.findById(id);
 
@@ -67,9 +67,9 @@ public class ReservationCreatePaymentViewController {
             return new ModelAndView("com/wevserver/ui/templates/not-found");
         }
 
-        final Optional<PartnerAPI> optionalPartnerAPI = partnerAPIRepository.findById(partnerAPIId);
+        final Optional<Peer> optionalPeer = peerRepository.findById(peerId);
 
-        if (optionalPartnerAPI.isEmpty()) {
+        if (optionalPeer.isEmpty()) {
 
             return new ModelAndView("com/wevserver/ui/templates/not-found");
         }
@@ -78,13 +78,13 @@ public class ReservationCreatePaymentViewController {
         requestParameters.setReferenceId(optionalReservation.get().getId());
 
         UriComponentsBuilder uriComponentsBuilder =
-                UriComponentsBuilder.fromHttpUrl(optionalPartnerAPI.get().getHost())
-                        .path(optionalPartnerAPI.get().getPath())
+                UriComponentsBuilder.fromHttpUrl(optionalPeer.get().getHost())
+                        .path(optionalPeer.get().getPath())
                         .queryParam(
                                 "signedToken",
-                                partnerTokenProvider
+                                peerTokenProvider
                                         .createToken(
-                                                optionalPartnerAPI.get(),
+                                                optionalPeer.get(),
                                                 new JWTClaimsSet.Builder()
                                                         .claim(
                                                                 "requestParameters",

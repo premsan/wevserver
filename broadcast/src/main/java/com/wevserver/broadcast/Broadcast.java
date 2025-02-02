@@ -1,4 +1,4 @@
-package com.wevserver.partner.api;
+package com.wevserver.broadcast;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import org.springframework.data.relational.core.mapping.Table;
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "partner_partner_api")
-public class PartnerAPI {
+@Table(name = "broadcast_broadcast")
+public class Broadcast {
 
     @Id
     @Column("id")
@@ -22,17 +22,14 @@ public class PartnerAPI {
     @Column("version")
     private Long version;
 
-    @Column("host")
-    private String host;
+    @Column("reference")
+    private String reference;
 
-    @Column("path")
-    private String path;
+    @Column("name")
+    private String name;
 
-    @Column("inbound")
-    private Boolean inbound;
-
-    @Column("outbound")
-    private Boolean outbound;
+    @Column("url")
+    private String url;
 
     @Column("updated_at")
     private Long updatedAt;

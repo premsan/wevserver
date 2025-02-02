@@ -9,5 +9,3 @@ databaseChangeLog:
       path: com/wevserver/scheduled/db/changelog
   - includeAll:
       path: com/wevserver/payment/db/changelog
-  - includeAll:
-      path: com/wevserver/partner/db/changelog

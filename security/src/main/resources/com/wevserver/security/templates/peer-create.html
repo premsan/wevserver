@@ -6,8 +6,8 @@
         <section class="section">
             <form
                 method="post"
-                th:object="${partnerAPICreate}"
-                th:action="@{/partner/partner-api-create}"
+                th:object="${peerCreate}"
+                th:action="@{/peer/peer-create}"
             >
                 <div class="field">
                     <label class="label">Host</label>
@@ -52,7 +52,7 @@
                     <input
                         type="checkbox"
                         name="inbound"
-                        th:checked="${partnerAPICreate.inbound}"
+                        th:checked="${peerCreate.inbound}"
                     />
                     <ul>
                         <li
@@ -68,7 +68,7 @@
                     <input
                         type="checkbox"
                         name="outbound"
-                        th:checked="${partnerAPICreate.outbound}"
+                        th:checked="${peerCreate.outbound}"
                     />
                     <ul>
                         <li

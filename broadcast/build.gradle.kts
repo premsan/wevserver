@@ -15,14 +15,18 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":api"))
     implementation(project(":application"))
+    implementation(project(":db"))
     implementation(project(":security"))
+    implementation(project(":ui"))
+    implementation(project(":api"))
+
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
 

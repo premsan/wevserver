@@ -1,4 +1,4 @@
-package com.wevserver.partner.api;
+package com.wevserver.security.peer;
 
 import com.wevserver.application.feature.FeatureMapping;
 import jakarta.validation.Valid;
@@ -20,26 +20,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-public class PartnerAPICreateController {
+public class PeerCreateController {
 
-    private final PartnerAPIRepository partnerAPIRepository;
+    private final PeerRepository peerRepository;
 
     @FeatureMapping
-    @GetMapping("/partner/partner-api-create")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PARTNER_PARTNER_API_CREATE')")
-    public ModelAndView getPartnerAPICreate() {
+    @GetMapping("/security/peer-create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PEER_PEER_CREATE')")
+    public ModelAndView peerCreateGet() {
 
-        final ModelAndView model =
-                new ModelAndView("com/wevserver/partner/templates/partner-api-create");
-        model.addObject("partnerAPICreate", new PartnerAPICreate());
+        final ModelAndView model = new ModelAndView("com/wevserver/security/templates/peer-create");
+        model.addObject("peerCreate", new RequestParams());
 
         return model;
     }
 
-    @PostMapping("/partner/partner-api-create")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PARTNER_PARTNER_API_CREATE')")
-    public ModelAndView postPartnerAPICreate(
-            @Valid @ModelAttribute("partnerAPICreate") final PartnerAPICreate partnerAPICreate,
+    @PostMapping("/peer/peer-create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PEER_PEER_CREATE')")
+    public ModelAndView peerCreatePost(
+            @Valid @ModelAttribute("peerCreate") final RequestParams requestParams,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
@@ -48,31 +47,31 @@ public class PartnerAPICreateController {
 
         if (bindingResult.hasErrors()) {
 
-            modelAndView.setViewName("com/wevserver/partner/templates/partner-api-create");
-            modelAndView.addObject("partnerAPICreate", partnerAPICreate);
+            modelAndView.setViewName("com/wevserver/security/templates/peer-create");
+            modelAndView.addObject("peerCreate", requestParams);
 
             return modelAndView;
         }
 
-        final PartnerAPI partnerAPI =
-                partnerAPIRepository.save(
-                        new PartnerAPI(
+        final Peer peer =
+                peerRepository.save(
+                        new Peer(
                                 UUID.randomUUID().toString(),
                                 null,
-                                partnerAPICreate.getHost(),
-                                partnerAPICreate.getPath(),
-                                partnerAPICreate.isInbound(),
-                                partnerAPICreate.isOutbound(),
+                                requestParams.getHost(),
+                                requestParams.getPath(),
+                                requestParams.isInbound(),
+                                requestParams.isOutbound(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
-        redirectAttributes.addAttribute("id", partnerAPI.getId());
-        return new ModelAndView("redirect:/partner/partner-api-view/{id}");
+        redirectAttributes.addAttribute("id", peer.getId());
+        return new ModelAndView("redirect:/security/peer-view/{id}");
     }
 
     @Getter
     @Setter
-    private static class PartnerAPICreate {
+    private static class RequestParams {
 
         @NotBlank private String host;
 

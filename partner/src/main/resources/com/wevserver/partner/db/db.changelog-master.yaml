@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - includeAll:
-      path: com/wevserver/security/db/changelog
-  - includeAll:
-      path: com/wevserver/scheduled/db/changelog
-  - includeAll:
-      path: com/wevserver/partner/db/changelog
