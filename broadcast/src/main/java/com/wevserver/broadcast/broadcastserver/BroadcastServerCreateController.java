@@ -1,8 +1,11 @@
-package com.wevserver.broadcast;
+package com.wevserver.broadcast.broadcastserver;
 
 import com.nimbusds.jwt.SignedJWT;
+import com.samskivert.mustache.Mustache;
 import com.wevserver.api.BroadcastCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.broadcast.broadcast.Broadcast;
+import com.wevserver.broadcast.broadcast.BroadcastRepository;
 import com.wevserver.security.sign.SignedToken;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -20,14 +23,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-public class BroadcastCreateController {
+public class BroadcastServerCreateController {
 
+    private final Mustache.Compiler compiler;
     private final BroadcastRepository broadcastRepository;
 
     @FeatureMapping
-    @GetMapping(BroadcastCreate.PATH)
+    @GetMapping("/broadcast/broadcast-server")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_CREATE')")
-    public ModelAndView broadcastCreateGet(
+    public ModelAndView broadcastServerCreateGet(
             final @SignedToken SignedJWT signedToken,
             final BroadcastCreate.RequestParameters requestParameters) {
 
@@ -39,16 +43,16 @@ public class BroadcastCreateController {
         return model;
     }
 
-    @PostMapping(BroadcastCreate.PATH)
+    @PostMapping("/broadcast/broadcast-server")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_CREATE')")
-    public ModelAndView broadcastCreatePost(
+    public ModelAndView broadcastServerCreatePost(
             @Valid @ModelAttribute("broadcastCreate")
                     BroadcastCreate.RequestParameters requestParameters,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
 
-        ModelAndView modelAndView = new ModelAndView();
+        final ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
 

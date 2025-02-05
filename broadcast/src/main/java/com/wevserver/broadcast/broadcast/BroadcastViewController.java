@@ -1,4 +1,4 @@
-package com.wevserver.broadcast;
+package com.wevserver.broadcast.broadcast;
 
 import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;

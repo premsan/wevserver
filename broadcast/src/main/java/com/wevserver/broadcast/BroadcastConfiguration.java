@@ -12,10 +12,10 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @RequiredArgsConstructor
 public class BroadcastConfiguration implements WebSocketConfigurer {
 
-    private final BroadcastOutboundHandler broadcastOutboundHandler;
+    private final BroadcastServerManager broadcastServerManager;
 
     @Override
     public void registerWebSocketHandlers(final WebSocketHandlerRegistry registry) {
-        registry.addHandler(broadcastOutboundHandler, BroadcastWebsocket.PATH);
+        registry.addHandler(broadcastServerManager, BroadcastWebsocket.PATH);
     }
 }

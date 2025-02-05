@@ -1,4 +1,4 @@
-package com.wevserver.broadcast;
+package com.wevserver.broadcast.broadcast;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

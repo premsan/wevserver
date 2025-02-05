@@ -1,64 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{com/wevserver/ui/templates/head-fragment}" />
-    <header th:replace="~{com/wevserver/ui/templates/header-fragment}" />
+<html lang="en">
+    {{>com/wevserver/broadcast/templates/head-partial}}
+    {{>com/wevserver/broadcast/templates/header-partial}}
     <body>
         <section class="section content">
             <dl>
                 <div class="block">
                     <dt class="title is-4 has-text-info">Id</dt>
-                    <dd th:text="${broadcast.id}">Id</dd>
+                    <dd>{{broadcast.id}}</dd>
                 </div>
                 <div class="block">
                     <dt class="title is-4 has-text-info">Version</dt>
-                    <dd th:text="${broadcast.version}">Version</dd>
+                    <dd>{{broadcast.version}}</dd>
                 </div>
                 <div class="block">
                     <dt class="title is-4 has-text-info">Reference</dt>
-                    <dd th:text="${broadcast.reference}">Reference</dd>
+                    <dd>{{broadcast.reference}}</dd>
                 </div>
                 <div class="block">
                     <dt class="title is-4 has-text-info">Name</dt>
-                    <dd th:text="${broadcast.name}">Name</dd>
+                    <dd>{{broadcast.name}}</dd>
                 </div>
                 <div class="block">
                     <dt class="title is-4 has-text-info">URL</dt>
-                    <dd th:text="${broadcast.url}">URL</dd>
+                    <dd>{{broadcast.url}}</dd>
                 </div>
                 <div class="block">
                     <dt class="title is-4 has-text-info">Updated At</dt>
-                    <dd th:text="${broadcast.updatedAt}">Updated At</dd>
+                    <dd>{{broadcast.updatedAt}}</dd>
                 </div>
                 <div class="block">
                     <dt class="title is-4 has-text-info">Updated By</dt>
-                    <dd th:text="${broadcast.updatedBy}">Updated By</dd>
+                    <dd>{{broadcast.updatedBy}}</dd>
                 </div>
             </dl>
         </section>
         <section class="section content">
             <h2 class="title is-2">Action</h2>
             <div class="buttons">
-                <a
-                    class="button is-dark"
-                    th:each="action : ${actions}"
-                    th:href="${action}"
-                    th:text="${#messages.msgOrNull(action)?:action}"
-                    >action</a
-                >
+                {{#actions}}
+                    <a
+                            class="button is-dark"
+                            href={{.}}
+                            text={{.}}
+                    >{{.}}</a>
+                {{/actions}}
             </div>
         </section>
         <section class="section content">
             <h2 class="title is-2">Integration</h2>
             <div class="buttons">
-                <a
-                    class="button is-dark"
-                    th:each="integration : ${integrations}"
-                    th:href="${integration}"
-                    th:text="${#messages.msgOrNull(integration)?:integration}"
-                    >integration</a
-                >
+                {{#integrations}}
+                    <a
+                            class="button is-dark"
+                            href="{{.}}"
+                    >{{.}}</a
+                    >
+                {{/integrations}}
             </div>
         </section>
     </body>
-    <footer th:replace="~{com/wevserver/ui/templates/footer-fragment}" />
+    {{>com/wevserver/broadcast/templates/footer-fragment}}
 </html>

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
-    <head th:replace="~{com/wevserver/ui/templates/head-fragment}" />
-    <header th:replace="~{com/wevserver/ui/templates/header-fragment}" />
+<html>
+    {{>com/wevserver/broadcast/templates/head-partial}}
+    {{>com/wevserver/broadcast/templates/header-partial}}
     <body>
         <section class="section">
             <form
                 method="post"
-                th:object="${broadcastCreate}"
-                th:action="@{/broadcast/broadcast-create}"
+                action="/broadcast/broadcast-create"
             >
                 <div class="field">
                     <label class="label">Reference</label>
@@ -15,17 +14,10 @@
                         <input
                             class="input"
                             type="text"
-                            th:field="*{reference}"
+                            name="reference"
                             placeholder="Reference"
                         />
                     </div>
-                    <ul>
-                        <li
-                            th:each="error : ${#fields.errors('reference')}"
-                            th:text="${error}"
-                            class="help is-danger"
-                        />
-                    </ul>
                 </div>
 
                 <div class="field">
@@ -34,17 +26,10 @@
                         <input
                             class="input"
                             type="text"
-                            th:field="*{name}"
+                            name="name"
                             placeholder="Name"
                         />
                     </div>
-                    <ul>
-                        <li
-                            th:each="error : ${#fields.errors('name')}"
-                            th:text="${error}"
-                            class="help is-danger"
-                        />
-                    </ul>
                 </div>
 
                 <div class="field">
@@ -53,17 +38,10 @@
                         <input
                             class="input"
                             type="text"
-                            th:field="*{url}"
+                            name="url"
                             placeholder="URL"
                         />
                     </div>
-                    <ul>
-                        <li
-                            th:each="error : ${#fields.errors('url')}"
-                            th:text="${error}"
-                            class="help is-danger"
-                        />
-                    </ul>
                 </div>
 
                 <div class="control">
@@ -74,5 +52,5 @@
             </form>
         </section>
     </body>
-    <footer th:replace="~{com/wevserver/ui/templates/footer-fragment}" />
+    {{>com/wevserver/broadcast/templates/footer-fragment}}
 </html>

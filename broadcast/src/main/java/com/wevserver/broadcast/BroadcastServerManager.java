@@ -13,7 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Service
 @RequiredArgsConstructor
-public class BroadcastOutboundHandler extends TextWebSocketHandler {
+public class BroadcastServerManager extends TextWebSocketHandler {
 
     private static final int WAIT_RESPONSE_MAX_MS = 10_000;
     private static final int MAX_MESSAGE_BUFFER_SIZE = 10 * 1024 * 1024;
@@ -21,7 +21,7 @@ public class BroadcastOutboundHandler extends TextWebSocketHandler {
     private Map<String, WebSocketSession> sessionByUsername = new ConcurrentHashMap<>();
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
 
         final String username = session.getPrincipal().getName();
 
