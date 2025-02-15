@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/broadcast/templates/head-partial}}
+    {{>com/wevserver/broadcast/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form method="post" action="/broadcast/broadcast-subscribe">
+                <div class="field">
+                    <label class="label">Open</label>
+                    <input type="checkbox" name="open"
+                    {{#broadcastSubscribe.open}} checked
+                    {{/broadcastSubscribe.open}} />
+                </div>
+
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/broadcast/templates/footer-fragment}}
+</html>

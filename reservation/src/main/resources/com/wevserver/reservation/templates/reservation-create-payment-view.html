@@ -7,15 +7,15 @@
             <h2 class="title is-2">Host</h2>
             <form
                 class="buttons"
-                th:each="partnerAPI : ${partnerAPIs}"
+                th:each="peer : ${peers}"
                 th:action="@{'/reservation/reservation-create-payment-view/' + ${reservation.id}}"
                 method="post"
             >
                 <button
                     class="button is-dark"
-                    th:name="partnerAPIId"
-                    th:value="${partnerAPI.id}"
-                    th:text="${partnerAPI.host}"
+                    th:name="peerId"
+                    th:value="${peer.id}"
+                    th:text="${peer.host}"
                     type="submit"
                 />
             </form>

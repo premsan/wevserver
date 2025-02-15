@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/broadcast/templates/head-partial}}
+    {{>com/wevserver/broadcast/templates/header-partial}}
+    <body>
+        <section class="section content">
+            <dl>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Id</dt>
+                    <dd>{{broadcastServer.id}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Version</dt>
+                    <dd>{{broadcastServer.version}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Name</dt>
+                    <dd>{{broadcastServer.name}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">URL</dt>
+                    <dd>{{broadcastServer.url}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Username</dt>
+                    <dd>{{broadcastServer.username}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Password</dt>
+                    <dd>{{broadcastServer.password}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Enabled</dt>
+                    <dd>{{broadcastServer.enabled}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Updated At</dt>
+                    <dd>{{broadcastServer.updatedAt}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="title is-4 has-text-info">Updated By</dt>
+                    <dd>{{broadcastServer.updatedBy}}</dd>
+                </div>
+            </dl>
+        </section>
+        <section class="section content">
+            <h2 class="title is-2">Action</h2>
+            <div class="buttons">
+                {{#actions}}
+                <a class="button is-dark" href="{{.}}" text="{{.}}">{{.}}</a>
+                {{/actions}}
+            </div>
+        </section>
+        <section class="section content">
+            <h2 class="title is-2">Integration</h2>
+            <div class="buttons">
+                {{#integrations}}
+                <a class="button is-dark" href="{{.}}">{{.}}</a>
+                {{/integrations}}
+            </div>
+        </section>
+    </body>
+    {{>com/wevserver/broadcast/templates/footer-fragment}}
+</html>

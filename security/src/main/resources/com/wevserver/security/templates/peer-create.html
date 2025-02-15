@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head th:replace="~{com/wevserver/ui/templates/head-fragment}" />
+    <header th:replace="~{com/wevserver/ui/templates/header-fragment}" />
+    <body>
+        <section class="section">
+            <form
+                method="post"
+                th:object="${peerCreate}"
+                th:action="@{/peer/peer-create}"
+            >
+                <div class="field">
+                    <label class="label">Host</label>
+                    <div class="control">
+                        <input
+                            class="input"
+                            type="text"
+                            th:field="*{host}"
+                            placeholder="Name"
+                        />
+                    </div>
+                    <ul>
+                        <li
+                            th:each="error : ${#fields.errors('host')}"
+                            th:text="${error}"
+                            class="help is-danger"
+                        />
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Path</label>
+                    <div class="control">
+                        <input
+                            class="input"
+                            type="text"
+                            th:field="*{path}"
+                            placeholder="Description"
+                        />
+                    </div>
+                    <ul>
+                        <li
+                            th:each="error : ${#fields.errors('path')}"
+                            th:text="${error}"
+                            class="help is-danger"
+                        />
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Inbound</label>
+                    <input
+                        type="checkbox"
+                        name="inbound"
+                        th:checked="${peerCreate.inbound}"
+                    />
+                    <ul>
+                        <li
+                            th:each="error : ${#fields.errors('inbound')}"
+                            th:text="${error}"
+                            class="help is-danger"
+                        />
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Outbound</label>
+                    <input
+                        type="checkbox"
+                        name="outbound"
+                        th:checked="${peerCreate.outbound}"
+                    />
+                    <ul>
+                        <li
+                            th:each="error : ${#fields.errors('outbound')}"
+                            th:text="${error}"
+                            class="help is-danger"
+                        />
+                    </ul>
+                </div>
+
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    <footer th:replace="~{com/wevserver/ui/templates/footer-fragment}" />
+</html>
