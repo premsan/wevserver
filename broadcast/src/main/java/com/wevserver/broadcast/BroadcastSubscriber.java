@@ -1,12 +1,16 @@
 package com.wevserver.broadcast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wevserver.broadcast.broadcast.Broadcast;
+import com.wevserver.broadcast.broadcast.BroadcastRepository;
 import com.wevserver.broadcast.broadcastserver.BroadcastServer;
 import com.wevserver.broadcast.broadcastserver.BroadcastServerRepository;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -16,6 +20,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @RequiredArgsConstructor
 public class BroadcastSubscriber extends TextWebSocketHandler {
 
+    private final ObjectMapper objectMapper;
+    private final BroadcastRepository broadcastRepository;
+
     private final BroadcastServerRepository broadcastServerRepository;
     private final BroadcastPublisher broadcastPublisher;
 
@@ -24,9 +31,22 @@ public class BroadcastSubscriber extends TextWebSocketHandler {
     private Map<String, WebSocketConnectionManager> connectionManagers = new ConcurrentHashMap<>();
 
     @Override
-    public void handleMessage(final WebSocketSession session, final WebSocketMessage<?> message) {
+    public void handleTextMessage(final WebSocketSession session, final TextMessage message) {
 
-        broadcastPublisher.sendMessage(message);
+        final Broadcast broadcast;
+        try {
+            broadcast = objectMapper.readValue(message.getPayload(), Broadcast.class);
+
+            if (!broadcastRepository.existsById(broadcast.getId())) {
+
+                broadcastRepository.save(broadcast);
+            }
+
+            broadcastPublisher.sendMessage(message);
+
+        } catch (final JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void openConnection() {
