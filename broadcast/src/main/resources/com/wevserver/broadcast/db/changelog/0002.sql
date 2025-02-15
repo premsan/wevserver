@@ -1,4 +1,4 @@
-CREATE TABLE "broadcast_server" (
+CREATE TABLE "broadcast_broadcast_server" (
     "id" CHAR(36) NOT NULL,
     "version" INT NOT NULL,
     "name" VARCHAR(256) NOT NULL,
@@ -8,5 +8,5 @@ CREATE TABLE "broadcast_server" (
     "enabled" BOOLEAN DEFAULT FALSE NOT NULL,
     "updated_at" BIGINT NOT NULL,
     "updated_by" CHAR(36) NOT NULL,
-    CONSTRAINT "broadcast_server_pk" PRIMARY KEY ("id")
+    CONSTRAINT "broadcast_broadcast_server_pk" PRIMARY KEY ("id")
 );

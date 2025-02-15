@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "broadcast_server")
+@Table(name = "broadcast_broadcast_server")
 public class BroadcastServer {
 
     @Id

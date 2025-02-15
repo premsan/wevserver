@@ -4,19 +4,12 @@
     {{>com/wevserver/broadcast/templates/header-partial}}
     <body>
         <section class="section">
-            <form
-                method="post"
-                action="/broadcast/connection-update"
-            >
+            <form method="post" action="/broadcast/broadcast-subscribe">
                 <div class="field">
                     <label class="label">Open</label>
-                    <input
-                        type="checkbox"
-                        name="open"
-                        {{#broadcastConnectionUpdate.open}}
-                            checked
-                        {{/broadcastConnectionUpdate.open}}
-                    />
+                    <input type="checkbox" name="open"
+                    {{#broadcastSubscribe.open}} checked
+                    {{/broadcastSubscribe.open}} />
                 </div>
 
                 <div class="control">

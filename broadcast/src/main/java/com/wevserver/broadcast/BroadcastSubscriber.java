@@ -14,20 +14,19 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Service
 @RequiredArgsConstructor
-public class BroadcastClientManager extends TextWebSocketHandler {
+public class BroadcastSubscriber extends TextWebSocketHandler {
 
     private final BroadcastServerRepository broadcastServerRepository;
-    private final BroadcastServerManager broadcastServerManager;
+    private final BroadcastPublisher broadcastPublisher;
 
     private boolean open = false;
 
-    private Map<String, WebSocketConnectionManager> connectionManagerByBroadcastServerId =
-            new ConcurrentHashMap<>();
+    private Map<String, WebSocketConnectionManager> connectionManagers = new ConcurrentHashMap<>();
 
     @Override
     public void handleMessage(final WebSocketSession session, final WebSocketMessage<?> message) {
 
-        broadcastServerManager.sendMessage(message);
+        broadcastPublisher.sendMessage(message);
     }
 
     public void openConnection() {
@@ -42,8 +41,7 @@ public class BroadcastClientManager extends TextWebSocketHandler {
                         new WebSocketConnectionManager(
                                 new StandardWebSocketClient(), this, broadcastServer.getUrl());
 
-                connectionManagerByBroadcastServerId.put(
-                        broadcastServer.getId(), webSocketConnectionManager);
+                connectionManagers.put(broadcastServer.getId(), webSocketConnectionManager);
 
                 webSocketConnectionManager
                         .getHeaders()
@@ -65,7 +63,7 @@ public class BroadcastClientManager extends TextWebSocketHandler {
         open = false;
 
         for (final WebSocketConnectionManager webSocketConnectionManager :
-                connectionManagerByBroadcastServerId.values()) {
+                connectionManagers.values()) {
 
             webSocketConnectionManager.stop();
         }

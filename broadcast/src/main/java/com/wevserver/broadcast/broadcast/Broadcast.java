@@ -22,9 +22,6 @@ public class Broadcast {
     @Column("version")
     private Long version;
 
-    @Column("reference")
-    private String reference;
-
     @Column("name")
     private String name;
 

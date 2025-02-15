@@ -1,15 +1,14 @@
 package com.wevserver.broadcast.broadcastserver;
 
 import com.nimbusds.jwt.SignedJWT;
-import com.samskivert.mustache.Mustache;
 import com.wevserver.api.BroadcastCreate;
 import com.wevserver.application.feature.FeatureMapping;
-import com.wevserver.broadcast.broadcast.Broadcast;
-import com.wevserver.broadcast.broadcast.BroadcastRepository;
 import com.wevserver.security.sign.SignedToken;
 import jakarta.validation.Valid;
 import java.util.UUID;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
@@ -25,29 +24,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class BroadcastServerCreateController {
 
-    private final Mustache.Compiler compiler;
-    private final BroadcastRepository broadcastRepository;
+    private final BroadcastServerRepository broadcastServerRepository;
 
     @FeatureMapping
-    @GetMapping("/broadcast/broadcast-server")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_CREATE')")
+    @GetMapping("/broadcast/broadcast-server-create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_SERVER_CREATE')")
     public ModelAndView broadcastServerCreateGet(
             final @SignedToken SignedJWT signedToken,
             final BroadcastCreate.RequestParameters requestParameters) {
 
         final ModelAndView model =
-                new ModelAndView("com/wevserver/broadcast/templates/broadcast-create");
+                new ModelAndView("com/wevserver/broadcast/templates/broadcast-server-create");
 
-        model.addObject("broadcastCreate", requestParameters);
+        model.addObject("broadcastServerCreate", requestParameters);
 
         return model;
     }
 
-    @PostMapping("/broadcast/broadcast-server")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_CREATE')")
+    @PostMapping("/broadcast/broadcast-server-create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_SERVER_CREATE')")
     public ModelAndView broadcastServerCreatePost(
-            @Valid @ModelAttribute("broadcastCreate")
-                    BroadcastCreate.RequestParameters requestParameters,
+            @Valid @ModelAttribute("broadcastServerCreate") RequestParams requestParameters,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
@@ -56,24 +53,41 @@ public class BroadcastServerCreateController {
 
         if (bindingResult.hasErrors()) {
 
-            modelAndView.setViewName("com/wevserver/broadcast/templates/broadcast-create");
-            modelAndView.addObject("broadcastCreate", requestParameters);
+            modelAndView.setViewName("com/wevserver/broadcast/templates/broadcast-server-create");
+            modelAndView.addObject("broadcastServerCreate", requestParameters);
 
             return modelAndView;
         }
 
-        final Broadcast broadcast =
-                broadcastRepository.save(
-                        new Broadcast(
+        final BroadcastServer broadcastServer =
+                broadcastServerRepository.save(
+                        new BroadcastServer(
                                 UUID.randomUUID().toString(),
                                 null,
-                                requestParameters.getReference(),
                                 requestParameters.getName(),
                                 requestParameters.getUrl(),
+                                requestParameters.getUsername(),
+                                requestParameters.getPassword(),
+                                requestParameters.getEnabled(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
-        redirectAttributes.addAttribute("id", broadcast.getId());
-        return new ModelAndView("redirect:/broadcast/broadcast-view/{id}");
+        redirectAttributes.addAttribute("id", broadcastServer.getId());
+        return new ModelAndView("redirect:/broadcast/broadcast-server-view/{id}");
+    }
+
+    @Getter
+    @Setter
+    private static class RequestParams {
+
+        private String name;
+
+        private String url;
+
+        private String username;
+
+        private String password;
+
+        private Boolean enabled;
     }
 }

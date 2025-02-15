@@ -13,7 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Service
 @RequiredArgsConstructor
-public class BroadcastServerManager extends TextWebSocketHandler {
+public class BroadcastPublisher extends TextWebSocketHandler {
 
     private static final int WAIT_RESPONSE_MAX_MS = 10_000;
     private static final int MAX_MESSAGE_BUFFER_SIZE = 10 * 1024 * 1024;

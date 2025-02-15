@@ -13,8 +13,6 @@ public class BroadcastCreate {
     @Setter
     public static class RequestParameters {
 
-        private String reference;
-
         private String name;
 
         private String url;
