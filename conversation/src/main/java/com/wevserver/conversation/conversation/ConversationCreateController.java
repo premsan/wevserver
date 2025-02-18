@@ -33,7 +33,7 @@ public class ConversationCreateController {
         final ModelAndView model =
                 new ModelAndView("com/wevserver/conversation/templates/conversation-create");
 
-        model.addObject("conversationCreate", requestParams);
+        model.addObject("requestParams", requestParams);
 
         return model;
     }
