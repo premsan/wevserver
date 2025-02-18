@@ -20,11 +20,13 @@
                     </ul>
                 </div>
 
-                <ul>
-                    {{#errorMessages.globalErrors}}
-                    <li class="help is-danger">{{.}}</li>
-                    {{/errorMessages.globalErrors}}
-                </ul>
+                <div>
+                    <ul>
+                        {{#errorMessages.globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/errorMessages.globalErrors}}
+                    </ul>
+                </div>
 
                 <div class="control">
                     <button type="submit" class="button is-primary">

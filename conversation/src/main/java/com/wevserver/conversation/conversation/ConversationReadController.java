@@ -1,6 +1,7 @@
 package com.wevserver.conversation.conversation;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.ui.ErrorMessagesSupplier;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
@@ -17,17 +18,26 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class ConversationReadController {
 
+    private final ErrorMessagesSupplier errorMessagesSupplier;
     private final ConversationRepository conversationRepository;
 
     @FeatureMapping
     @GetMapping("/conversation/conversation-read")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_READ')")
     public ModelAndView conversationReadGet(
-            @Valid RequestParams requestParams, BindingResult bindingResult) {
+            @Valid final RequestParams requestParams, final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
 
-            return new ModelAndView("com/wevserver/ui/templates/conversation-read-request");
+            ModelAndView modelAndView =
+                    new ModelAndView(
+                            "com/wevserver/conversation/templates/conversation-read-request");
+
+            modelAndView.addObject("requestParams", requestParams);
+            modelAndView.addObject(
+                    "errorMessages", errorMessagesSupplier.getErrorMessages(bindingResult));
+
+            return modelAndView;
         }
 
         final Optional<Conversation> optionalConversation =
