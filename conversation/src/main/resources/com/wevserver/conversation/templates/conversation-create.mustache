@@ -16,12 +16,18 @@
                             placeholder="Name"
                         />
                     </div>
+
+                    <ul>
+                        {{#errorMessages.fieldErrors}} {{#name}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/name}} {{/errorMessages.fieldErrors}}
+                    </ul>
                 </div>
 
                 <ul>
-                    {{#fieldErrors}}
-                    <li class="help is-danger">{{defaultMessage}}</li>
-                    {{/fieldErrors}}
+                    {{#errorMessages}} {{#globalErrors}}
+                    <li class="help is-danger">{{.}}</li>
+                    {{/globalErrors}} {{/errorMessages}}
                 </ul>
 
                 <div class="control">

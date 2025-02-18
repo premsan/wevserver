@@ -1,6 +1,7 @@
 package com.wevserver.conversation.conversation;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.ui.ErrorMessagesSupplier;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import java.util.UUID;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class ConversationCreateController {
 
+    private final ErrorMessagesSupplier errorMessagesSupplier;
     private final ConversationRepository conversationRepository;
 
     @FeatureMapping
@@ -49,8 +51,11 @@ public class ConversationCreateController {
         if (bindingResult.hasErrors()) {
 
             modelAndView.setViewName("com/wevserver/conversation/templates/conversation-create");
+
             modelAndView.addObject("requestParams", requestParams);
-            modelAndView.addObject("fieldErrors", bindingResult.getFieldErrors());
+            modelAndView.addObject(
+                    "errorMessages", errorMessagesSupplier.getErrorMessages(bindingResult));
+
             return modelAndView;
         }
 
