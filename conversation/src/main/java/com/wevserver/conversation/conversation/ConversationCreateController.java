@@ -3,7 +3,7 @@ package com.wevserver.conversation.conversation;
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.ui.ErrorMessagesSupplier;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -76,7 +76,6 @@ public class ConversationCreateController {
     @Setter
     private static class RequestParams {
 
-        @Min(10)
-        private String name;
+        @NotBlank private String name;
     }
 }

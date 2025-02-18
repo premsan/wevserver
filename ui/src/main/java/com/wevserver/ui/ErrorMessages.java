@@ -14,7 +14,7 @@ import org.springframework.validation.FieldError;
 @Setter
 public class ErrorMessages {
 
-    private final Map<String, String> fieldErrors;
+    private final Map<String, List<String>> fieldErrors;
 
     private final List<String> globalErrors;
 
@@ -24,10 +24,13 @@ public class ErrorMessages {
         this.fieldErrors =
                 errors.getFieldErrors().stream()
                         .collect(
-                                Collectors.toMap(
+                                Collectors.groupingBy(
                                         FieldError::getField,
-                                        (fieldError) ->
-                                                messageSource.getMessage(fieldError, locale)));
+                                        Collectors.mapping(
+                                                fieldError ->
+                                                        messageSource.getMessage(
+                                                                fieldError, locale),
+                                                Collectors.toList())));
 
         this.globalErrors =
                 errors.getGlobalErrors().stream()
