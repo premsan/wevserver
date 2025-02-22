@@ -41,9 +41,9 @@ public class ConversationCreateController {
     @PostMapping("/conversation/conversation-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_CREATE')")
     public ModelAndView conversationCreatePost(
-            @Valid RequestParams requestParams,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes,
+            @Valid final RequestParams requestParams,
+            final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
 
         ModelAndView modelAndView = new ModelAndView();
