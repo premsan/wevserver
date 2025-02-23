@@ -71,6 +71,11 @@ public class ConversationReplyCreateController {
             return modelAndView;
         }
 
+        if (!conversationRepository.existsById(requestParams.getConversationId())) {
+
+            return new ModelAndView("com/wevserver/ui/templates/not-found");
+        }
+
         final ConversationReply conversationReply =
                 conversationReplyRepository.save(
                         new ConversationReply(
@@ -82,8 +87,7 @@ public class ConversationReplyCreateController {
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", conversationReply.getId());
-        return new ModelAndView(
-                "redirect:/conversation-conversation-reply/conversation-reply-read/{id}");
+        return new ModelAndView("redirect:/conversation/conversation-reply-read/{id}");
     }
 
     @Getter
