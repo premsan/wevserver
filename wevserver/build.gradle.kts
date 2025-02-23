@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":barcode"))
     implementation(project(":blog"))
     implementation(project(":broadcast"))
+    implementation(project(":conversation"))
     implementation(project(":db"))
     implementation(project(":grep"))
     implementation(project(":json"))
