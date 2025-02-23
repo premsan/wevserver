@@ -70,6 +70,11 @@
                 <div class="block">
                     <p>{{name}}</p>
                 </div>
+                <div class="block buttons">
+                    {{#propertyPickedRedirectUri}}
+                    <a class="button" href="{{.}}">Pick</a>
+                    {{/propertyPickedRedirectUri}}
+                </div>
             </div>
             {{/conversationPage.content}}
         </section>

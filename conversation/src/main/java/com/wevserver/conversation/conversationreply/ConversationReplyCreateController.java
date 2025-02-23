@@ -2,7 +2,11 @@ package com.wevserver.conversation.conversationreply;
 
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.conversation.conversation.ConversationRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,23 +31,31 @@ public class ConversationReplyCreateController {
 
     @FeatureMapping
     @GetMapping("/conversation/conversation-reply-create")
-    @PreAuthorize(
-            "hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_CONVERSATION_REPLY_CREATE')")
-    public ModelAndView conversationReplyCreateGet(final RequestParameters requestParameters) {
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_REPLY_CREATE')")
+    public ModelAndView conversationReplyCreateGet(
+            final HttpSession httpSession, final RequestParams requestParams) {
+
+        final MultiValueMap<String, String> sessionData =
+                (MultiValueMap<String, String>)
+                        httpSession.getAttribute("/conversation/conversation-reply-create");
+
+        if (Objects.nonNull(sessionData)) {
+
+            requestParams.merge(sessionData);
+        }
 
         final ModelAndView model =
                 new ModelAndView("com/wevserver/conversation/templates/conversation-reply-create");
 
-        model.addObject("conversationReplyCreate", requestParameters);
+        model.addObject("requestParams", requestParams);
 
         return model;
     }
 
     @PostMapping("/conversation/conversation-reply-create")
-    @PreAuthorize(
-            "hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_CONVERSATION_REPLY_CREATE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_REPLY_CREATE')")
     public ModelAndView conversationReplyCreatePost(
-            @Valid @ModelAttribute("conversationReplyCreate") RequestParameters requestParameters,
+            @Valid RequestParams requestParams,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
@@ -54,7 +66,7 @@ public class ConversationReplyCreateController {
 
             modelAndView.setViewName(
                     "com/wevserver/conversation/templates/conversation-reply-create");
-            modelAndView.addObject("conversationReplyCreate", requestParameters);
+            modelAndView.addObject("requestParams", requestParams);
 
             return modelAndView;
         }
@@ -64,8 +76,8 @@ public class ConversationReplyCreateController {
                         new ConversationReply(
                                 UUID.randomUUID().toString(),
                                 null,
-                                null,
-                                requestParameters.getName(),
+                                requestParams.getConversationId(),
+                                requestParams.getDescription(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
@@ -76,8 +88,23 @@ public class ConversationReplyCreateController {
 
     @Getter
     @Setter
-    private static class RequestParameters {
+    private static class RequestParams {
 
-        private String name;
+        @NotNull private String conversationId;
+
+        @NotBlank private String description;
+
+        public void merge(final MultiValueMap<String, String> multiValueMap) {
+
+            if (Objects.isNull(conversationId)) {
+
+                this.conversationId = multiValueMap.getFirst("conversationId");
+            }
+
+            if (Objects.isNull(description)) {
+
+                this.description = multiValueMap.getFirst("description");
+            }
+        }
     }
 }

@@ -1,12 +1,14 @@
 package com.wevserver.conversation.conversation;
 
 import com.wevserver.application.feature.FeatureMapping;
-import com.wevserver.application.selector.SelectorRequest;
+import com.wevserver.application.propertypicker.PropertyPicked;
+import com.wevserver.application.propertypicker.PropertyPicker;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +68,14 @@ public class ConversationListController {
                             .map(ConversationListItem::new);
         }
 
-        httpSession.getAttribute("ok");
+        if (Objects.nonNull(requestParams.getPropertyPicker())) {
+
+            conversationPage =
+                    conversationPage.map(
+                            conversationListItem ->
+                                    conversationListItem.propertyPicked(
+                                            requestParams.getPropertyPicker()));
+        }
 
         final ModelAndView modelAndView =
                 new ModelAndView("com/wevserver/conversation/templates/conversation-list");
@@ -93,7 +102,7 @@ public class ConversationListController {
 
         private SortBy sortBy;
 
-        private SelectorRequest selectorRequest;
+        private PropertyPicker propertyPicker;
 
         private enum SortBy {
             UPDATED_AT_ASC(Sort.by(Sort.Direction.ASC, "updatedAt")),
@@ -128,7 +137,7 @@ public class ConversationListController {
 
         private String updatedBy;
 
-        private SelectorRequest selectorRequest;
+        private String propertyPickedRedirectUri;
 
         public ConversationListItem(final Conversation conversation) {
 
@@ -137,6 +146,21 @@ public class ConversationListController {
             this.name = conversation.getName();
             this.updatedAt = conversation.getUpdatedAt();
             this.updatedBy = conversation.getUpdatedBy();
+        }
+
+        public ConversationListItem propertyPicked(final PropertyPicker propertyPicker) {
+
+            final PropertyPicked propertyPicked = new PropertyPicked(propertyPicker);
+
+            propertyPicked.addProperty("id", this.id);
+            propertyPicked.addProperty("version", String.valueOf(this.version));
+            propertyPicked.addProperty("name", String.valueOf(name));
+            propertyPicked.addProperty("updatedAt", String.valueOf(updatedAt));
+            propertyPicked.addProperty("updatedBy", String.valueOf(updatedBy));
+
+            this.propertyPickedRedirectUri = propertyPicked.redirectUri();
+
+            return this;
         }
     }
 }
