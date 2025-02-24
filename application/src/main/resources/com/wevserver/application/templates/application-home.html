@@ -30,32 +30,14 @@
                 </a>
             </h2>
 
-            <div class="box" th:each="feature : ${entry.value}">
-                <div class="block">
-                    <a
-                        class="button is-link is-light"
-                        th:href="${feature.path}"
-                        th:text="${#messages.msgOrNull(feature.path)?:feature.path}"
-                        >Id</a
-                    >
-                </div>
-
-                <div class="block content">
-                    <p
-                        th:text="${#messages.msgOrNull(feature.messageCode)?:feature.messageCode}"
-                    >
-                        Subtitle 4
-                    </p>
-                </div>
-
-                <div class="block tags">
-                    <span
-                        class="tag"
-                        th:each="tag : ${feature.preAuthorizeAuthorities}"
-                        th:text="${#messages.msgOrNull(tag)?:tag}"
-                        >One</span
-                    >
-                </div>
+            <div class="block buttons">
+                <a
+                    class="button is-dark"
+                    th:each="feature : ${entry.value}"
+                    th:href="${feature.path}"
+                    th:text="${#messages.msgOrNull(feature.path)?:feature.path}"
+                    >Id</a
+                >
             </div>
         </section>
     </body>

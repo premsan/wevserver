@@ -5,7 +5,7 @@
     <body id="top">
         <main class="container">
             <section class="section">
-                <form action="/authority-index">
+                <form action="/authority-list">
                     <div class="field">
                         <label class="label">Find by id</label>
                         <div class="control">
@@ -57,7 +57,7 @@
                     <ul class="pagination-list">
                         <li>
                             <form
-                                action="/authority-index"
+                                action="/authority-list"
                                 th:if="${authorityPage.hasNext()}"
                             >
                                 <input

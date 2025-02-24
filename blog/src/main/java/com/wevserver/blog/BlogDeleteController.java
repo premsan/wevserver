@@ -52,6 +52,6 @@ public class BlogDeleteController {
         final ModelAndView model = new ModelAndView("com/wevserver/blog/templates/blog-delete");
         model.addObject("blog", optionalBlog.get());
 
-        return new ModelAndView("redirect:/blog/blog-index");
+        return new ModelAndView("redirect:/blog/blog-list");
     }
 }

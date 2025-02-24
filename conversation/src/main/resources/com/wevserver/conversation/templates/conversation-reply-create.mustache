@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form
+                method="post"
+                action="/conversation/conversation-reply-create"
+            >
+                <div class="field">
+                    <label class="label">Conversation Id</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="text"
+                            name="conversationId"
+                            {{#requestParams.conversationId}} value="{{.}}"
+                            {{/requestParams.conversationId}}
+                            placeholder="Conversation Id" />
+                        </div>
+                        <div class="control">
+                            <button
+                                type="submit"
+                                formaction="/session/data-create?_dataId=%2Fconversation%2Fconversation-reply-create&_redirectUri=%2Fconversation%2Fconversation-list%3FpropertyPicker.mapping%3Did.conversationId%26propertyPicker.redirectUri%3D%252Fconversation%252Fconversation-reply-create"
+                                formmethod="post"
+                                class="button"
+                            >
+                                Find
+                            </button>
+                        </div>
+                    </div>
+                    <ul>
+                        {{#errorMessages.fieldErrors.conversationId}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/errorMessages.fieldErrors.conversationId}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                        <input class="input" type="text" name="description"
+                        {{#requestParams.description}} value="{{.}}"
+                        {{/requestParams.description}} placeholder="Description"
+                        />
+                    </div>
+                    <ul>
+                        {{#errorMessages.fieldErrors.description}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/errorMessages.fieldErrors.description}}
+                    </ul>
+                </div>
+
+                <div>
+                    <ul>
+                        {{#errorMessages.globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/errorMessages.globalErrors}}
+                    </ul>
+                </div>
+
+                <div class="control buttons">
+                    <button type="submit" class="button">Submit</button>
+                    <button
+                        type="submit"
+                        formaction="/session/data-create?_dataId=%2Fconversation%2Fconversation-reply-create&_redirectUri=%2Fconversation%2Fconversation-reply-create"
+                        formmethod="post"
+                        class="button"
+                    >
+                        Save Draft
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

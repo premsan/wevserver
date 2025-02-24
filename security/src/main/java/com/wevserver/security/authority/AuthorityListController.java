@@ -15,17 +15,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
-public class AuthorityIndexController {
+public class AuthorityListController {
 
     private final AuthorityRepository authorityRepository;
 
     @FeatureMapping
-    @GetMapping("/security/authority-index")
+    @GetMapping("/security/authority-list")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ModelAndView getAuthorityIndex(final RequestParams requestParams) {
+    public ModelAndView authorityListGet(final RequestParams requestParams) {
 
         final ModelAndView modelAndView =
-                new ModelAndView("com/wevserver/security/templates/authority-index");
+                new ModelAndView("com/wevserver/security/templates/authority-list");
 
         Page<Authority> authorityPage;
 
