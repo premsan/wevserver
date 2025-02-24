@@ -31,12 +31,12 @@ public class BroadcastServerCreateController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_SERVER_CREATE')")
     public ModelAndView broadcastServerCreateGet(
             final @SignedToken SignedJWT signedToken,
-            final BroadcastCreate.RequestParameters requestParameters) {
+            final BroadcastCreate.RequestParams requestParams) {
 
         final ModelAndView model =
                 new ModelAndView("com/wevserver/broadcast/templates/broadcast-server-create");
 
-        model.addObject("broadcastServerCreate", requestParameters);
+        model.addObject("broadcastServerCreate", requestParams);
 
         return model;
     }
@@ -44,7 +44,7 @@ public class BroadcastServerCreateController {
     @PostMapping("/broadcast/broadcast-server-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_SERVER_CREATE')")
     public ModelAndView broadcastServerCreatePost(
-            @Valid @ModelAttribute("broadcastServerCreate") RequestParams requestParameters,
+            @Valid @ModelAttribute("broadcastServerCreate") RequestParams requestParams,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
@@ -54,7 +54,7 @@ public class BroadcastServerCreateController {
         if (bindingResult.hasErrors()) {
 
             modelAndView.setViewName("com/wevserver/broadcast/templates/broadcast-server-create");
-            modelAndView.addObject("broadcastServerCreate", requestParameters);
+            modelAndView.addObject("broadcastServerCreate", requestParams);
 
             return modelAndView;
         }
@@ -64,11 +64,11 @@ public class BroadcastServerCreateController {
                         new BroadcastServer(
                                 UUID.randomUUID().toString(),
                                 null,
-                                requestParameters.getName(),
-                                requestParameters.getUrl(),
-                                requestParameters.getUsername(),
-                                requestParameters.getPassword(),
-                                requestParameters.getEnabled(),
+                                requestParams.getName(),
+                                requestParams.getUrl(),
+                                requestParams.getUsername(),
+                                requestParams.getPassword(),
+                                requestParams.getEnabled(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 

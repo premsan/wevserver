@@ -1,11 +1,8 @@
 package com.wevserver.conversation.conversation;
 
+import com.wevserver.api.ConversationList;
+import com.wevserver.api.PropertyPick;
 import com.wevserver.application.feature.FeatureMapping;
-import com.wevserver.application.propertypicker.PropertyPicked;
-import com.wevserver.application.propertypicker.PropertyPicker;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -31,10 +25,9 @@ public class ConversationListController {
     private final ConversationRepository conversationRepository;
 
     @FeatureMapping
-    @GetMapping("/conversation/conversation-list")
+    @GetMapping(ConversationList.PATH)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_LIST')")
-    public ModelAndView conversationListGet(
-            final HttpSession httpSession, final RequestParams requestParams) {
+    public ModelAndView conversationListGet(final ConversationList.RequestParams requestParams) {
 
         Page<ConversationListItem> conversationPage;
 
@@ -68,13 +61,13 @@ public class ConversationListController {
                             .map(ConversationListItem::new);
         }
 
-        if (Objects.nonNull(requestParams.getPropertyPicker())) {
+        if (Objects.nonNull(requestParams.getPropertyPickRequestParams())) {
 
             conversationPage =
                     conversationPage.map(
                             conversationListItem ->
-                                    conversationListItem.propertyPicked(
-                                            requestParams.getPropertyPicker()));
+                                    conversationListItem.propertyPickResponse(
+                                            requestParams.getPropertyPickRequestParams()));
         }
 
         final ModelAndView modelAndView =
@@ -83,44 +76,6 @@ public class ConversationListController {
         modelAndView.addObject("conversationPage", conversationPage);
 
         return modelAndView;
-    }
-
-    @Getter
-    @Setter
-    private static class RequestParams {
-
-        private String idEquals;
-
-        private String nameStartingWith;
-
-        @Min(0)
-        private Integer pageNumber = 0;
-
-        @Min(0)
-        @Max(1024)
-        private Integer pageSize = 32;
-
-        private SortBy sortBy;
-
-        private PropertyPicker propertyPicker;
-
-        private enum SortBy {
-            UPDATED_AT_ASC(Sort.by(Sort.Direction.ASC, "updatedAt")),
-            UPDATED_AT_DESC(Sort.by(Sort.Direction.DESC, "updatedAt"));
-
-            private final Sort sort;
-
-            SortBy(final Sort sort) {
-                this.sort = sort;
-            }
-        }
-
-        private Pageable getPageable() {
-
-            final Sort sort = sortBy == null ? Sort.unsorted() : sortBy.sort;
-
-            return PageRequest.of(pageNumber, pageSize, sort);
-        }
     }
 
     @Getter
@@ -148,17 +103,18 @@ public class ConversationListController {
             this.updatedBy = conversation.getUpdatedBy();
         }
 
-        public ConversationListItem propertyPicked(final PropertyPicker propertyPicker) {
+        public ConversationListItem propertyPickResponse(final PropertyPick.RequestParams requestParams) {
 
-            final PropertyPicked propertyPicked = new PropertyPicked(propertyPicker);
+            final PropertyPick.ResponseParams responseParams =
+                    new PropertyPick.ResponseParams(requestParams);
 
-            propertyPicked.addProperty("id", this.id);
-            propertyPicked.addProperty("version", String.valueOf(this.version));
-            propertyPicked.addProperty("name", String.valueOf(name));
-            propertyPicked.addProperty("updatedAt", String.valueOf(updatedAt));
-            propertyPicked.addProperty("updatedBy", String.valueOf(updatedBy));
+            responseParams.addProperty("id", this.id);
+            responseParams.addProperty("version", String.valueOf(this.version));
+            responseParams.addProperty("name", String.valueOf(name));
+            responseParams.addProperty("updatedAt", String.valueOf(updatedAt));
+            responseParams.addProperty("updatedBy", String.valueOf(updatedBy));
 
-            this.propertyPickedRedirectUri = propertyPicked.redirectUri();
+            this.propertyPickedRedirectUri = responseParams.redirectUri();
 
             return this;
         }

@@ -7,9 +7,9 @@ import lombok.Setter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class BroadcastCreate {
+public class ConversationCreate {
 
-    public static final String PATH = "/broadcast/broadcast-create";
+    public static final String PATH = "/conversation/conversation-create";
 
     @Getter
     @Setter
@@ -17,8 +17,6 @@ public class BroadcastCreate {
     public static class RequestParams {
 
         private String name;
-
-        private String url;
 
         public MultiValueMap<String, String> map() {
 
@@ -29,18 +27,12 @@ public class BroadcastCreate {
                 map.add("name", name);
             }
 
-            if (Objects.nonNull(url)) {
-
-                map.add("url", url);
-            }
-
             return map;
         }
 
         public RequestParams(final MultiValueMap<String, String> map) {
 
             name = map.getFirst("name");
-            url = map.getFirst("url");
         }
     }
 }
