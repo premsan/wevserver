@@ -8,23 +8,22 @@
                 <div class="field">
                     <label class="label">Name</label>
                     <div class="control">
-                        <input class="input" type="text" name="name"
-                        {{#requestParams.name}} value="{{.}}"
-                        {{/requestParams.name}} placeholder="Name" />
+                        <input class="input" type="text" name="name" {{#name}}
+                        value="{{.}}" {{/name}} placeholder="Name" />
                     </div>
 
                     <ul>
-                        {{#errorMessages.fieldErrors.name}}
+                        {{#fieldErrors.name}}
                         <li class="help is-danger">{{.}}</li>
-                        {{/errorMessages.fieldErrors.name}}
+                        {{/fieldErrors.name}}
                     </ul>
                 </div>
 
                 <div>
                     <ul>
-                        {{#errorMessages.globalErrors}}
+                        {{#globalErrors}}
                         <li class="help is-danger">{{.}}</li>
-                        {{/errorMessages.globalErrors}}
+                        {{/globalErrors}}
                     </ul>
                 </div>
 
@@ -32,7 +31,7 @@
                     <button type="submit" class="button">Submit</button>
                     <button
                         type="submit"
-                        formaction="/session/data-create?_dataId=%2Fconversation%2Fconversation-create&_redirectUri=%2Fconversation%2Fconversation-create"
+                        formaction="{{saveUri}}"
                         formmethod="post"
                         class="button"
                     >

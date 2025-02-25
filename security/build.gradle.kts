@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":db"))
     implementation(project(":scheduled"))
     implementation(project(":ui"))
+    implementation(project(":api"))
 
     api("org.springframework.boot:spring-boot-starter-security")
     api("org.springframework.boot:spring-boot-starter-oauth2-client")

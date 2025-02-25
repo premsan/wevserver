@@ -12,7 +12,7 @@ public class ErrorMessagesSupplier {
 
     private final MessageSource messageSource;
 
-    public ErrorMessages getErrorMessages(final Errors errors) {
+    public ErrorMessages get(final Errors errors) {
 
         return new ErrorMessages(messageSource, LocaleContextHolder.getLocale(), errors);
     }

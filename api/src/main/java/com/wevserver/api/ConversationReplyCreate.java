@@ -8,24 +8,31 @@ import lombok.Setter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class ConversationCreate {
+public class ConversationReplyCreate {
 
-    public static final String PATH = "/conversation/conversation-create";
+    public static final String PATH = "/conversation/conversation-reply-create";
 
     @Getter
     @Setter
     @NoArgsConstructor
     public static class RequestParams {
 
-        @NotBlank private String name;
+        @NotBlank private String conversationId;
+
+        @NotBlank private String description;
 
         public MultiValueMap<String, String> map() {
 
             final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 
-            if (Objects.nonNull(name)) {
+            if (Objects.nonNull(conversationId)) {
 
-                map.add("name", name);
+                map.add("conversationId", conversationId);
+            }
+
+            if (Objects.nonNull(description)) {
+
+                map.add("description", description);
             }
 
             return map;
@@ -33,7 +40,8 @@ public class ConversationCreate {
 
         public RequestParams(final MultiValueMap<String, String> map) {
 
-            name = map.getFirst("name");
+            conversationId = map.getFirst("conversationId");
+            description = map.getFirst("description");
         }
     }
 }

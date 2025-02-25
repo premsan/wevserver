@@ -35,14 +35,14 @@ public class PropertyPick {
 
         public ResponseParams(final RequestParams requestParams) {
 
-            if (properties == null) {
+            redirectUri = requestParams.getRedirectUri();
 
-                properties = new HashMap<>();
-                for (final String mapping : requestParams.getMapping()) {
+            properties = new HashMap<>();
 
-                    final String[] kv = mapping.split("\\.");
-                    properties.put(kv[0], kv[1]);
-                }
+            for (final String mapping : requestParams.getMapping()) {
+
+                final String[] kv = mapping.split("\\.");
+                properties.put(kv[0], kv[1]);
             }
         }
 
@@ -58,10 +58,11 @@ public class PropertyPick {
             }
         }
 
-        public String redirectUri() {
+        public String buildRedirectUri() {
 
             return UriComponentsBuilder.fromPath(redirectUri)
                     .queryParams(params)
+                    .encode()
                     .build()
                     .toString();
         }

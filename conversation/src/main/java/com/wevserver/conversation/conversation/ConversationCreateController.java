@@ -1,7 +1,9 @@
 package com.wevserver.conversation.conversation;
 
 import com.wevserver.api.ConversationCreate;
+import com.wevserver.api.SessionDataCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.ui.ErrorMessages;
 import com.wevserver.ui.ErrorMessagesSupplier;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,12 +48,7 @@ public class ConversationCreateController {
 
         params.putAll(requestParams.map());
 
-        final ModelAndView model =
-                new ModelAndView("com/wevserver/conversation/templates/conversation-create");
-
-        model.addObject("requestParams", new ConversationCreate.RequestParams(params));
-
-        return model;
+        return modelAndView(new ConversationCreate.RequestParams(params), null);
     }
 
     @PostMapping(ConversationCreate.PATH)
@@ -61,17 +59,9 @@ public class ConversationCreateController {
             final RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext) {
 
-        ModelAndView modelAndView = new ModelAndView();
-
         if (bindingResult.hasErrors()) {
 
-            modelAndView.setViewName("com/wevserver/conversation/templates/conversation-create");
-
-            modelAndView.addObject("requestParams", requestParams);
-            modelAndView.addObject(
-                    "errorMessages", errorMessagesSupplier.getErrorMessages(bindingResult));
-
-            return modelAndView;
+            return modelAndView(requestParams, errorMessagesSupplier.get(bindingResult));
         }
 
         final Conversation conversation =
@@ -85,5 +75,36 @@ public class ConversationCreateController {
 
         redirectAttributes.addAttribute("id", conversation.getId());
         return new ModelAndView("redirect:/conversation/conversation-read/{id}");
+    }
+
+    private ModelAndView modelAndView(
+            final ConversationCreate.RequestParams requestParams,
+            final ErrorMessages errorMessages) {
+
+        final ModelAndView modelAndView =
+                new ModelAndView("com/wevserver/conversation/templates/conversation-create");
+
+        modelAndView.addObject("name", requestParams.getName());
+
+        final SessionDataCreate.RequestParams saveUriRequestParams =
+                new SessionDataCreate.RequestParams();
+        saveUriRequestParams.setDataId(ConversationCreate.PATH);
+        saveUriRequestParams.setRedirectUri(ConversationCreate.PATH);
+
+        modelAndView.addObject(
+                "saveUri",
+                UriComponentsBuilder.fromPath(SessionDataCreate.PATH)
+                        .queryParams(saveUriRequestParams.map())
+                        .encode()
+                        .build()
+                        .toString());
+
+        if (Objects.nonNull(errorMessages)) {
+
+            modelAndView.addObject("fieldErrors", errorMessages.getFieldErrors());
+            modelAndView.addObject("globalErrors", errorMessages.getGlobalErrors());
+        }
+
+        return modelAndView;
     }
 }

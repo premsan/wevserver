@@ -29,18 +29,18 @@ public class ConversationListController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_LIST')")
     public ModelAndView conversationListGet(final ConversationList.RequestParams requestParams) {
 
-        Page<ConversationListItem> conversationPage;
+        Page<Conversation> conversationPage;
 
         if (StringUtils.hasText(requestParams.getIdEquals())) {
 
-            final List<ConversationListItem> conversationList = new ArrayList<>();
+            final List<Conversation> conversationList = new ArrayList<>();
 
             final Optional<Conversation> conversationOptional =
                     conversationRepository.findById(requestParams.getIdEquals());
 
-            if (conversationOptional.isEmpty()) {
+            if (conversationOptional.isPresent()) {
 
-                conversationList.add(new ConversationListItem(conversationOptional.get()));
+                conversationList.add(conversationOptional.get());
             }
 
             conversationPage = new PageImpl<>(conversationList);
@@ -48,32 +48,30 @@ public class ConversationListController {
         } else if (StringUtils.hasText(requestParams.getNameStartingWith())) {
 
             conversationPage =
-                    conversationRepository
-                            .findByNameStartingWith(
-                                    requestParams.getNameStartingWith(),
-                                    requestParams.getPageable())
-                            .map(ConversationListItem::new);
+                    conversationRepository.findByNameStartingWith(
+                            requestParams.getNameStartingWith(), requestParams.getPageable());
         } else {
 
-            conversationPage =
-                    conversationRepository
-                            .findAll(requestParams.getPageable())
-                            .map(ConversationListItem::new);
+            conversationPage = conversationRepository.findAll(requestParams.getPageable());
         }
 
-        if (Objects.nonNull(requestParams.getPropertyPickRequestParams())) {
+        return modelAndView(requestParams, conversationPage);
+    }
 
-            conversationPage =
-                    conversationPage.map(
-                            conversationListItem ->
-                                    conversationListItem.propertyPickResponse(
-                                            requestParams.getPropertyPickRequestParams()));
-        }
+    private ModelAndView modelAndView(
+            final ConversationList.RequestParams requestParams,
+            final Page<Conversation> conversationPage) {
 
         final ModelAndView modelAndView =
                 new ModelAndView("com/wevserver/conversation/templates/conversation-list");
 
-        modelAndView.addObject("conversationPage", conversationPage);
+        final Page<ConversationListItem> conversationListItemPage =
+                conversationPage.map(
+                        conversation ->
+                                new ConversationListItem(
+                                        conversation, requestParams.getPropertyPick()));
+
+        modelAndView.addObject("conversationPage", conversationListItemPage);
 
         return modelAndView;
     }
@@ -92,31 +90,37 @@ public class ConversationListController {
 
         private String updatedBy;
 
-        private String propertyPickedRedirectUri;
+        private String propertyPickRedirectUri;
 
-        public ConversationListItem(final Conversation conversation) {
+        public ConversationListItem(
+                final Conversation conversation,
+                final PropertyPick.RequestParams propertyPickRequestParams) {
 
             this.id = conversation.getId();
             this.version = conversation.getVersion();
             this.name = conversation.getName();
             this.updatedAt = conversation.getUpdatedAt();
             this.updatedBy = conversation.getUpdatedBy();
+
+            if (Objects.nonNull(propertyPickRequestParams)) {
+
+                propertyPick(conversation, propertyPickRequestParams);
+            }
         }
 
-        public ConversationListItem propertyPickResponse(final PropertyPick.RequestParams requestParams) {
+        private void propertyPick(
+                final Conversation conversation, final PropertyPick.RequestParams requestParams) {
 
             final PropertyPick.ResponseParams responseParams =
                     new PropertyPick.ResponseParams(requestParams);
 
-            responseParams.addProperty("id", this.id);
-            responseParams.addProperty("version", String.valueOf(this.version));
-            responseParams.addProperty("name", String.valueOf(name));
-            responseParams.addProperty("updatedAt", String.valueOf(updatedAt));
-            responseParams.addProperty("updatedBy", String.valueOf(updatedBy));
+            responseParams.addProperty("id", conversation.getId());
+            responseParams.addProperty("version", String.valueOf(conversation.getVersion()));
+            responseParams.addProperty("name", String.valueOf(conversation.getName()));
+            responseParams.addProperty("updatedAt", String.valueOf(conversation.getUpdatedAt()));
+            responseParams.addProperty("updatedBy", String.valueOf(conversation.getUpdatedBy()));
 
-            this.propertyPickedRedirectUri = responseParams.redirectUri();
-
-            return this;
+            this.propertyPickRedirectUri = responseParams.buildRedirectUri();
         }
     }
 }

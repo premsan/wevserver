@@ -2,6 +2,7 @@ package com.wevserver.api;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,7 @@ public class ConversationList {
 
         private SortBy sortBy;
 
-        private PropertyPick.RequestParams propertyPickRequestParams;
+        private PropertyPick.RequestParams propertyPick;
 
         @Getter
         private enum SortBy {
@@ -83,6 +84,12 @@ public class ConversationList {
             if (Objects.nonNull(sortBy)) {
 
                 map.add("sortBy", String.valueOf(sortBy));
+            }
+
+            if (Objects.nonNull(propertyPick)) {
+
+                map.add("propertyPick.redirectUri", propertyPick.getRedirectUri());
+                map.addAll("propertyPick.mapping", new ArrayList<>(propertyPick.getMapping()));
             }
 
             return map;

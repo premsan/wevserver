@@ -1,5 +1,6 @@
 package com.wevserver.security.session;
 
+import com.wevserver.api.SessionDataCreate;
 import com.wevserver.application.feature.FeatureMapping;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,13 @@ public class SessionDataCreateController {
     @PostMapping("/session/data-create")
     public RedirectView sessionDataCreate(
             final HttpSession httpSession,
-            @RequestParam("_dataId") final String _dataId,
-            @RequestParam("_redirectUri") final String _redirectUri,
-            @RequestParam final MultiValueMap<String, String> requestParams) {
+            @RequestParam final MultiValueMap<String, String> _requestParams) {
 
-        httpSession.setAttribute(_dataId, requestParams);
+        final SessionDataCreate.RequestParams requestParams =
+                new SessionDataCreate.RequestParams(_requestParams);
 
-        return new RedirectView(_redirectUri);
+        httpSession.setAttribute(requestParams.getDataId(), requestParams.getData());
+
+        return new RedirectView(requestParams.getRedirectUri());
     }
 }

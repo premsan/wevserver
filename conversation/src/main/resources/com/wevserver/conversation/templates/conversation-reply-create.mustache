@@ -13,15 +13,14 @@
                     <div class="field has-addons">
                         <div class="control is-expanded">
                             <input class="input" type="text"
-                            name="conversationId"
-                            {{#requestParams.conversationId}} value="{{.}}"
-                            {{/requestParams.conversationId}}
+                            name="conversationId" {{#conversationId}}
+                            value="{{.}}" {{/conversationId}}
                             placeholder="Conversation Id" />
                         </div>
                         <div class="control">
                             <button
                                 type="submit"
-                                formaction="/session/data-create?_dataId=%2Fconversation%2Fconversation-reply-create&_redirectUri=%2Fconversation%2Fconversation-list%3FpropertyPicker.mapping%3Did.conversationId%26propertyPicker.redirectUri%3D%252Fconversation%252Fconversation-reply-create"
+                                formaction="{{pickConversationUri}}"
                                 formmethod="post"
                                 class="button"
                             >
@@ -30,9 +29,9 @@
                         </div>
                     </div>
                     <ul>
-                        {{#errorMessages.fieldErrors.conversationId}}
+                        {{#fieldErrors.conversationId}}
                         <li class="help is-danger">{{.}}</li>
-                        {{/errorMessages.fieldErrors.conversationId}}
+                        {{/fieldErrors.conversationId}}
                     </ul>
                 </div>
 
@@ -40,22 +39,21 @@
                     <label class="label">Description</label>
                     <div class="control">
                         <input class="input" type="text" name="description"
-                        {{#requestParams.description}} value="{{.}}"
-                        {{/requestParams.description}} placeholder="Description"
-                        />
+                        {{#description}} value="{{.}}" {{/description}}
+                        placeholder="Description" />
                     </div>
                     <ul>
-                        {{#errorMessages.fieldErrors.description}}
+                        {{#fieldErrors.description}}
                         <li class="help is-danger">{{.}}</li>
-                        {{/errorMessages.fieldErrors.description}}
+                        {{/fieldErrors.description}}
                     </ul>
                 </div>
 
                 <div>
                     <ul>
-                        {{#errorMessages.globalErrors}}
+                        {{#globalErrors}}
                         <li class="help is-danger">{{.}}</li>
-                        {{/errorMessages.globalErrors}}
+                        {{/globalErrors}}
                     </ul>
                 </div>
 
@@ -63,7 +61,7 @@
                     <button type="submit" class="button">Submit</button>
                     <button
                         type="submit"
-                        formaction="/session/data-create?_dataId=%2Fconversation%2Fconversation-reply-create&_redirectUri=%2Fconversation%2Fconversation-reply-create"
+                        formaction="{{saveUri}}"
                         formmethod="post"
                         class="button"
                     >
