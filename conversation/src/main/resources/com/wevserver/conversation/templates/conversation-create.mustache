@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form method="post" action="/conversation/conversation-create">
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="name" {{#name}}
+                        value="{{.}}" {{/name}} placeholder="Name" />
+                    </div>
+
+                    <ul>
+                        {{#fieldErrors.name}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.name}}
+                    </ul>
+                </div>
+
+                <div>
+                    <ul>
+                        {{#globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/globalErrors}}
+                    </ul>
+                </div>
+
+                <div class="control buttons">
+                    <button type="submit" class="button">Submit</button>
+                    <button
+                        type="submit"
+                        formaction="{{saveUri}}"
+                        formmethod="post"
+                        class="button"
+                    >
+                        Save Draft
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

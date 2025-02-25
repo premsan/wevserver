@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section content">
+            <dl>
+                <div class="block">
+                    <dt class="label">Id</dt>
+                    <dd>{{conversationReply.id}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Version</dt>
+                    <dd>{{conversationReply.version}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Description</dt>
+                    <dd>{{conversationReply.description}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Updated At</dt>
+                    <dd>{{conversationReply.updatedAt}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Updated By</dt>
+                    <dd>{{conversationReply.updatedBy}}</dd>
+                </div>
+            </dl>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

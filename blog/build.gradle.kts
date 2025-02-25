@@ -59,9 +59,9 @@ tasks.withType<Test> {
 spotless {
 	format("html") {
 		val htmlTabWidth: Int by rootProject.extra
-		prettier().config(mapOf("tabWidth" to htmlTabWidth))
+		prettier().config(mapOf("tabWidth" to htmlTabWidth, "parser" to "html"))
 
-		target("src/**/templates/**/*.html")
+		target("src/**/templates/**/*.html", "src/**/templates/**/*.mustache")
 	}
 	java {
 		val googleJavaFormatVersion: String by rootProject.extra
