@@ -31,13 +31,29 @@
             </h2>
 
             <div class="block buttons">
-                <a
-                    class="button is-dark"
+                <div
+                    class="buttons has-addons"
                     th:each="feature : ${entry.value}"
                     th:href="${feature.path}"
-                    th:text="${#messages.msgOrNull(feature.path)?:feature.path}"
-                    >Id</a
                 >
+                    <a
+                        class="button is-dark"
+                        th:text="${#messages.msgOrNull(feature.path)?:feature.path}"
+                        >Id</a
+                    >
+                    <form action="/session/favorite-uri-create">
+                        <input
+                            hidden="hidden"
+                            name="uri"
+                            th:value="${feature.path}"
+                        />
+                        <button type="submit" class="button">
+                            <span class="icon">
+                                <i class="fa-regular fa-heart"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
     </body>

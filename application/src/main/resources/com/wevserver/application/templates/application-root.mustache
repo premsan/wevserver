@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section content">
+            <h2 class="title is-2">Favourites</h2>
+            <div class="buttons">
+                {{#favouriteList}}
+                <a class="button is-dark" href="{{.}}">{{.}}</a>
+                {{/favouriteList}}
+            </div>
+        </section>
+        <section class="section content">
+            <h2 class="title is-2">Modules</h2>
+            <div class="buttons">
+                {{#moduleList}}
+                <a class="button is-dark" href="#{{.}}">{{.}}</a>
+                {{/moduleList}}
+            </div>
+        </section>
+        <section class="section content">
+            {{#moduleFeatureList}}
+            <h2 class="title is-2">
+                <span>{{name}}</span>
+                <a
+                    class="is-size-4 has-text-grey"
+                    href="/application/module-configuration-update/{{name}}"
+                >
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+            </h2>
+            <div class="block buttons">
+                {{#featureList}}
+                <div class="buttons has-addons">
+                    <a class="button is-dark">{{.}}</a>
+                    <form method="post" action="/session/favorite-uri-create">
+                        <input hidden="hidden" name="uri" value="{{.}}" />
+                        <input hidden="hidden" name="redirectUri" value="/" />
+                        <button type="submit" class="button">
+                            <span class="icon">
+                                <i class="fa-regular fa-heart"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                {{/featureList}}
+            </div>
+            {{/moduleFeatureList}}
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

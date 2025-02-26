@@ -1,7 +1,9 @@
 package com.wevserver.application;
 
+import com.wevserver.api.FavouriteUriCreate;
 import com.wevserver.application.feature.Feature;
 import com.wevserver.application.feature.FeatureMapping;
+import jakarta.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +14,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
-public class ApplicationHomeController {
+public class ApplicationRootReadController {
 
     private final Pattern authorityPattern = Pattern.compile("hasAuthority\\('(.*?)'\\)");
 
@@ -92,12 +98,35 @@ public class ApplicationHomeController {
     }
 
     @GetMapping
-    public ModelAndView homeGet() {
+    public ModelAndView applicationRootReadGet(final HttpSession httpSession) {
 
         final ModelAndView modelAndView =
-                new ModelAndView("com/wevserver/application/templates/application-home");
-        modelAndView.addObject("moduleFeatures", moduleFeatures);
+                new ModelAndView("com/wevserver/application/templates/application-root");
+
+        modelAndView.addObject("favouriteList", httpSession.getAttribute(FavouriteUriCreate.PATH));
+        modelAndView.addObject("moduleList", moduleFeatures.keySet());
+        modelAndView.addObject(
+                "moduleFeatureList",
+                moduleFeatures.entrySet().stream()
+                        .map(
+                                e ->
+                                        new ModuleItem(
+                                                e.getKey(),
+                                                e.getValue().stream()
+                                                        .map(Feature::getPath)
+                                                        .collect(Collectors.toList())))
+                        .toList());
 
         return modelAndView;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private class ModuleItem {
+
+        private String name;
+
+        private List<String> featureList;
     }
 }
