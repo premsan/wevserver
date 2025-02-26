@@ -10,7 +10,7 @@ import org.springframework.util.MultiValueMap;
 
 public class FavouriteUriCreate {
 
-    public static final String PATH = "/session/favorite-uri-create";
+    public static final String PATH = "/session/favourite-uri-create";
 
     @Getter
     @Setter

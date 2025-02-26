@@ -10,7 +10,7 @@ import org.springframework.util.MultiValueMap;
 
 public class FavouriteUriDelete {
 
-    public static final String PATH = "/session/favorite-uri-delete";
+    public static final String PATH = "/session/favourite-uri-delete";
 
     @Getter
     @Setter
