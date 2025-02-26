@@ -8,7 +8,7 @@
             <div class="block buttons">
                 {{#favouriteList}}
                 <div class="buttons has-addons">
-                    <a class="button is-dark">{{text}}</a>
+                    <a class="button is-dark" href="{{path}}">{{text}}</a>
                     <form method="post">
                         <input hidden="hidden" name="uri" value="{{path}}" />
                         <input hidden="hidden" name="redirectUri" value="/" />
@@ -50,7 +50,7 @@
         </section>
         <section class="section content">
             {{#moduleFeatureList}}
-            <h2 class="title is-2">
+            <h2 class="title is-2" id="{{name}}">
                 <span>{{name}}</span>
                 <a
                     class="is-size-4 has-text-grey"
@@ -62,7 +62,7 @@
             <div class="block buttons">
                 {{#featureList}}
                 <div class="buttons has-addons">
-                    <a class="button is-dark">{{text}}</a>
+                    <a class="button is-dark" href="{{path}}">{{text}}</a>
                     <form method="post">
                         <input hidden="hidden" name="uri" value="{{path}}" />
                         <input hidden="hidden" name="redirectUri" value="/" />

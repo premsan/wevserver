@@ -4,7 +4,7 @@ import com.wevserver.api.FavouriteUriCreate;
 import com.wevserver.application.feature.FeatureMapping;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class FavoriteUriCreateController {
 
         if (favouriteUriList == null) {
 
-            favouriteUriList = new HashSet<>();
+            favouriteUriList = new LinkedHashSet<>();
         }
         favouriteUriList.add(requestParams.getUri());
 
