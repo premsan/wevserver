@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form
+                method="post"
+                action="/conversation/conversation-reply-create"
+            >
+                <div class="field">
+                    <label class="label">Conversation Id</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="text"
+                            name="conversationId" {{#conversationId}}
+                            value="{{.}}" {{/conversationId}}
+                            placeholder="Conversation Id" />
+                        </div>
+                        <div class="control">
+                            <button
+                                type="submit"
+                                formaction="{{pickConversationUri}}"
+                                formmethod="post"
+                                class="button"
+                            >
+                                Find
+                            </button>
+                        </div>
+                    </div>
+                    <ul>
+                        {{#fieldErrors.conversationId}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.conversationId}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                        <input class="input" type="text" name="description"
+                        {{#description}} value="{{.}}" {{/description}}
+                        placeholder="Description" />
+                    </div>
+                    <ul>
+                        {{#fieldErrors.description}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.description}}
+                    </ul>
+                </div>
+
+                <div>
+                    <ul>
+                        {{#globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/globalErrors}}
+                    </ul>
+                </div>
+
+                <div class="control buttons">
+                    <button type="submit" class="button">Submit</button>
+                    <button
+                        type="submit"
+                        formaction="{{saveUri}}"
+                        formmethod="post"
+                        class="button"
+                    >
+                        Save Draft
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

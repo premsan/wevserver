@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":barcode"))
     implementation(project(":blog"))
     implementation(project(":broadcast"))
+    implementation(project(":conversation"))
     implementation(project(":db"))
     implementation(project(":grep"))
     implementation(project(":json"))
@@ -54,9 +55,9 @@ tasks.test {
 spotless {
     format("html") {
         val htmlTabWidth: Int by rootProject.extra
-        prettier().config(mapOf("tabWidth" to htmlTabWidth))
+        prettier().config(mapOf("tabWidth" to htmlTabWidth, "parser" to "html"))
 
-        target("src/**/templates/**/*.html")
+        target("src/**/templates/**/*.html", "src/**/templates/**/*.mustache")
     }
     java {
         val googleJavaFormatVersion: String by rootProject.extra

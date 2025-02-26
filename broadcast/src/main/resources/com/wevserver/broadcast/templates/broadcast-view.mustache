@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    {{>com/wevserver/broadcast/templates/head-partial}}
-    {{>com/wevserver/broadcast/templates/header-partial}}
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
     <body>
         <section class="section content">
             <dl>
                 <div class="block">
-                    <dt class="title is-4 has-text-info">Id</dt>
+                    <dt class="label">Id</dt>
                     <dd>{{broadcast.id}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="title is-4 has-text-info">Version</dt>
+                    <dt class="label">Version</dt>
                     <dd>{{broadcast.version}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="title is-4 has-text-info">Name</dt>
+                    <dt class="label">Name</dt>
                     <dd>{{broadcast.name}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="title is-4 has-text-info">URL</dt>
+                    <dt class="label">URL</dt>
                     <dd>{{broadcast.url}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="title is-4 has-text-info">Updated At</dt>
+                    <dt class="label">Updated At</dt>
                     <dd>{{broadcast.updatedAt}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="title is-4 has-text-info">Updated By</dt>
+                    <dt class="label">Updated By</dt>
                     <dd>{{broadcast.updatedBy}}</dd>
                 </div>
             </dl>
@@ -48,5 +48,5 @@
             </div>
         </section>
     </body>
-    {{>com/wevserver/broadcast/templates/footer-fragment}}
+    {{>com/wevserver/ui/templates/footer-partial}}
 </html>

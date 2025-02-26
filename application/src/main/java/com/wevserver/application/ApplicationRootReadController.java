@@ -2,6 +2,7 @@ package com.wevserver.application;
 
 import com.wevserver.application.feature.Feature;
 import com.wevserver.application.feature.FeatureMapping;
+import jakarta.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,9 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +30,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
-public class ApplicationHomeController {
+public class ApplicationRootReadController {
+
+    private final String FAVOURITE_URI_SESSION_ATTR_NAME = "favourite.uri";
 
     private final Pattern authorityPattern = Pattern.compile("hasAuthority\\('(.*?)'\\)");
 
@@ -92,12 +100,68 @@ public class ApplicationHomeController {
     }
 
     @GetMapping
-    public ModelAndView homeGet() {
+    public ModelAndView applicationRootReadGet(final HttpSession httpSession) {
 
         final ModelAndView modelAndView =
-                new ModelAndView("com/wevserver/application/templates/application-home");
-        modelAndView.addObject("moduleFeatures", moduleFeatures);
+                new ModelAndView("com/wevserver/application/templates/application-root");
+
+        final Set<String> favouriteList =
+                (Set<String>) httpSession.getAttribute(FAVOURITE_URI_SESSION_ATTR_NAME);
+
+        if (Objects.nonNull(favouriteList)) {
+            modelAndView.addObject(
+                    "favouriteList",
+                    favouriteList.stream().map(e -> new FeatureItem(e, favouriteList)).toList());
+        }
+
+        modelAndView.addObject("moduleList", moduleFeatures.keySet());
+        modelAndView.addObject(
+                "moduleFeatureList",
+                moduleFeatures.entrySet().stream()
+                        .map(
+                                e ->
+                                        new ModuleItem(
+                                                e.getKey(),
+                                                e.getValue().stream()
+                                                        .map(Feature::getPath)
+                                                        .map(p -> new FeatureItem(p, favouriteList))
+                                                        .collect(Collectors.toList())))
+                        .toList());
 
         return modelAndView;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private class ModuleItem {
+
+        private String name;
+
+        private List<FeatureItem> featureList;
+    }
+
+    @Getter
+    @Setter
+    private class FeatureItem {
+
+        private String path;
+
+        private String text;
+
+        private Boolean favourite;
+
+        private FeatureItem(final String path, final Set<String> favouriteList) {
+
+            this.path = path;
+
+            final String[] components = path.split("/");
+            this.text = components[components.length - 1];
+
+            if (Objects.nonNull(favouriteList)) {
+
+                this.favourite = favouriteList.contains(path);
+            }
+        }
     }
 }

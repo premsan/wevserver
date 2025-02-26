@@ -9,17 +9,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
-public class UserIndexController {
+public class UserListController {
 
     private final UserRepository userRepository;
 
     @FeatureMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/security/user-index")
-    public ModelAndView getUserIndex() {
+    @GetMapping("/security/user-list")
+    public ModelAndView userListGet() {
 
         final ModelAndView modelAndView =
-                new ModelAndView("com/wevserver/security/templates/user-index");
+                new ModelAndView("com/wevserver/security/templates/user-list");
         modelAndView.addObject("users", userRepository.findAll());
 
         return modelAndView;
