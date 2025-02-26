@@ -1,6 +1,5 @@
 package com.wevserver.application;
 
-import com.wevserver.api.FavouriteUriCreate;
 import com.wevserver.application.feature.Feature;
 import com.wevserver.application.feature.FeatureMapping;
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,6 +31,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequiredArgsConstructor
 public class ApplicationRootReadController {
+
+    private final String FAVOURITE_URI_SESSION_ATTR_NAME = "favourite.uri";
 
     private final Pattern authorityPattern = Pattern.compile("hasAuthority\\('(.*?)'\\)");
 
@@ -103,7 +105,15 @@ public class ApplicationRootReadController {
         final ModelAndView modelAndView =
                 new ModelAndView("com/wevserver/application/templates/application-root");
 
-        modelAndView.addObject("favouriteList", httpSession.getAttribute(FavouriteUriCreate.PATH));
+        final Set<String> favouriteList =
+                (Set<String>) httpSession.getAttribute(FAVOURITE_URI_SESSION_ATTR_NAME);
+
+        if (Objects.nonNull(favouriteList)) {
+            modelAndView.addObject(
+                    "favouriteList",
+                    favouriteList.stream().map(e -> new FeatureItem(e, favouriteList)).toList());
+        }
+
         modelAndView.addObject("moduleList", moduleFeatures.keySet());
         modelAndView.addObject(
                 "moduleFeatureList",
@@ -114,6 +124,7 @@ public class ApplicationRootReadController {
                                                 e.getKey(),
                                                 e.getValue().stream()
                                                         .map(Feature::getPath)
+                                                        .map(p -> new FeatureItem(p, favouriteList))
                                                         .collect(Collectors.toList())))
                         .toList());
 
@@ -127,6 +138,30 @@ public class ApplicationRootReadController {
 
         private String name;
 
-        private List<String> featureList;
+        private List<FeatureItem> featureList;
+    }
+
+    @Getter
+    @Setter
+    private class FeatureItem {
+
+        private String path;
+
+        private String text;
+
+        private Boolean favourite;
+
+        private FeatureItem(final String path, final Set<String> favouriteList) {
+
+            this.path = path;
+
+            final String[] components = path.split("/");
+            this.text = components[components.length - 1];
+
+            if (Objects.nonNull(favouriteList)) {
+
+                this.favourite = favouriteList.contains(path);
+            }
+        }
     }
 }

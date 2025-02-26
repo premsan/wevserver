@@ -5,9 +5,36 @@
     <body>
         <section class="section content">
             <h2 class="title is-2">Favourites</h2>
-            <div class="buttons">
+            <div class="block buttons">
                 {{#favouriteList}}
-                <a class="button is-dark" href="{{.}}">{{.}}</a>
+                <div class="buttons has-addons">
+                    <a class="button is-dark">{{text}}</a>
+                    <form method="post">
+                        <input hidden="hidden" name="uri" value="{{path}}" />
+                        <input hidden="hidden" name="redirectUri" value="/" />
+                        {{#favourite}}
+                        <button
+                            type="submit"
+                            formaction="/session/favorite-uri-delete"
+                            class="button"
+                        >
+                            <span class="icon">
+                                <i class="fa-solid fa-heart"></i>
+                            </span>
+                        </button>
+                        {{/favourite}} {{^favourite}}
+                        <button
+                            type="submit"
+                            formaction="/session/favorite-uri-create"
+                            class="button"
+                        >
+                            <span class="icon">
+                                <i class="fa-regular fa-heart"></i>
+                            </span>
+                        </button>
+                        {{/favourite}}
+                    </form>
+                </div>
                 {{/favouriteList}}
             </div>
         </section>
@@ -33,15 +60,31 @@
             <div class="block buttons">
                 {{#featureList}}
                 <div class="buttons has-addons">
-                    <a class="button is-dark">{{.}}</a>
-                    <form method="post" action="/session/favorite-uri-create">
-                        <input hidden="hidden" name="uri" value="{{.}}" />
+                    <a class="button is-dark">{{text}}</a>
+                    <form method="post">
+                        <input hidden="hidden" name="uri" value="{{path}}" />
                         <input hidden="hidden" name="redirectUri" value="/" />
-                        <button type="submit" class="button">
+                        {{#favourite}}
+                        <button
+                            type="submit"
+                            formaction="/session/favorite-uri-delete"
+                            class="button"
+                        >
+                            <span class="icon">
+                                <i class="fa-solid fa-heart"></i>
+                            </span>
+                        </button>
+                        {{/favourite}} {{^favourite}}
+                        <button
+                            type="submit"
+                            formaction="/session/favorite-uri-create"
+                            class="button"
+                        >
                             <span class="icon">
                                 <i class="fa-regular fa-heart"></i>
                             </span>
                         </button>
+                        {{/favourite}}
                     </form>
                 </div>
                 {{/featureList}}
