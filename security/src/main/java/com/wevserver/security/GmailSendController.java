@@ -48,8 +48,8 @@ public class GmailSendController {
 
         email.setFrom(new InternetAddress("<<email>>"));
         email.addRecipient(Message.RecipientType.TO, new InternetAddress("<<email>>"));
-        email.setSubject("testing only");
-        email.setText("testing only body");
+        email.setSubject("<<email>>");
+        email.setText("<<email>>");
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
