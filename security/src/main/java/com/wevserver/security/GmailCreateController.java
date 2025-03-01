@@ -1,6 +1,6 @@
 package com.wevserver.security;
 
-import com.wevserver.api.GmailSend;
+import com.wevserver.api.GmailCreate;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -27,7 +27,7 @@ import org.springframework.web.client.RestClient;
 
 @Controller
 @RequiredArgsConstructor
-public class GmailSendController {
+public class GmailCreateController {
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final RestClient restClient;
@@ -46,8 +46,7 @@ public class GmailSendController {
 
         MimeMessage email = new MimeMessage(session);
 
-        email.setFrom(new InternetAddress("<<email>>"));
-        email.addRecipient(Message.RecipientType.TO, new InternetAddress("<<email>>"));
+        email.addRecipient(Message.RecipientType.TO, new InternetAddress("admin@premsan.com"));
         email.setSubject("<<email>>");
         email.setText("<<email>>");
 
@@ -63,7 +62,7 @@ public class GmailSendController {
         ResponseEntity<String> response =
                 restClient
                         .method(HttpMethod.POST)
-                        .uri(GmailSend.URI)
+                        .uri(GmailCreate.URI)
                         .header(
                                 "Authorization",
                                 "Bearer " + oAuth2AuthorizedClient.getAccessToken().getTokenValue())
