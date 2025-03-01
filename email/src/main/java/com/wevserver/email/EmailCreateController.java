@@ -1,16 +1,20 @@
-package com.wevserver.security.email;
+package com.wevserver.email;
 
-import com.wevserver.api.GmailCreate;
+import com.wevserver.api.EmailCreate;
 import com.wevserver.application.feature.FeatureMapping;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,63 +22,79 @@ import lombok.Setter;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.web.http.SecurityHeaders;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-public class GmailCreateController {
+public class EmailCreateController {
 
     public static final String CLIENT_REGISTRATION_ID = "google";
 
     public static final String GMAIL_SEND_URI =
             "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
-    private final RestClient restClient;
+    private final RestClient restClient = RestClient.builder().build();
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
-    @FeatureMapping
-    @GetMapping(GmailCreate.PATH)
-    //    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('MAIL_GMAIL_CREATE')")
-    public ModelAndView gmailCreateGet(final GmailCreate.RequestParams requestParams) {
+    private final EmailRepository emailRepository;
 
-        final ModelAndView model =
-                new ModelAndView("com/wevserver/security/templates/gmail-create");
+    @FeatureMapping
+    @GetMapping(EmailCreate.PATH)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('EMAIL_CREATE')")
+    public ModelAndView emailCreateGet(final EmailCreate.RequestParams requestParams) {
+
+        final ModelAndView model = new ModelAndView("com/wevserver/email/templates/email-create");
 
         model.addAllObjects(requestParams.map());
 
         return model;
     }
 
-    @PostMapping(GmailCreate.PATH)
-    //    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('MAIL_GMAIL_CREATE')")
-    public String gmailCreatePost(
-            final GmailCreate.RequestParams requestParams,
+    @PostMapping(EmailCreate.PATH)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('EMAIL_CREATE')")
+    public ModelAndView emailCreatePost(
+            @Valid final EmailCreate.RequestParams requestParams,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
             @CurrentSecurityContext final SecurityContext securityContext)
             throws MessagingException, IOException {
+
+        if (bindingResult.hasErrors()) {
+
+            final ModelAndView modelAndView =
+                    new ModelAndView("com/wevserver/email/templates/email-create");
+            modelAndView.addAllObjects(requestParams.map());
+
+            return modelAndView;
+        }
 
         final OAuth2AuthorizedClient oAuth2AuthorizedClient =
                 oAuth2AuthorizedClientService.loadAuthorizedClient(
                         CLIENT_REGISTRATION_ID, securityContext.getAuthentication().getName());
 
-        final MimeMessage email =
+        final MimeMessage mimeMessage =
                 new MimeMessage(Session.getDefaultInstance(new Properties(), null));
-        email.addRecipient(Message.RecipientType.TO, new InternetAddress(requestParams.getTo()));
-        email.setSubject(requestParams.getSubject());
-        email.setText(requestParams.getContent());
+        mimeMessage.addRecipient(
+                Message.RecipientType.TO, new InternetAddress(requestParams.getTo()));
+        mimeMessage.setSubject(requestParams.getSubject());
+        mimeMessage.setText(requestParams.getBody());
 
         final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        email.writeTo(buffer);
+        mimeMessage.writeTo(buffer);
 
-        final ResponseEntity<String> response =
+        final ResponseEntity<String> responseEntity =
                 restClient
                         .method(HttpMethod.POST)
                         .uri(GMAIL_SEND_URI)
@@ -88,7 +108,25 @@ public class GmailCreateController {
                         .retrieve()
                         .toEntity(String.class);
 
-        return response.toString();
+        final Map<String, String> providerAttributes = new HashMap<>();
+        providerAttributes.put("response", responseEntity.toString());
+
+        final Email email =
+                emailRepository.save(
+                        new Email(
+                                UUID.randomUUID().toString(),
+                                null,
+                                requestParams.getTo(),
+                                requestParams.getTo(),
+                                requestParams.getSubject(),
+                                requestParams.getBody(),
+                                EmailProvider.GMAIL,
+                                providerAttributes,
+                                System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName()));
+
+        redirectAttributes.addAttribute("id", email.getId());
+        return new ModelAndView("redirect:/email/email-read/{id}");
     }
 
     @Getter

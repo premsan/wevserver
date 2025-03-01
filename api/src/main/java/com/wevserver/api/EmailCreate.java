@@ -8,9 +8,9 @@ import lombok.Setter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class GmailCreate {
+public class EmailCreate {
 
-    public static final String PATH = "/mail/gmail-create";
+    public static final String PATH = "/email/email-create";
 
     @Getter
     @Setter
@@ -21,7 +21,7 @@ public class GmailCreate {
 
         @NotNull private String subject;
 
-        @NotNull private String content;
+        @NotNull private String body;
 
         public MultiValueMap<String, String> map() {
 
@@ -37,9 +37,9 @@ public class GmailCreate {
                 map.add("subject", subject);
             }
 
-            if (Objects.nonNull(content)) {
+            if (Objects.nonNull(body)) {
 
-                map.add("content", content);
+                map.add("body", body);
             }
 
             return map;
@@ -49,7 +49,7 @@ public class GmailCreate {
 
             to = map.getFirst("to");
             subject = map.getFirst("subject");
-            subject = map.getFirst("content");
+            body = map.getFirst("body");
         }
     }
 }

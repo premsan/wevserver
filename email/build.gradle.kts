@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    `java-library`
     alias(libs.plugins.org.springframework.boot)
     alias(libs.plugins.io.spring.dependency.management)
     alias(libs.plugins.com.diffplug.spotless)
@@ -14,39 +14,25 @@ repositories {
     mavenCentral()
 }
 
-tasks.bootJar {
-    requiresUnpack("**/asciidoctorj-*.jar")
-}
-
 dependencies {
+    implementation(project(":application"))
+    implementation(project(":db"))
+    implementation(project(":security"))
+    implementation(project(":ui"))
+    implementation(project(":api"))
+
+
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
-    implementation(project(":application"))
-    implementation(project(":barcode"))
-    implementation(project(":blog"))
-    implementation(project(":broadcast"))
-    implementation(project(":conversation"))
-    implementation(project(":db"))
-    implementation(project(":email"))
-    implementation(project(":grep"))
-    implementation(project(":json"))
-    implementation(project(":mock"))
-    implementation(project(":payment"))
-    implementation(project(":reservation"))
-    implementation(project(":scheduled"))
-    implementation(project(":security"))
-    implementation(project(":proxyagent"))
-    implementation(project(":proxyserver"))
-    implementation(project(":ui"))
-
-    implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-mustache")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    runtimeOnly("com.h2database:h2")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(platform(libs.org.junit.junit.bom))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 tasks.test {

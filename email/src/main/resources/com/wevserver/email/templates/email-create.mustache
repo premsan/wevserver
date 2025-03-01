@@ -4,7 +4,7 @@
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
         <section class="section">
-            <form method="post" action="/mail/gmail-create">
+            <form method="post" action="/email/email-create">
                 <div class="field">
                     <label class="label">To</label>
                     <div class="control">
@@ -34,15 +34,15 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Content</label>
+                    <label class="label">Body</label>
                     <div class="control">
                         <textarea
                             class="textarea"
-                            placeholder="content"
-                            name="content"
+                            placeholder="Body"
+                            name="body"
                             rows="10"
                         >
- {{#content}} value="{{.}}" {{/content}}</textarea
+ {{#body}} value="{{.}}" {{/body}}</textarea
                         >
                     </div>
                     <ul>
@@ -53,6 +53,17 @@
                         </ul>
                     </ul>
                 </div>
+
+                <div class="field">
+                    <label class="label">Provider</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="provider" value="GMAIL" />
+                            Gmail
+                        </label>
+                    </div>
+                </div>
+
                 <div>
                     <ul>
                         {{#globalErrors}}
