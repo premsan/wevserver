@@ -23,6 +23,8 @@ public class EmailCreate {
 
         @NotNull private String body;
 
+        @NotNull private String provider;
+
         public MultiValueMap<String, String> map() {
 
             final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -42,6 +44,11 @@ public class EmailCreate {
                 map.add("body", body);
             }
 
+            if (Objects.nonNull(provider)) {
+
+                map.add("provider", provider);
+            }
+
             return map;
         }
 
@@ -50,6 +57,7 @@ public class EmailCreate {
             to = map.getFirst("to");
             subject = map.getFirst("subject");
             body = map.getFirst("body");
+            provider = map.getFirst("provider");
         }
     }
 }

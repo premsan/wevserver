@@ -21,7 +21,7 @@ public class AdyenPaymentGateway implements PaymentGateway {
     @Override
     public String id() {
 
-        return "adyen";
+        return "Adyen";
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.wevserver.email;
 
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.util.MultiValueMap;
 
 @Getter
 @Setter
@@ -38,10 +38,10 @@ public class Email {
     private String body;
 
     @Column("email_provider")
-    private EmailProvider provider;
+    private String provider;
 
-    @Column("email_provider_attributes")
-    private Map<String, String> providerAttributes;
+    @Column("email_provider_data")
+    private MultiValueMap<String, String> providerData;
 
     @Column("email_updated_at")
     private Long updatedAt;
