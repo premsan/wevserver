@@ -1,11 +1,11 @@
 package com.wevserver.email;
 
 import com.wevserver.api.EmailCreate;
-import org.springframework.util.MultiValueMap;
+import com.wevserver.lib.FormData;
 
 public interface EmailProvider {
 
     String name();
 
-    MultiValueMap<String, String> emailCreate(final EmailCreate.RequestParams requestParams);
+    FormData emailCreate(final EmailCreate.RequestParams requestParams);
 }

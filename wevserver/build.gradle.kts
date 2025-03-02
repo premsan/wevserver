@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":email"))
     implementation(project(":grep"))
     implementation(project(":json"))
+    implementation(project(":lib"))
     implementation(project(":mock"))
     implementation(project(":payment"))
     implementation(project(":reservation"))

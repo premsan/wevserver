@@ -2,6 +2,7 @@ package com.wevserver.email;
 
 import com.wevserver.api.EmailCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.lib.FormData;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +54,7 @@ public class EmailCreateController {
 
         final EmailProvider emailProvider =
                 emailProviderLocator.emailProvider(requestParams.getProvider());
-        final MultiValueMap<String, String> createData = emailProvider.emailCreate(requestParams);
+        final FormData createData = emailProvider.emailCreate(requestParams);
 
         final Email email =
                 emailRepository.save(

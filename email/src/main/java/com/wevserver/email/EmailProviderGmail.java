@@ -1,6 +1,7 @@
 package com.wevserver.email;
 
 import com.wevserver.api.EmailCreate;
+import com.wevserver.lib.FormData;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -24,7 +25,6 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.web.http.SecurityHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 @Component
@@ -46,8 +46,7 @@ public class EmailProviderGmail implements EmailProvider {
     }
 
     @Override
-    public MultiValueMap<String, String> emailCreate(
-            final EmailCreate.RequestParams requestParams) {
+    public FormData emailCreate(final EmailCreate.RequestParams requestParams) {
 
         final OAuth2AuthorizedClient oAuth2AuthorizedClient =
                 oAuth2AuthorizedClientService.loadAuthorizedClient(
@@ -88,7 +87,7 @@ public class EmailProviderGmail implements EmailProvider {
                         .retrieve()
                         .toEntity(new ParameterizedTypeReference<>() {});
 
-        return null;
+        return new FormData(responseEntity.getBody());
     }
 
     @Getter

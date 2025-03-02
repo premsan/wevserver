@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     implementation(project(":ui"))
+    implementation(project(":lib"))
 
     api("org.springframework.boot:spring-boot-starter-security")
     api("org.springframework.boot:spring-boot-starter-oauth2-client")

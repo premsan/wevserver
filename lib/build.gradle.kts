@@ -15,21 +15,12 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":application"))
-    implementation(project(":db"))
-    implementation(project(":security"))
-    implementation(project(":ui"))
-    implementation(project(":api"))
-    implementation(project(":lib"))
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-mustache")
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 
     testImplementation(platform(libs.org.junit.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -39,13 +30,11 @@ tasks.test {
     useJUnitPlatform()
 }
 
-spotless {
-    format("html") {
-        val htmlTabWidth: Int by rootProject.extra
-        prettier().config(mapOf("tabWidth" to htmlTabWidth, "parser" to "html"))
+tasks.bootJar {
+    enabled = false
+}
 
-        target("src/**/templates/**/*.html", "src/**/templates/**/*.mustache")
-    }
+spotless {
     java {
         val googleJavaFormatVersion: String by rootProject.extra
 
