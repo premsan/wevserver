@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.jdbc.core.mapping.JdbcValue;
 
-public class StringCollectionJdbcConverter {
+public class JdbcConverterStringCollection {
 
     @RequiredArgsConstructor
     public static class StringToStringCollectionConverter

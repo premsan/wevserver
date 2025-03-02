@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form method="post" action="/email/email-create">
+                <div class="field">
+                    <label class="label">To</label>
+                    <div class="control">
+                        <input class="input" type="text" name="to" {{#to}}
+                        value="{{.}}" {{/to}} placeholder="To" />
+                    </div>
+
+                    <ul>
+                        {{#fieldErrors.to}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.to}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Subject</label>
+                    <div class="control">
+                        <input class="input" type="text" name="subject"
+                        {{#subject}} value="{{.}}" {{/subject}}
+                        placeholder="Subject" />
+                    </div>
+                    <ul>
+                        {{#fieldErrors.subject}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.subject}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Body</label>
+                    <div class="control">
+                        <textarea
+                            class="textarea"
+                            placeholder="Body"
+                            name="body"
+                            rows="10"
+                        >
+ {{#body}} value="{{.}}" {{/body}}</textarea
+                        >
+                    </div>
+                    <ul>
+                        <ul>
+                            {{#fieldErrors.content}}
+                            <li class="help is-danger">{{.}}</li>
+                            {{/fieldErrors.content}}
+                        </ul>
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Provider</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="provider" value="GMAIL" />
+                            Gmail
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <ul>
+                        {{#globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/globalErrors}}
+                    </ul>
+                </div>
+
+                <div class="control buttons">
+                    <button type="submit" class="button is-dark">Create</button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

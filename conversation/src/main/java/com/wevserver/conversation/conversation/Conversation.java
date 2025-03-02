@@ -13,7 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "conversation")
+@Table(name = "conversation_conversation")
 public class Conversation {
 
     @Id

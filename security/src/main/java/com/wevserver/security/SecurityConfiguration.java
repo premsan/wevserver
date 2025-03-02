@@ -1,10 +1,16 @@
 package com.wevserver.security;
 
+import com.wevserver.api.LoginRead;
 import com.wevserver.security.authority.AuthorityRepository;
 import com.wevserver.security.permissionevaluator.PermissionEvaluators;
 import com.wevserver.security.user.User;
 import com.wevserver.security.user.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -13,12 +19,12 @@ import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,16 +32,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.util.CollectionUtils;
 
@@ -43,17 +55,23 @@ import org.springframework.util.CollectionUtils;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private final ClientRegistrationRepository clientRegistrationRepository;
     private final SecurityProperties securityProperties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
 
-        return http.oauth2Login(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
-                .csrf(
-                        httpSecurityCsrfConfigurer ->
-                                httpSecurityCsrfConfigurer.csrfTokenRepository(
-                                        new CookieCsrfTokenRepository()))
+        return http.oauth2Login(
+                        httpSecurityOAuth2LoginConfigurer -> {
+                            httpSecurityOAuth2LoginConfigurer.loginPage(LoginRead.PATH);
+
+                            httpSecurityOAuth2LoginConfigurer.authorizationEndpoint(
+                                    authorizationEndpointConfig ->
+                                            authorizationEndpointConfig
+                                                    .authorizationRequestResolver(
+                                                            new CustomAuthorizationRequestResolver(
+                                                                    clientRegistrationRepository)));
+                        })
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .rememberMe((rememberMe) -> rememberMe.rememberMeServices(rememberMeServices()))
                 .anonymous(
@@ -115,6 +133,13 @@ public class SecurityConfiguration {
             return new DefaultUser(
                     user.getId(), authorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
         };
+    }
+
+    @Bean
+    public OAuth2AuthorizedClientService oAuth2AuthorizedClientService(
+            JdbcOperations jdbcOperations,
+            ClientRegistrationRepository clientRegistrationRepository) {
+        return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
     }
 
     @Bean
@@ -198,5 +223,64 @@ public class SecurityConfiguration {
 
             return user;
         };
+    }
+
+    public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
+
+        private final DefaultOAuth2AuthorizationRequestResolver delegate;
+
+        public CustomAuthorizationRequestResolver(
+                final ClientRegistrationRepository clientRegistrationRepository) {
+
+            this.delegate =
+                    new DefaultOAuth2AuthorizationRequestResolver(
+                            clientRegistrationRepository,
+                            OAuth2AuthorizationRequestRedirectFilter
+                                    .DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+        }
+
+        @Override
+        public OAuth2AuthorizationRequest resolve(final HttpServletRequest request) {
+            OAuth2AuthorizationRequest authorizationRequest = this.delegate.resolve(request);
+
+            return authorizationRequest != null
+                    ? customAuthorizationRequest(request, authorizationRequest)
+                    : null;
+        }
+
+        @Override
+        public OAuth2AuthorizationRequest resolve(
+                final HttpServletRequest request, final String clientRegistrationId) {
+
+            OAuth2AuthorizationRequest authorizationRequest =
+                    this.delegate.resolve(request, clientRegistrationId);
+
+            return authorizationRequest != null
+                    ? customAuthorizationRequest(request, authorizationRequest)
+                    : null;
+        }
+
+        private OAuth2AuthorizationRequest customAuthorizationRequest(
+                final HttpServletRequest request,
+                final OAuth2AuthorizationRequest authorizationRequest) {
+
+            final Map<String, Object> additionalParameters =
+                    new LinkedHashMap<>(authorizationRequest.getAdditionalParameters());
+
+            final Set<String> scopes = new LinkedHashSet<>(authorizationRequest.getScopes());
+
+            if (Objects.nonNull(request.getParameter("scope"))) {
+
+                additionalParameters.put("prompt", "consent");
+                additionalParameters.put("access_type", "offline");
+
+                scopes.addAll(Set.of(request.getParameterValues("scope")));
+            }
+
+            return OAuth2AuthorizationRequest.from(authorizationRequest)
+                    .additionalParameters(additionalParameters)
+                    .scopes(scopes)
+                    .build();
+        }
     }
 }

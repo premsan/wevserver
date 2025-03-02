@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section content">
+            <dl>
+                <div class="block">
+                    <dt class="label">Id</dt>
+                    <dd>{{email.id}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Version</dt>
+                    <dd>{{email.version}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">From</dt>
+                    <dd>{{email.from}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">To</dt>
+                    <dd>{{email.to}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Subject</dt>
+                    <dd>{{email.subject}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Body</dt>
+                    <dd>{{email.body}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Updated At</dt>
+                    <dd>{{email.updatedAt}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">Updated By</dt>
+                    <dd>{{email.updatedBy}}</dd>
+                </div>
+            </dl>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

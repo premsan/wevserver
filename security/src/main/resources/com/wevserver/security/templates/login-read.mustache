@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section content">
+            <form>
+                <div class="field">
+                    <label class="label">
+                        <input
+                            type="checkbox"
+                            name="scope"
+                            value="https://www.googleapis.com/auth/gmail.send"
+                        />
+                        Gmail Notifications</label
+                    >
+                </div>
+
+                <button
+                    type="submit"
+                    formaction="/oauth2/authorization/google"
+                    class="button"
+                >
+                    Login with Google
+                </button>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

@@ -17,14 +17,16 @@ public class JdbcConfiguration extends AbstractJdbcConfiguration {
     protected List<?> userConverters() {
 
         return Arrays.asList(
-                new StringStringMapJdbcConverter.StringStringMapToJdbcValueConverter(objectMapper),
-                new StringStringMapJdbcConverter.StringToStringStringMapConverter(objectMapper),
-                new StringCollectionJdbcConverter.StringCollectionToJdbcValueConverter(
+                new JdbcConverterStringStringMap.StringStringMapToJdbcValueConverter(objectMapper),
+                new JdbcConverterStringStringMap.StringToStringStringMapConverter(objectMapper),
+                new JdbcConverterStringCollection.StringCollectionToJdbcValueConverter(
                         objectMapper),
-                new StringCollectionJdbcConverter.StringToStringCollectionConverter(objectMapper),
-                new ReferenceCollectionJdbcConverter.ReferenceCollectionToJdbcValueConverter(
+                new JdbcConverterStringCollection.StringToStringCollectionConverter(objectMapper),
+                new JdbcConverterReferenceCollection.ReferenceCollectionToJdbcValueConverter(
                         objectMapper),
-                new ReferenceCollectionJdbcConverter.StringToReferenceCollectionConverter(
-                        objectMapper));
+                new JdbcConverterReferenceCollection.StringToReferenceCollectionConverter(
+                        objectMapper),
+                new JdbcConverterFormData.toJdbcValue(),
+                new JdbcConverterFormData.fromString());
     }
 }

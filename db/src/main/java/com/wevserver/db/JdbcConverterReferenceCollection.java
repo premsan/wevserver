@@ -4,22 +4,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.JDBCType;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.jdbc.core.mapping.JdbcValue;
 
-public class StringStringMapJdbcConverter {
+@RequiredArgsConstructor
+public class JdbcConverterReferenceCollection {
+
+    private final ObjectMapper objectMapper;
 
     @RequiredArgsConstructor
-    public static class StringToStringStringMapConverter
-            implements Converter<String, Map<String, String>> {
+    public static class StringToReferenceCollectionConverter
+            implements Converter<String, Collection<Reference>> {
 
         private final ObjectMapper objectMapper;
 
         @Override
-        public HashMap<String, String> convert(final String source) {
+        public Collection<Reference> convert(final String source) {
             try {
                 return objectMapper.readValue(source, new TypeReference<>() {});
             } catch (JsonProcessingException e) {
@@ -29,13 +31,13 @@ public class StringStringMapJdbcConverter {
     }
 
     @RequiredArgsConstructor
-    public static class StringStringMapToJdbcValueConverter
-            implements Converter<Map<String, String>, JdbcValue> {
+    public static class ReferenceCollectionToJdbcValueConverter
+            implements Converter<Collection<Reference>, JdbcValue> {
 
         private final ObjectMapper objectMapper;
 
         @Override
-        public JdbcValue convert(final Map<String, String> source) {
+        public JdbcValue convert(final Collection<Reference> source) {
             try {
                 return JdbcValue.of(objectMapper.writeValueAsString(source), JDBCType.VARCHAR);
             } catch (JsonProcessingException e) {
