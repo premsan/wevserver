@@ -3,6 +3,7 @@ package com.wevserver.payment.payment;
 import com.nimbusds.jwt.SignedJWT;
 import com.wevserver.api.PaymentCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.ListMapping;
 import com.wevserver.security.sign.SignedToken;
 import jakarta.validation.Valid;
 import java.util.Currency;
@@ -25,8 +26,9 @@ public class PaymentCreateController {
 
     private final PaymentRepository paymentRepository;
 
-    @FeatureMapping
     @GetMapping(PaymentCreate.PATH)
+    @FeatureMapping
+    @ListMapping(entityClass = Payment.class)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PAYMENT_PAYMENT_CREATE')")
     public ModelAndView getPaymentCreate(
             final @SignedToken SignedJWT signedToken,

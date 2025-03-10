@@ -3,7 +3,9 @@ package com.wevserver.application;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
+@EnableJdbcRepositories("com.wevserver.application")
 public abstract class BaseApplication {
 
     protected static Class<?> primarySource;

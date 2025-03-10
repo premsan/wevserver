@@ -1,5 +1,6 @@
 package com.wevserver.conversation.conversation;
 
+import com.wevserver.db.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "conversation_conversation")
-public class Conversation {
+public class Conversation implements Auditable {
 
     @Id
     @Column("id")
@@ -26,6 +27,12 @@ public class Conversation {
 
     @Column("name")
     private String name;
+
+    @Column("created_at")
+    private Long createdAt;
+
+    @Column("created_by")
+    private String createdBy;
 
     @Column("updated_at")
     private Long updatedAt;

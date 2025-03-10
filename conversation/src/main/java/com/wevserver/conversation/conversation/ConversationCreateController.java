@@ -71,6 +71,8 @@ public class ConversationCreateController {
                                 null,
                                 requestParams.getName(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", conversation.getId());
