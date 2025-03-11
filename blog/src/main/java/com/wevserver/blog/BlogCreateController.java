@@ -61,6 +61,8 @@ public class BlogCreateController {
                                 blogCreate.getTitle(),
                                 blogCreate.getContent(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", blog.getId());

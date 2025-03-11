@@ -1,5 +1,6 @@
 package com.wevserver.blog;
 
+import com.wevserver.db.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @AllArgsConstructor
 @Table(name = "blog_blog")
-public class Blog {
+public class Blog implements Auditable {
 
     @Id
     @Column("id")
@@ -27,6 +28,12 @@ public class Blog {
 
     @Column("content")
     private String content;
+
+    @Column("created_at")
+    private Long createdAt;
+
+    @Column("created_by")
+    private String createdBy;
 
     @Column("updated_at")
     private Long updatedAt;

@@ -50,6 +50,8 @@ public class SubUserCreateController {
                                 passwordEncoder.encode(password),
                                 false,
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         final SubUserCreated subUserCreated = new SubUserCreated();

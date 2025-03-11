@@ -1,5 +1,6 @@
 package com.wevserver.security.user;
 
+import com.wevserver.db.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "security_user")
-public class User {
+public class User implements Auditable {
 
     @Id
     @Column("id")
@@ -35,6 +36,12 @@ public class User {
 
     @Column("disabled")
     private Boolean disabled;
+
+    @Column("created_at")
+    private Long createdAt;
+
+    @Column("created_by")
+    private String createdBy;
 
     @Column("updated_at")
     private Long updatedAt;

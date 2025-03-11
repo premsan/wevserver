@@ -1,3 +1,5 @@
 databaseChangeLog:
   - includeAll:
+      path: com/wevserver/application/db/changelog
+  - includeAll:
       path: com/wevserver/security/db/changelog

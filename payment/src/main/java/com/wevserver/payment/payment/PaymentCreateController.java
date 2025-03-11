@@ -25,8 +25,8 @@ public class PaymentCreateController {
 
     private final PaymentRepository paymentRepository;
 
-    @FeatureMapping
     @GetMapping(PaymentCreate.PATH)
+    @FeatureMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PAYMENT_PAYMENT_CREATE')")
     public ModelAndView getPaymentCreate(
             final @SignedToken SignedJWT signedToken,
@@ -73,6 +73,8 @@ public class PaymentCreateController {
                                 paymentCreate.getAmount(),
                                 paymentCreate.getName(),
                                 paymentCreate.getDescription(),
+                                System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 

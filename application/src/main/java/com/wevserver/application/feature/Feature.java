@@ -12,6 +12,8 @@ public class Feature {
 
     private String path;
 
+    private String entityName;
+
     private Integer priority;
 
     private String messageCode;

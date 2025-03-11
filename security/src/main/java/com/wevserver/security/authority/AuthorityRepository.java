@@ -1,5 +1,6 @@
 package com.wevserver.security.authority;
 
+import com.wevserver.db.AuditableRepository;
 import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuthorityRepository
-        extends CrudRepository<Authority, String>, PagingAndSortingRepository<Authority, String> {
+        extends AuditableRepository<Authority>,
+                CrudRepository<Authority, String>,
+                PagingAndSortingRepository<Authority, String> {
 
     @Query(
             "SELECT a.\"id\", a.\"version\", a.\"name\", a.\"updated_at\", a.\"updated_by\" FROM"

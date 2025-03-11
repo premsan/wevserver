@@ -62,6 +62,8 @@ public class AuthorityCreateController {
                                 null,
                                 authorityCreate.getName(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", authority.getId());

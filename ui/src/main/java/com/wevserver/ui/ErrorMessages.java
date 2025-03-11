@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.MessageSource;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
@@ -36,5 +37,11 @@ public class ErrorMessages {
                 errors.getGlobalErrors().stream()
                         .map(objectError -> messageSource.getMessage(objectError, locale))
                         .collect(Collectors.toList());
+    }
+
+    public void addTo(final ModelMap modelMap) {
+
+        modelMap.addAttribute("fieldErrors", fieldErrors);
+        modelMap.addAttribute("globalErrors", globalErrors);
     }
 }

@@ -2,6 +2,8 @@ CREATE TABLE "security_authority" (
     "id" CHAR(36) NOT NULL,
     "version" INT NOT NULL,
     "name" VARCHAR(256) NOT NULL,
+    "created_at" BIGINT NOT NULL,
+    "created_by" CHAR(36) NOT NULL,
     "updated_at" BIGINT NOT NULL,
     "updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "security_authority_pk" PRIMARY KEY ("id")
@@ -43,6 +45,8 @@ CREATE TABLE "security_user" (
     "email" VARCHAR(256),
     "password_hash" VARCHAR(256),
     "disabled" BOOLEAN DEFAULT FALSE NOT NULL,
+    "created_at" BIGINT NOT NULL,
+    "created_by" CHAR(36) NOT NULL,
     "updated_at" BIGINT NOT NULL,
     "updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "security_user_pk" PRIMARY KEY ("id"),

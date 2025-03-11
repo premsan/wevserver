@@ -68,6 +68,8 @@ public class EmailCreateController {
                                 emailProvider.name(),
                                 createData,
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", email.getId());

@@ -112,6 +112,8 @@ public class ReservationCreateController {
                                 startAt,
                                 endAt,
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", reservation.getId());

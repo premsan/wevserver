@@ -1,5 +1,6 @@
 package com.wevserver.email;
 
+import com.wevserver.db.Auditable;
 import com.wevserver.lib.FormData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "email_email")
-public class Email {
+public class Email implements Auditable {
 
     @Id
     @Column("email_id")
@@ -42,6 +43,12 @@ public class Email {
 
     @Column("email_provider_data")
     private FormData providerData;
+
+    @Column("email_created_at")
+    private Long createdAt;
+
+    @Column("email_created_by")
+    private String createdBy;
 
     @Column("email_updated_at")
     private Long updatedAt;
