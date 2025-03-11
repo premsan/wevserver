@@ -111,6 +111,8 @@ public class SecurityConfiguration {
                 user.setId(userId);
                 user.setEmail(email);
                 user.setDisabled(Boolean.FALSE);
+                user.setCreatedAt(System.currentTimeMillis());
+                user.setCreatedBy(userId);
                 user.setUpdatedAt(System.currentTimeMillis());
                 user.setUpdatedBy(userId);
 

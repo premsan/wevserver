@@ -1,6 +1,7 @@
 package com.wevserver.security.authority;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.ListMapping;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class AuthorityListController {
     private final AuthorityRepository authorityRepository;
 
     @FeatureMapping
+    @ListMapping(entityClass = Authority.class)
     @GetMapping("/security/authority-list")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ModelAndView authorityListGet(final RequestParams requestParams) {

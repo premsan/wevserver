@@ -3,6 +3,8 @@ CREATE TABLE "blog_blog" (
     "version" INT NOT NULL,
     "title" VARCHAR(256) NOT NULL,
     "content" VARCHAR(65535) NOT NULL,
+    "created_at" BIGINT NOT NULL,
+    "created_by" CHAR(36) NOT NULL,
     "updated_at" BIGINT NOT NULL,
     "updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "blog_blog_pk" PRIMARY KEY ("id")

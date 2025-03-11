@@ -73,6 +73,8 @@ public class BroadcastCreateController {
                                 requestParams.getName(),
                                 requestParams.getUrl(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         broadcastPublisher.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(broadcast)));

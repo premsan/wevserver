@@ -1,5 +1,6 @@
 package com.wevserver.payment.payment;
 
+import com.wevserver.db.Auditable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @AllArgsConstructor
 @Table(name = "payment_payment")
-public class Payment {
+public class Payment implements Auditable {
 
     @Id
     @Column("id")
@@ -37,6 +38,12 @@ public class Payment {
 
     @Column("description")
     private String description;
+
+    @Column("created_at")
+    private Long createdAt;
+
+    @Column("created_by")
+    private String createdBy;
 
     @Column("updated_at")
     private Long updatedAt;

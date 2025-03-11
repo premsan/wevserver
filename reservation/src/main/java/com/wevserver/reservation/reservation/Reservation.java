@@ -1,5 +1,6 @@
 package com.wevserver.reservation.reservation;
 
+import com.wevserver.db.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @AllArgsConstructor
 @Table(name = "reservation_reservation")
-public class Reservation {
+public class Reservation implements Auditable {
 
     @Id
     @Column("id")
@@ -36,6 +37,12 @@ public class Reservation {
 
     @Column("end_at")
     private Long endAt;
+
+    @Column("created_at")
+    private Long createdAt;
+
+    @Column("created_by")
+    private String createdBy;
 
     @Column("updated_at")
     private Long updatedAt;

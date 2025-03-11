@@ -3,6 +3,8 @@ CREATE TABLE "reservation_reservation_resource" (
     "version" BIGINT NOT NULL,
     "name" VARCHAR(256) NOT NULL,
     "description" VARCHAR(65535) NOT NULL,
+    "created_at" BIGINT NOT NULL,
+    "created_by" CHAR(36) NOT NULL,
     "updated_at" BIGINT NOT NULL,
     "updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "reservation_reservation_resource_pk" PRIMARY KEY ("id")

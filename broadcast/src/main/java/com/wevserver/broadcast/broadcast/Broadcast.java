@@ -1,5 +1,6 @@
 package com.wevserver.broadcast.broadcast;
 
+import com.wevserver.db.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "broadcast_broadcast")
-public class Broadcast {
+public class Broadcast implements Auditable {
 
     @Id
     @Column("id")
@@ -29,6 +30,12 @@ public class Broadcast {
 
     @Column("url")
     private String url;
+
+    @Column("created_at")
+    private Long createdAt;
+
+    @Column("created_by")
+    private String createdBy;
 
     @Column("updated_at")
     private Long updatedAt;

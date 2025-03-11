@@ -1,7 +1,9 @@
 package com.wevserver.payment.payment;
 
+import com.wevserver.db.AuditableRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaymentRepository extends CrudRepository<Payment, String> {}
+public interface PaymentRepository
+        extends AuditableRepository<Payment>, CrudRepository<Payment, String> {}

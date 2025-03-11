@@ -6,6 +6,8 @@ CREATE TABLE "payment_payment" (
     "amount" DECIMAL(36, 18) NOT NULL,
     "name" VARCHAR(256) NOT NULL,
     "description" VARCHAR(65535) NOT NULL,
+    "created_at" BIGINT NOT NULL,
+    "created_by" CHAR(36) NOT NULL,
     "updated_at" BIGINT NOT NULL,
     "updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "payment_payment_pk" PRIMARY KEY ("id")

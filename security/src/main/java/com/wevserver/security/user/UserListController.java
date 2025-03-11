@@ -1,6 +1,7 @@
 package com.wevserver.security.user;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.ListMapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ public class UserListController {
     @FeatureMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/security/user-list")
+    @ListMapping(entityClass = User.class)
     public ModelAndView userListGet() {
 
         final ModelAndView modelAndView =
