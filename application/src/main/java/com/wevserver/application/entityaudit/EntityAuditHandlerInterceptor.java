@@ -1,10 +1,13 @@
 package com.wevserver.application.entityaudit;
 
+import com.wevserver.application.feature.Feature;
+import com.wevserver.application.feature.FeatureRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class EntityAuditHandlerInterceptor implements HandlerInterceptor {
 
+    private final FeatureRepository featureRepository;
     private final EntityAuditRepository entityAuditRepository;
 
     public void afterCompletion(
@@ -26,17 +30,32 @@ public class EntityAuditHandlerInterceptor implements HandlerInterceptor {
             return;
         }
 
+        if (SecurityContextHolder.getContext().getAuthentication()
+                instanceof AnonymousAuthenticationToken) {
+
+            return;
+        }
+
+        final Feature feature = featureRepository.findByPath(request.getServletPath());
+
+        if (feature == null) {
+
+            return;
+        }
+
         final String principalName =
                 SecurityContextHolder.getContext().getAuthentication().getName();
 
         EntityAudit entityAudit =
                 entityAuditRepository.findByPrincipalNameAndEntityName(
-                        principalName, request.getServletPath());
+                        principalName, feature.getEntityName());
 
         if (entityAudit == null) {
 
             entityAudit = new EntityAudit();
             entityAudit.setId(UUID.randomUUID().toString());
+            entityAudit.setPrincipalName(principalName);
+            entityAudit.setEntityName(feature.getEntityName());
             entityAudit.setCreatedAt(System.currentTimeMillis());
         }
 

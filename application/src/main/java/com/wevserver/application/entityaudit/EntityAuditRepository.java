@@ -1,7 +1,7 @@
 package com.wevserver.application.entityaudit;
 
 import java.util.List;
-import org.springframework.data.domain.ScrollPosition;
+import org.springframework.data.domain.OffsetScrollPosition;
 import org.springframework.data.domain.Window;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,5 +16,5 @@ public interface EntityAuditRepository
             final String principalName, final String entityName);
 
     Window<EntityAudit> findFirst128ByEntityNameOrderByCreatedAt(
-            final String entityName, final ScrollPosition scrollPosition);
+            final String entityName, final OffsetScrollPosition scrollPosition);
 }

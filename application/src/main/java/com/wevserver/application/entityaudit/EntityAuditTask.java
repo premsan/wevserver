@@ -2,6 +2,7 @@ package com.wevserver.application.entityaudit;
 
 import com.wevserver.db.AuditableRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.OffsetScrollPosition;
 import org.springframework.data.domain.ScrollPosition;
 import org.springframework.data.domain.Window;
 
@@ -16,6 +17,11 @@ public class EntityAuditTask implements Runnable {
         Window<EntityAudit> entityAudits =
                 entityAuditRepository.findFirst128ByEntityNameOrderByCreatedAt(
                         auditableRepository.entityClass().getName(), ScrollPosition.offset());
+
+        if (entityAudits == null) {
+
+            return;
+        }
 
         do {
 
@@ -37,7 +43,8 @@ public class EntityAuditTask implements Runnable {
             entityAudits =
                     entityAuditRepository.findFirst128ByEntityNameOrderByCreatedAt(
                             auditableRepository.entityClass().getName(),
-                            entityAudits.positionAt(entityAudits.size() - 1));
+                            (OffsetScrollPosition)
+                                    entityAudits.positionAt(entityAudits.size() - 1));
 
         } while (!entityAudits.isEmpty() && entityAudits.hasNext());
     }

@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.aop.support.AopUtils;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FeatureRepository {
 
     private final Map<String, List<Feature>> featuresByModule = new HashMap<>();
+    private final Map<String, Feature> featureByPath = new HashMap<>();
 
     private final ApplicationContext applicationContext;
 
@@ -58,6 +60,11 @@ public class FeatureRepository {
                 feature.setMessageCode(
                         controllerClass.getSimpleName().concat(".").concat(method.getName()));
 
+                if (Objects.nonNull(listMapping)) {
+
+                    feature.setEntityName(listMapping.entityClass().getName());
+                }
+
                 List<Feature> features = this.featuresByModule.get(module);
                 if (features == null) {
 
@@ -65,6 +72,7 @@ public class FeatureRepository {
                     this.featuresByModule.put(feature.getModule(), features);
                 }
                 features.add(feature);
+                featureByPath.put(feature.getPath(), feature);
             }
         }
 
@@ -72,5 +80,10 @@ public class FeatureRepository {
 
             Collections.sort(moduleFeatures, Comparator.comparing(Feature::getPriority));
         }
+    }
+
+    public Feature findByPath(final String path) {
+
+        return featureByPath.get(path);
     }
 }

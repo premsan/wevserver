@@ -37,7 +37,7 @@ public class ApplicationRootReadController {
         final ModelAndView modelAndView =
                 new ModelAndView("com/wevserver/application/templates/application-root");
 
-        final Map<String, EntityAudit> entityAuditByType =
+        final Map<String, EntityAudit> entityAuditByEntityName =
                 entityAuditRepository
                         .findByPrincipalName(securityContext.getAuthentication().getName())
                         .stream()
@@ -54,7 +54,9 @@ public class ApplicationRootReadController {
                                     e ->
                                             new FeatureItem(
                                                     e,
-                                                    customizeLabel(entityAuditByType, e),
+                                                    customizeLabel(
+                                                            entityAuditByEntityName,
+                                                            featureRepository.findByPath(e)),
                                                     favouriteList))
                             .toList());
         }
@@ -68,14 +70,13 @@ public class ApplicationRootReadController {
                                         new ModuleItem(
                                                 e.getKey(),
                                                 e.getValue().stream()
-                                                        .map(Feature::getPath)
                                                         .map(
-                                                                p ->
+                                                                f ->
                                                                         new FeatureItem(
-                                                                                p,
+                                                                                f.getPath(),
                                                                                 customizeLabel(
-                                                                                        entityAuditByType,
-                                                                                        p),
+                                                                                        entityAuditByEntityName,
+                                                                                        f),
                                                                                 favouriteList))
                                                         .collect(Collectors.toList())))
                         .toList());
@@ -84,12 +85,12 @@ public class ApplicationRootReadController {
     }
 
     private String customizeLabel(
-            final Map<String, EntityAudit> entityAuditMap, final String path) {
+            final Map<String, EntityAudit> entityAuditMap, final Feature feature) {
 
-        final String[] components = path.split("/");
+        final String[] components = feature.getPath().split("/");
         final String component = components[components.length - 1];
 
-        final EntityAudit entityAudit = entityAuditMap.get(path);
+        final EntityAudit entityAudit = entityAuditMap.get(feature.getEntityName());
 
         if (entityAudit == null) {
 
