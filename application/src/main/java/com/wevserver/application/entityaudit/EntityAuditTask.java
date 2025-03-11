@@ -2,9 +2,8 @@ package com.wevserver.application.entityaudit;
 
 import com.wevserver.db.AuditableRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.OffsetScrollPosition;
-import org.springframework.data.domain.ScrollPosition;
-import org.springframework.data.domain.Window;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @RequiredArgsConstructor
 public class EntityAuditTask implements Runnable {
@@ -14,18 +13,21 @@ public class EntityAuditTask implements Runnable {
 
     public void run() {
 
-        Window<EntityAudit> entityAudits =
-                entityAuditRepository.findFirst128ByEntityNameOrderByCreatedAt(
-                        auditableRepository.entityClass().getName(), ScrollPosition.offset());
+        Page<EntityAudit> entityAuditPage;
+        PageRequest pageRequest = PageRequest.of(0, 128);
 
-        if (entityAudits == null) {
+        while (true) {
 
-            return;
-        }
+            entityAuditPage =
+                    entityAuditRepository.findByEntityNameOrderByCreatedAt(
+                            auditableRepository.entityClass().getName(), pageRequest);
 
-        do {
+            if (!entityAuditPage.hasContent()) {
 
-            for (final EntityAudit entityAudit : entityAudits) {
+                break;
+            }
+
+            for (final EntityAudit entityAudit : entityAuditPage) {
 
                 final Long createdCount =
                         auditableRepository.countByCreatedAtBetween(
@@ -38,14 +40,9 @@ public class EntityAuditTask implements Runnable {
                 entityAudit.setEntityUpdatedCount(updatedCount);
             }
 
-            entityAuditRepository.saveAll(entityAudits);
+            entityAuditRepository.saveAll(entityAuditPage);
 
-            entityAudits =
-                    entityAuditRepository.findFirst128ByEntityNameOrderByCreatedAt(
-                            auditableRepository.entityClass().getName(),
-                            (OffsetScrollPosition)
-                                    entityAudits.positionAt(entityAudits.size() - 1));
-
-        } while (!entityAudits.isEmpty() && entityAudits.hasNext());
+            pageRequest = pageRequest.next();
+        }
     }
 }

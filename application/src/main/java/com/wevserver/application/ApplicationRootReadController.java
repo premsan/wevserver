@@ -92,9 +92,9 @@ public class ApplicationRootReadController {
 
         final EntityAudit entityAudit = entityAuditMap.get(feature.getEntityName());
 
-        if (entityAudit == null) {
+        if (entityAudit == null || entityAudit.getEntityCreatedCount() == 0) {
 
-            return null;
+            return component;
         }
 
         return component + " (" + entityAudit.getEntityCreatedCount() + ")";
@@ -123,9 +123,7 @@ public class ApplicationRootReadController {
         private FeatureItem(final String path, String text, final Set<String> favouriteList) {
 
             this.path = path;
-
-            final String[] components = path.split("/");
-            this.text = components[components.length - 1];
+            this.text = text;
 
             if (Objects.nonNull(favouriteList)) {
 

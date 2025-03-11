@@ -38,7 +38,7 @@ public class EntityAuditHandlerInterceptor implements HandlerInterceptor {
 
         final Feature feature = featureRepository.findByPath(request.getServletPath());
 
-        if (feature == null) {
+        if (feature == null || feature.getEntityName() == null) {
 
             return;
         }

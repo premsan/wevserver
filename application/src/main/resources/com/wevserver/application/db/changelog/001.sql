@@ -10,4 +10,4 @@ CREATE TABLE "application_entity_audit" (
     CONSTRAINT "application_entity_audit_pk" PRIMARY KEY ("entity_audit_id")
 );
 
-CREATE INDEX "application_entity_audit_principal_name_idx" ON "application_entity_audit" ("entity_audit_principal_name");
+CREATE UNIQUE INDEX "application_entity_audit_principal_name_entity_name_idx" ON "application_entity_audit" ("entity_audit_principal_name", "entity_audit_entity_name");
