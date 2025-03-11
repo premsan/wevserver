@@ -7,7 +7,7 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 @SpringBootApplication
 @ComponentScan("com.wevserver")
-@EnableJdbcRepositories("com.wevserver.conversation")
+@EnableJdbcRepositories({"com.wevserver.conversation"})
 public class ConversationApplication {
 
     public static void main(String[] args) {
