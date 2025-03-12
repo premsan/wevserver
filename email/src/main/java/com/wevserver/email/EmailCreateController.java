@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +55,10 @@ public class EmailCreateController {
 
         final EmailProvider emailProvider =
                 emailProviderLocator.emailProvider(requestParams.getProvider());
-        final FormData createData = emailProvider.emailCreate(requestParams);
+        final FormData createData =
+                emailProvider.emailCreate(
+                        SecurityContextHolder.getContext().getAuthentication().getName(),
+                        requestParams);
 
         final Email email =
                 emailRepository.save(

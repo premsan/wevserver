@@ -36,6 +36,9 @@ public class EntityAudit {
     @Column("entity_audit_accessed_at")
     private Long entityAccessedAt;
 
+    @Column("entity_audit_notified")
+    private Boolean notified;
+
     @Column("entity_audit_created_count")
     private Long entityCreatedCount;
 

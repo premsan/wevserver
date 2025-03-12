@@ -7,5 +7,5 @@ public interface EmailProvider {
 
     String name();
 
-    FormData emailCreate(final EmailCreate.RequestParams requestParams);
+    FormData emailCreate(final String principalName, final EmailCreate.RequestParams requestParams);
 }
