@@ -15,22 +15,22 @@ import org.springframework.data.relational.core.mapping.Table;
 public class UserRole {
 
     @Id
-    @Column("id")
+    @Column("user_role_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("user_role_version")
     private Long version;
 
-    @Column("user_id")
+    @Column("user_role_user_id")
     private String userId;
 
-    @Column("role_id")
+    @Column("user_role_role_id")
     private String roleId;
 
-    @Column("updated_at")
+    @Column("user_role_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("user_role_updated_by")
     private String updatedBy;
 }

@@ -18,25 +18,25 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Authority implements Auditable {
 
     @Id
-    @Column("id")
+    @Column("authority_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("authority_version")
     private Long version;
 
-    @Column("name")
+    @Column("authority_name")
     private String name;
 
-    @Column("created_at")
+    @Column("authority_created_at")
     private Long createdAt;
 
-    @Column("created_by")
+    @Column("authority_created_by")
     private String createdBy;
 
-    @Column("updated_at")
+    @Column("authority_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("authority_updated_by")
     private String updatedBy;
 }

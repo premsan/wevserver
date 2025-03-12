@@ -13,3 +13,6 @@ CREATE TABLE "email_email" (
     "email_updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "email_email_pk" PRIMARY KEY ("email_id")
 );
+
+CREATE INDEX "email_email_created_at_idx" ON "email_email" ("email_created_at");
+CREATE INDEX "email_email_updated_at_idx" ON "email_email" ("email_updated_at");

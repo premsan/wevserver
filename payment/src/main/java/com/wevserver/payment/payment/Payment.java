@@ -17,37 +17,37 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Payment implements Auditable {
 
     @Id
-    @Column("id")
+    @Column("payment_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("payment_version")
     private Long version;
 
-    @Column("reference_id")
+    @Column("payment_reference_id")
     private String referenceId;
 
-    @Column("currency")
+    @Column("payment_currency")
     private String currency;
 
-    @Column("amount")
+    @Column("payment_amount")
     private BigDecimal amount;
 
-    @Column("name")
+    @Column("payment_name")
     private String name;
 
-    @Column("description")
-    private String description;
+    @Column("payment_details")
+    private String details;
 
-    @Column("created_at")
+    @Column("payment_created_at")
     private Long createdAt;
 
-    @Column("created_by")
+    @Column("payment_created_by")
     private String createdBy;
 
-    @Column("updated_at")
+    @Column("payment_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("payment_updated_by")
     private String updatedBy;
 }

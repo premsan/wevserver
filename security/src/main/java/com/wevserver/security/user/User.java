@@ -18,34 +18,34 @@ import org.springframework.data.relational.core.mapping.Table;
 public class User implements Auditable {
 
     @Id
-    @Column("id")
+    @Column("user_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("user_version")
     private Long version;
 
-    @Column("owner_id")
+    @Column("user_owner_id")
     private String ownerId;
 
-    @Column("email")
+    @Column("user_email")
     private String email;
 
-    @Column("password_hash")
+    @Column("user_password_hash")
     private String passwordHash;
 
-    @Column("disabled")
+    @Column("user_disabled")
     private Boolean disabled;
 
-    @Column("created_at")
+    @Column("user_created_at")
     private Long createdAt;
 
-    @Column("created_by")
+    @Column("user_created_by")
     private String createdBy;
 
-    @Column("updated_at")
+    @Column("user_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("user_updated_by")
     private String updatedBy;
 }

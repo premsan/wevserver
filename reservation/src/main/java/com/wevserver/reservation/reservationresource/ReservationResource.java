@@ -15,22 +15,28 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ReservationResource {
 
     @Id
-    @Column("id")
+    @Column("reservation_resource_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("reservation_resource_version")
     private Long version;
 
-    @Column("name")
+    @Column("reservation_resource_name")
     private String name;
 
-    @Column("description")
-    private String description;
+    @Column("reservation_resource_details")
+    private String details;
 
-    @Column("updated_at")
+    @Column("reservation_resource_created_at")
+    private Long createdAt;
+
+    @Column("reservation_resource_created_by")
+    private String createdBy;
+
+    @Column("reservation_resource_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("reservation_resource_updated_by")
     private String updatedBy;
 }

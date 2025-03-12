@@ -125,6 +125,8 @@ public class PaymentAttemptCreateController {
                                 null,
                                 null,
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         return new ModelAndView("redirect:" + paymentAttempt.getGatewayAttemptUrl());

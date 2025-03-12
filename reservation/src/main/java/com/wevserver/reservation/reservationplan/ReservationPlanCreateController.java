@@ -98,6 +98,8 @@ public class ReservationPlanCreateController {
                                         .atZone(reservationPlanCreate.getZoneId())
                                         .toEpochSecond(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", reservationPlan.getId());

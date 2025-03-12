@@ -66,6 +66,8 @@ public class ReservationResourceCreateController {
                                 reservationResourceCreate.getName(),
                                 reservationResourceCreate.getDescription(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", reservationResource.getId());

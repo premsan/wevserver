@@ -16,37 +16,43 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ReservationPlan {
 
     @Id
-    @Column("id")
+    @Column("reservation_plan_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("reservation_plan_version")
     private Long version;
 
-    @Column("resource_id")
+    @Column("reservation_plan_resource_id")
     private String resourceId;
 
-    @Column("chrono_unit")
+    @Column("reservation_plan_chrono_unit")
     private ChronoUnit chronoUnit;
 
-    @Column("min_unit")
+    @Column("reservation_plan_min_unit")
     private Long minUnit;
 
-    @Column("max_unit")
+    @Column("reservation_plan_max_unit")
     private Long maxUnit;
 
-    @Column("zone_id")
+    @Column("reservation_plan_zone_id")
     private String zoneId;
 
-    @Column("start_at")
+    @Column("reservation_plan_start_at")
     private Long startAt;
 
-    @Column("end_at")
+    @Column("reservation_plan_end_at")
     private Long endAt;
 
-    @Column("updated_at")
+    @Column("reservation_plan_created_at")
+    private Long createdAt;
+
+    @Column("reservation_plan_created_by")
+    private String createdBy;
+
+    @Column("reservation_plan_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("reservation_plan_updated_by")
     private String updatedBy;
 }

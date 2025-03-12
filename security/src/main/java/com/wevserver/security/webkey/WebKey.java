@@ -17,20 +17,20 @@ import org.springframework.data.relational.core.mapping.Table;
 public class WebKey {
 
     @Id
-    @Column("id")
+    @Column("web_key_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("web_key_version")
     private Long version;
 
-    @Column("key_id")
+    @Column("web_key_key_id")
     private String keyId;
 
-    @Column("key_json")
+    @Column("web_key_key_json")
     private String keyJson;
 
-    @Column("created_at")
+    @Column("web_key_created_at")
     private Long createdAt;
 
     public RSAKey toRSAKey() {

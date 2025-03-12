@@ -16,11 +16,13 @@ public interface AuthorityRepository
                 PagingAndSortingRepository<Authority, String> {
 
     @Query(
-            "SELECT a.\"id\", a.\"version\", a.\"name\", a.\"updated_at\", a.\"updated_by\" FROM"
-                + " \"security_authority\" a INNER JOIN \"security_role_authority\" ra ON a.\"id\""
-                + " = ra.\"authority_id\" INNER JOIN \"security_role\" r ON ra.\"role_id\" ="
-                + " r.\"id\" INNER JOIN \"security_user_role\" ur ON ur.\"role_id\" = r.\"id\""
-                + " WHERE ur.\"user_id\" = :userId")
+            "SELECT a.\"authority_id\", a.\"authority_version\", a.\"authority_name\","
+                + " a.\"authority_updated_at\", a.\"authority_updated_by\" FROM"
+                + " \"security_authority\" a INNER JOIN \"security_role_authority\" ra ON"
+                + " a.\"authority_id\" = ra.\"role_authority_authority_id\" INNER JOIN"
+                + " \"security_role\" r ON ra.\"role_authority_role_id\" = r.\"role_id\" INNER JOIN"
+                + " \"security_user_role\" ur ON ur.\"user_role_role_id\" = r.\"role_id\" WHERE"
+                + " ur.\"user_role_user_id\" = :userId")
     Collection<Authority> findByUserId(final String userId);
 
     Page<Authority> findById(String id, Pageable pageable);
