@@ -15,6 +15,12 @@ public interface AuthorityRepository
                 CrudRepository<Authority, String>,
                 PagingAndSortingRepository<Authority, String> {
 
+    @Override
+    default Class<Authority> entityClass() {
+
+        return Authority.class;
+    }
+
     @Query(
             "SELECT a.\"authority_id\", a.\"authority_version\", a.\"authority_name\","
                 + " a.\"authority_updated_at\", a.\"authority_updated_by\" FROM"

@@ -9,4 +9,11 @@ import org.springframework.stereotype.Repository;
 public interface EmailRepository
         extends AuditableRepository<Email>,
                 CrudRepository<Email, String>,
-                PagingAndSortingRepository<Email, String> {}
+                PagingAndSortingRepository<Email, String> {
+
+    @Override
+    default Class<Email> entityClass() {
+
+        return Email.class;
+    }
+}
