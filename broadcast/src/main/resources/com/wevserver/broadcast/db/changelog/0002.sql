@@ -1,12 +1,17 @@
 CREATE TABLE "broadcast_broadcast_server" (
-    "id" CHAR(36) NOT NULL,
-    "version" INT NOT NULL,
-    "name" VARCHAR(256) NOT NULL,
-    "url" VARCHAR(2048) NOT NULL,
-    "username" VARCHAR(256) NOT NULL,
-    "password" VARCHAR(256) NOT NULL,
-    "enabled" BOOLEAN DEFAULT FALSE NOT NULL,
-    "updated_at" BIGINT NOT NULL,
-    "updated_by" CHAR(36) NOT NULL,
+    "broadcast_server_id" CHAR(36) NOT NULL,
+    "broadcast_server_version" INT NOT NULL,
+    "broadcast_server_name" VARCHAR(256) NOT NULL,
+    "broadcast_server_url" VARCHAR(2048) NOT NULL,
+    "broadcast_server_username" VARCHAR(256) NOT NULL,
+    "broadcast_server_password" VARCHAR(256) NOT NULL,
+    "broadcast_server_enabled" BOOLEAN DEFAULT FALSE NOT NULL,
+    "broadcast_server_created_at" BIGINT NOT NULL,
+    "broadcast_server_created_by" CHAR(36) NOT NULL,
+    "broadcast_server_updated_at" BIGINT NOT NULL,
+    "broadcast_server_updated_by" CHAR(36) NOT NULL,
     CONSTRAINT "broadcast_broadcast_server_pk" PRIMARY KEY ("id")
 );
+
+CREATE INDEX "broadcast_broadcast_server_created_at_idx" ON "broadcast_broadcast_server" ("broadcast_created_at");
+CREATE INDEX "broadcast_broadcast_server_updated_at_idx" ON "broadcast_broadcast_server" ("broadcast_updated_at");

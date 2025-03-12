@@ -17,22 +17,28 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ConversationReply {
 
     @Id
-    @Column("id")
+    @Column("conversation_reply_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("conversation_reply_version")
     private Long version;
 
-    @Column("conversation_id")
+    @Column("conversation_reply_conversation_id")
     private String conversationId;
 
-    @Column("description")
-    private String description;
+    @Column("conversation_reply_details")
+    private String details;
 
-    @Column("updated_at")
+    @Column("conversation_reply_created_at")
+    private Long createdAt;
+
+    @Column("conversation_reply_created_by")
+    private String createdBy;
+
+    @Column("conversation_reply_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("conversation_reply_updated_by")
     private String updatedBy;
 }

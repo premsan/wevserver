@@ -89,6 +89,8 @@ public class ConversationReplyCreateController {
                                 conversationOptional.get().getId(),
                                 requestParams.getDescription(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", conversationReply.getId());

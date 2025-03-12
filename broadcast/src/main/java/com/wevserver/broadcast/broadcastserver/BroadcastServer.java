@@ -15,31 +15,37 @@ import org.springframework.data.relational.core.mapping.Table;
 public class BroadcastServer {
 
     @Id
-    @Column("id")
+    @Column("broadcast_server_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("broadcast_server_version")
     private Long version;
 
-    @Column("name")
+    @Column("broadcast_server_name")
     private String name;
 
-    @Column("url")
+    @Column("broadcast_server_url")
     private String url;
 
-    @Column("username")
+    @Column("broadcast_server_username")
     private String username;
 
-    @Column("password")
+    @Column("broadcast_server_password")
     private String password;
 
-    @Column("enabled")
+    @Column("broadcast_server_enabled")
     private Boolean enabled;
 
-    @Column("updated_at")
+    @Column("broadcast_server_created_at")
+    private Long createdAt;
+
+    @Column("broadcast_server_created_by")
+    private String createdBy;
+
+    @Column("broadcast_server_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("broadcast_server_updated_by")
     private String updatedBy;
 }

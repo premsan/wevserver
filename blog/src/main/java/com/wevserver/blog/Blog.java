@@ -16,28 +16,28 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Blog implements Auditable {
 
     @Id
-    @Column("id")
+    @Column("blog_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("blog_version")
     private Long version;
 
-    @Column("title")
-    private String title;
+    @Column("blog_name")
+    private String name;
 
-    @Column("content")
-    private String content;
+    @Column("blog_details")
+    private String details;
 
-    @Column("created_at")
+    @Column("blog_created_at")
     private Long createdAt;
 
-    @Column("created_by")
+    @Column("blog_created_by")
     private String createdBy;
 
-    @Column("updated_at")
+    @Column("blog_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("blog_updated_by")
     private String updatedBy;
 }

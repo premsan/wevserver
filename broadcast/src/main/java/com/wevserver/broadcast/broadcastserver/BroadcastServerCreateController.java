@@ -70,6 +70,8 @@ public class BroadcastServerCreateController {
                                 requestParams.getPassword(),
                                 requestParams.getEnabled(),
                                 System.currentTimeMillis(),
+                                securityContext.getAuthentication().getName(),
+                                System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName()));
 
         redirectAttributes.addAttribute("id", broadcastServer.getId());

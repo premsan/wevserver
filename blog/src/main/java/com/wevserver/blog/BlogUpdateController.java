@@ -42,8 +42,8 @@ public class BlogUpdateController {
                 new ModelAndView("com/wevserver/blog/templates/blog-update");
 
         final BlogUpdate blogUpdate = new BlogUpdate();
-        blogUpdate.setTitle(optionalBlog.get().getTitle());
-        blogUpdate.setContent(optionalBlog.get().getContent());
+        blogUpdate.setTitle(optionalBlog.get().getName());
+        blogUpdate.setContent(optionalBlog.get().getDetails());
 
         modelAndView.addObject("blog", optionalBlog.get());
         modelAndView.addObject("blogUpdate", blogUpdate);
@@ -79,8 +79,8 @@ public class BlogUpdateController {
 
         final Blog blog = optionalBlog.get();
 
-        blog.setTitle(blogUpdate.getTitle());
-        blog.setContent(blogUpdate.getContent());
+        blog.setName(blogUpdate.getTitle());
+        blog.setDetails(blogUpdate.getContent());
         blog.setUpdatedAt(System.currentTimeMillis());
         blog.setUpdatedBy(securityContext.getAuthentication().getName());
         blogRepository.save(blog);
