@@ -29,19 +29,19 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Blog content</label>
+                    <label class="label">Blog Details</label>
                     <div class="control">
                         <textarea
                             class="textarea"
                             type="text"
-                            th:field="*{content}"
-                            placeholder="Blog content"
+                            th:field="*{details}"
+                            placeholder="Blog Details"
                             rows="10"
                         />
                     </div>
                     <ul>
                         <li
-                            th:each="error : ${#fields.errors('content')}"
+                            th:each="error : ${#fields.errors('details')}"
                             th:text="${error}"
                             class="help is-danger"
                         />
