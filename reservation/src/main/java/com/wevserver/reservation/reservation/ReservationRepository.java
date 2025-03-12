@@ -8,5 +8,11 @@ import org.springframework.stereotype.Repository;
 public interface ReservationRepository
         extends AuditableRepository<Reservation>, CrudRepository<Reservation, String> {
 
+    @Override
+    default Class<Reservation> entityClass() {
+
+        return Reservation.class;
+    }
+
     boolean existsByEndAtGreaterThanAndStartAtLessThan(final Long startAt, final Long endAt);
 }

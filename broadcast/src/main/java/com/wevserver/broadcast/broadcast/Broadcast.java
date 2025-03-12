@@ -18,28 +18,28 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Broadcast implements Auditable {
 
     @Id
-    @Column("id")
+    @Column("broadcast_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("broadcast_version")
     private Long version;
 
-    @Column("name")
+    @Column("broadcast_name")
     private String name;
 
-    @Column("url")
+    @Column("broadcast_url")
     private String url;
 
-    @Column("created_at")
+    @Column("broadcast_created_at")
     private Long createdAt;
 
-    @Column("created_by")
+    @Column("broadcast_created_by")
     private String createdBy;
 
-    @Column("updated_at")
+    @Column("broadcast_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("broadcast_updated_by")
     private String updatedBy;
 }

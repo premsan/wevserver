@@ -17,22 +17,22 @@ import org.springframework.data.relational.core.mapping.Table;
 public class RoleAuthority {
 
     @Id
-    @Column("id")
+    @Column("role_authority_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("role_authority_version")
     private Long version;
 
-    @Column("role_id")
+    @Column("role_authority_role_id")
     private String roleId;
 
-    @Column("authority_id")
+    @Column("role_authority_authority_id")
     private String authorityId;
 
-    @Column("updated_at")
+    @Column("role_authority_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("role_authority_updated_by")
     private String updatedBy;
 }

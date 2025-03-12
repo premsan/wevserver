@@ -49,19 +49,19 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Description</label>
+                    <label class="label">Details</label>
                     <div class="control">
                         <textarea
                             class="textarea"
                             type="text"
-                            th:field="*{description}"
-                            placeholder="Description"
+                            th:field="*{details}"
+                            placeholder="Details"
                             rows="10"
                         />
                     </div>
                     <ul>
                         <li
-                            th:each="error : ${#fields.errors('description')}"
+                            th:each="error : ${#fields.errors('details')}"
                             th:text="${error}"
                             class="help is-danger"
                         />

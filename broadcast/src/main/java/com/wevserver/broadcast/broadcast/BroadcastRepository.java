@@ -6,4 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BroadcastRepository
-        extends CrudRepository<Broadcast, String>, AuditableRepository<Broadcast> {}
+        extends CrudRepository<Broadcast, String>, AuditableRepository<Broadcast> {
+
+    @Override
+    default Class<Broadcast> entityClass() {
+
+        return Broadcast.class;
+    }
+}

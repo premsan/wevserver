@@ -35,7 +35,7 @@ public class BlogViewController {
                 "blogContentHtml",
                 blogApplicationContext
                         .getAsciidoctor()
-                        .convert(optionalBlog.get().getContent(), Options.builder().build()));
+                        .convert(optionalBlog.get().getDetails(), Options.builder().build()));
 
         return model;
     }

@@ -16,37 +16,37 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Reservation implements Auditable {
 
     @Id
-    @Column("id")
+    @Column("reservation_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("reservation_version")
     private Long version;
 
-    @Column("plan_id")
+    @Column("reservation_plan_id")
     private String planId;
 
-    @Column("name")
+    @Column("reservation_name")
     private String name;
 
-    @Column("description")
-    private String description;
+    @Column("reservation_details")
+    private String details;
 
-    @Column("start_at")
+    @Column("reservation_start_at")
     private Long startAt;
 
-    @Column("end_at")
+    @Column("reservation_end_at")
     private Long endAt;
 
-    @Column("created_at")
+    @Column("reservation_created_at")
     private Long createdAt;
 
-    @Column("created_by")
+    @Column("reservation_created_by")
     private String createdBy;
 
-    @Column("updated_at")
+    @Column("reservation_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("reservation_updated_by")
     private String updatedBy;
 }

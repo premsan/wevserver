@@ -19,19 +19,19 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ScheduledJobConfiguration {
 
     @Id
-    @Column("id")
+    @Column("scheduled_job_configuration_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("scheduled_job_configuration_version")
     private Long version;
 
-    @Column("chrono_unit")
+    @Column("scheduled_job_configuration_chrono_unit")
     private ChronoUnit chronoUnit;
 
-    @Column("period")
+    @Column("scheduled_job_configuration_period")
     private Long period;
 
-    @Column("attributes")
+    @Column("scheduled_job_configuration_attributes")
     private Map<String, String> attributes;
 }

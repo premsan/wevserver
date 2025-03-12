@@ -1,12 +1,14 @@
 CREATE TABLE "blog_blog" (
-    "id" CHAR(36) NOT NULL,
-    "version" INT NOT NULL,
-    "title" VARCHAR(256) NOT NULL,
-    "content" VARCHAR(65535) NOT NULL,
-    "created_at" BIGINT NOT NULL,
-    "created_by" CHAR(36) NOT NULL,
-    "updated_at" BIGINT NOT NULL,
-    "updated_by" CHAR(36) NOT NULL,
-    CONSTRAINT "blog_blog_pk" PRIMARY KEY ("id")
+    "blog_id" CHAR(36) NOT NULL,
+    "blog_version" INT NOT NULL,
+    "blog_name" VARCHAR(256) NOT NULL,
+    "blog_details" VARCHAR(65535) NOT NULL,
+    "blog_created_at" BIGINT NOT NULL,
+    "blog_created_by" CHAR(36) NOT NULL,
+    "blog_updated_at" BIGINT NOT NULL,
+    "blog_updated_by" CHAR(36) NOT NULL,
+    CONSTRAINT "blog_blog_pk" PRIMARY KEY ("blog_id")
 );
 
+CREATE INDEX "blog_blog_created_at_idx" ON "blog_blog" ("blog_created_at");
+CREATE INDEX "blog_blog_updated_at_idx" ON "blog_blog" ("blog_updated_at");

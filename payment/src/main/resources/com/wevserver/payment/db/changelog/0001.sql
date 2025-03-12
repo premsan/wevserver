@@ -1,16 +1,18 @@
 CREATE TABLE "payment_payment" (
-    "id" CHAR(36) NOT NULL,
-    "version" BIGINT NOT NULL,
-    "reference_id" CHAR(36) NOT NULL,
-    "currency" VARCHAR(3) NOT NULL,
-    "amount" DECIMAL(36, 18) NOT NULL,
-    "name" VARCHAR(256) NOT NULL,
-    "description" VARCHAR(65535) NOT NULL,
-    "created_at" BIGINT NOT NULL,
-    "created_by" CHAR(36) NOT NULL,
-    "updated_at" BIGINT NOT NULL,
-    "updated_by" CHAR(36) NOT NULL,
-    CONSTRAINT "payment_payment_pk" PRIMARY KEY ("id")
+    "payment_id" CHAR(36) NOT NULL,
+    "payment_version" BIGINT NOT NULL,
+    "payment_reference_id" CHAR(36) NOT NULL,
+    "payment_currency" VARCHAR(3) NOT NULL,
+    "payment_amount" DECIMAL(36, 18) NOT NULL,
+    "payment_name" VARCHAR(256) NOT NULL,
+    "payment_details" VARCHAR(65535) NOT NULL,
+    "payment_created_at" BIGINT NOT NULL,
+    "payment_created_by" CHAR(36) NOT NULL,
+    "payment_updated_at" BIGINT NOT NULL,
+    "payment_updated_by" CHAR(36) NOT NULL,
+    CONSTRAINT "payment_payment_pk" PRIMARY KEY ("payment_id")
 );
 
-CREATE INDEX "payment_payment_reference_id_idx" ON "payment_payment" ("reference_id");
+CREATE INDEX "payment_payment_reference_id_idx" ON "payment_payment" ("payment_reference_id");
+CREATE INDEX "payment_payment_created_at_idx" ON "payment_payment" ("payment_created_at");
+CREATE INDEX "payment_payment_updated_at_idx" ON "payment_payment" ("payment_updated_at");

@@ -72,7 +72,7 @@ public class PaymentCreateController {
                                 paymentCreate.getCurrency().getCurrencyCode(),
                                 paymentCreate.getAmount(),
                                 paymentCreate.getName(),
-                                paymentCreate.getDescription(),
+                                paymentCreate.getDetails(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName(),
                                 System.currentTimeMillis(),

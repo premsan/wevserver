@@ -36,16 +36,16 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Description</label>
+                    <label class="label">Details</label>
                     <div class="control">
-                        <input class="input" type="text" name="description"
-                        {{#description}} value="{{.}}" {{/description}}
-                        placeholder="Description" />
+                        <input class="input" type="text" name="details"
+                        {{#details}} value="{{.}}" {{/details}}
+                        placeholder="Details" />
                     </div>
                     <ul>
-                        {{#fieldErrors.description}}
+                        {{#fieldErrors.details}}
                         <li class="help is-danger">{{.}}</li>
-                        {{/fieldErrors.description}}
+                        {{/fieldErrors.details}}
                     </ul>
                 </div>
 

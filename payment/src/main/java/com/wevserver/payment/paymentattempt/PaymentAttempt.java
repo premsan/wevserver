@@ -16,34 +16,40 @@ import org.springframework.data.relational.core.mapping.Table;
 public class PaymentAttempt {
 
     @Id
-    @Column("id")
+    @Column("payment_attempt_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("payment_attempt_version")
     private Long version;
 
-    @Column("payment_id")
+    @Column("payment_attempt_payment_id")
     private String paymentId;
 
-    @Column("gateway_id")
+    @Column("payment_attempt_gateway_id")
     private String gatewayId;
 
-    @Column("gateway_attempt_id")
+    @Column("payment_attempt_gateway_attempt_id")
     private String gatewayAttemptId;
 
-    @Column("gateway_attempt_url")
+    @Column("payment_attempt_gateway_attempt_url")
     private String gatewayAttemptUrl;
 
-    @Column("gateway_attempt_attributes")
+    @Column("payment_attempt_gateway_attempt_attributes")
     private Map<String, String> gatewayAttemptAttributes;
 
-    @Column("status")
+    @Column("payment_attempt_status")
     private PaymentAttemptStatus status;
 
-    @Column("updated_at")
+    @Column("payment_attempt_created_at")
+    private Long createdAt;
+
+    @Column("payment_attempt_created_by")
+    private String createdBy;
+
+    @Column("payment_attempt_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("payment_attempt_updated_by")
     private String updatedBy;
 }

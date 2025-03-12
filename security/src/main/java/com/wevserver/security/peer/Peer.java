@@ -15,28 +15,28 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Peer {
 
     @Id
-    @Column("id")
+    @Column("peer_id")
     private String id;
 
     @Version
-    @Column("version")
+    @Column("peer_version")
     private Long version;
 
-    @Column("host")
+    @Column("peer_host")
     private String host;
 
-    @Column("path")
+    @Column("peer_path")
     private String path;
 
-    @Column("inbound")
+    @Column("peer_inbound")
     private Boolean inbound;
 
-    @Column("outbound")
+    @Column("peer_outbound")
     private Boolean outbound;
 
-    @Column("updated_at")
+    @Column("peer_updated_at")
     private Long updatedAt;
 
-    @Column("updated_by")
+    @Column("peer_updated_by")
     private String updatedBy;
 }

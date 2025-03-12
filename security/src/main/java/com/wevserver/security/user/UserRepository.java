@@ -7,5 +7,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends AuditableRepository<User>, CrudRepository<User, String> {
 
+    @Override
+    default Class<User> entityClass() {
+
+        return User.class;
+    }
+
     User findByEmailIgnoreCase(final String email);
 }
