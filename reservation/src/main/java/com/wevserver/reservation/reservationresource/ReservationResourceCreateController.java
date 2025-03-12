@@ -64,7 +64,7 @@ public class ReservationResourceCreateController {
                                 UUID.randomUUID().toString(),
                                 null,
                                 reservationResourceCreate.getName(),
-                                reservationResourceCreate.getDescription(),
+                                reservationResourceCreate.getDetails(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName(),
                                 System.currentTimeMillis(),
@@ -80,6 +80,6 @@ public class ReservationResourceCreateController {
 
         @NotBlank private String name;
 
-        @NotBlank private String description;
+        @NotBlank private String details;
     }
 }

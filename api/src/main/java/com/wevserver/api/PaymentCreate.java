@@ -23,6 +23,6 @@ public final class PaymentCreate {
 
         @NotBlank private String name;
 
-        @NotBlank private String description;
+        @NotBlank private String details;
     }
 }

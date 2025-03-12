@@ -108,7 +108,7 @@ public class ReservationCreateController {
                                 null,
                                 optionalReservationPlan.get().getId(),
                                 reservationCreate.getName(),
-                                reservationCreate.getDescription(),
+                                reservationCreate.getDetails(),
                                 startAt,
                                 endAt,
                                 System.currentTimeMillis(),
@@ -128,7 +128,7 @@ public class ReservationCreateController {
 
         @NotBlank private String name;
 
-        @NotBlank private String description;
+        @NotBlank private String details;
 
         @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         private LocalDateTime startAt;

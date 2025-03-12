@@ -19,7 +19,7 @@ public class ConversationReplyCreate {
 
         @NotBlank private String conversationId;
 
-        @NotBlank private String description;
+        @NotBlank private String details;
 
         public MultiValueMap<String, String> map() {
 
@@ -30,9 +30,9 @@ public class ConversationReplyCreate {
                 map.add("conversationId", conversationId);
             }
 
-            if (Objects.nonNull(description)) {
+            if (Objects.nonNull(details)) {
 
-                map.add("description", description);
+                map.add("details", details);
             }
 
             return map;
@@ -41,7 +41,7 @@ public class ConversationReplyCreate {
         public RequestParams(final MultiValueMap<String, String> map) {
 
             conversationId = map.getFirst("conversationId");
-            description = map.getFirst("description");
+            details = map.getFirst("details");
         }
     }
 }

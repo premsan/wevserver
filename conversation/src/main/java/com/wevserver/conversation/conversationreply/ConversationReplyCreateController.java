@@ -87,7 +87,7 @@ public class ConversationReplyCreateController {
                                 UUID.randomUUID().toString(),
                                 null,
                                 conversationOptional.get().getId(),
-                                requestParams.getDescription(),
+                                requestParams.getDetails(),
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName(),
                                 System.currentTimeMillis(),
@@ -105,7 +105,7 @@ public class ConversationReplyCreateController {
                 new ModelAndView("com/wevserver/conversation/templates/conversation-reply-create");
 
         modelAndView.addObject("conversationId", requestParams.getConversationId());
-        modelAndView.addObject("description", requestParams.getDescription());
+        modelAndView.addObject("details", requestParams.getDetails());
 
         final PropertyPick.RequestParams propertyPickRequestParams =
                 new PropertyPick.RequestParams();
