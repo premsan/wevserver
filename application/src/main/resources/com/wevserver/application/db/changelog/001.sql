@@ -4,6 +4,7 @@ CREATE TABLE "application_entity_audit" (
     "entity_audit_principal_name" VARCHAR(256) NOT NULL,
     "entity_audit_entity_name" VARCHAR(256) NOT NULL,
     "entity_audit_created_at" BIGINT NOT NULL,
+    "entity_audit_notified" BOOLEAN DEFAULT FALSE,
     "entity_audit_accessed_at" BIGINT NOT NULL,
     "entity_audit_created_count" BIGINT NOT NULL,
     "entity_audit_updated_count" BIGINT NOT NULL,

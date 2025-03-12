@@ -59,7 +59,7 @@ public class EntityAuditHandlerInterceptor implements HandlerInterceptor {
             entityAudit.setCreatedAt(System.currentTimeMillis());
         }
 
-        entityAudit.setEntityAccessedAt(System.currentTimeMillis());
+        entityAudit.setNotified(false);
         entityAudit.setEntityCreatedCount(0L);
         entityAudit.setEntityUpdatedCount(0L);
 

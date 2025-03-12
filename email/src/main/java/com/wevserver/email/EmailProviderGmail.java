@@ -20,7 +20,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.web.http.SecurityHeaders;
@@ -46,12 +45,12 @@ public class EmailProviderGmail implements EmailProvider {
     }
 
     @Override
-    public FormData emailCreate(final EmailCreate.RequestParams requestParams) {
+    public FormData emailCreate(
+            final String principalName, final EmailCreate.RequestParams requestParams) {
 
         final OAuth2AuthorizedClient oAuth2AuthorizedClient =
                 oAuth2AuthorizedClientService.loadAuthorizedClient(
-                        CLIENT_REGISTRATION_ID,
-                        SecurityContextHolder.getContext().getAuthentication().getName());
+                        CLIENT_REGISTRATION_ID, principalName);
 
         final byte[] messageBytes;
 

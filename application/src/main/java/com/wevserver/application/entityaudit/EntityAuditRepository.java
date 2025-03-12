@@ -19,4 +19,7 @@ public interface EntityAuditRepository
 
     Page<EntityAudit> findByEntityNameOrderByCreatedAt(
             final String entityName, final Pageable pageable);
+
+    EntityAudit findTopByEntityCreatedCountGreaterThanAndNotifiedFalseOrderByCreatedAt(
+            final Long entityCreatedCountGreaterThan);
 }
