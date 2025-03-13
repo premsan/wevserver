@@ -1,0 +1,39 @@
+<div class="buttons has-addons">
+    {{#addPath}}
+    <a class="button" href="{{addPath}}">
+        <span class="icon">
+            <i class="fa-solid fa-plus"></i>
+        </span>
+    </a>
+    {{/addPath}}
+    <a class="button is-dark" href="{{path}}"
+        >{{label}} {{#counter}}
+        <span class="tag is-white mx-1"> {{counter}} </span>
+        {{/counter}}
+    </a>
+    <form method="post">
+        <input hidden="hidden" name="uri" value="{{path}}" />
+        <input hidden="hidden" name="redirectUri" value="/" />
+        {{#favourite}}
+        <button
+            type="submit"
+            formaction="/session/favourite-uri-delete"
+            class="button"
+        >
+            <span class="icon">
+                <i class="fa-solid fa-bookmark"></i>
+            </span>
+        </button>
+        {{/favourite}} {{^favourite}}
+        <button
+            type="submit"
+            formaction="/session/favourite-uri-create"
+            class="button"
+        >
+            <span class="icon">
+                <i class="fa-regular fa-bookmark"></i>
+            </span>
+        </button>
+        {{/favourite}}
+    </form>
+</div>

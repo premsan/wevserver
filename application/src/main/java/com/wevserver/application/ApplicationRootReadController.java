@@ -100,7 +100,7 @@ public class ApplicationRootReadController {
 
         private String path;
 
-        private String text;
+        private String label;
 
         private String counter;
 
@@ -115,7 +115,7 @@ public class ApplicationRootReadController {
             final String component = components[components.length - 1];
 
             path = feature.getPath();
-            text = component;
+            label = component;
 
             final EntityAudit entityAudit =
                     entityAuditByEntityName.get(feature.getEntity().getName());
