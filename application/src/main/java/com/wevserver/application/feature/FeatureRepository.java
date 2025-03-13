@@ -24,6 +24,7 @@ public class FeatureRepository {
 
     private final Map<String, List<Feature>> featuresByModule = new HashMap<>();
     private final Map<String, Feature> featureByPath = new HashMap<>();
+    private final Map<Class<?>, Map<FeatureType, Feature>> featureByTypeByEntity = new HashMap<>();
 
     private final ApplicationContext applicationContext;
 
@@ -57,12 +58,22 @@ public class FeatureRepository {
                 feature.setMessageCode(
                         controllerClass.getSimpleName().concat(".").concat(method.getName()));
                 feature.setEntity(featureMapping.entity());
+                feature.setType(featureMapping.type());
 
-                List<Feature> features = this.featuresByModule.get(module);
+                Map<FeatureType, Feature> featureByType =
+                        featureByTypeByEntity.get(feature.getEntity());
+                if (featureByType == null) {
+
+                    featureByType = new HashMap<>();
+                    featureByTypeByEntity.put(feature.getEntity(), featureByType);
+                }
+                featureByType.put(feature.getType(), feature);
+
+                List<Feature> features = featuresByModule.get(module);
                 if (features == null) {
 
                     features = new ArrayList<>();
-                    this.featuresByModule.put(feature.getModule(), features);
+                    featuresByModule.put(feature.getModule(), features);
                 }
                 features.add(feature);
                 featureByPath.put(feature.getPath(), feature);
@@ -78,5 +89,10 @@ public class FeatureRepository {
     public Feature findByPath(final String path) {
 
         return featureByPath.get(path);
+    }
+
+    public Feature findByEntityAndType(final Class<?> entity, final FeatureType type) {
+
+        return featureByTypeByEntity.get(entity).get(type);
     }
 }

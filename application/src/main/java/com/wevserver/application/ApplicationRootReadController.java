@@ -4,8 +4,10 @@ import com.wevserver.application.entityaudit.EntityAudit;
 import com.wevserver.application.entityaudit.EntityAuditRepository;
 import com.wevserver.application.feature.Feature;
 import com.wevserver.application.feature.FeatureRepository;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.servlet.http.HttpSession;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -53,14 +55,13 @@ public class ApplicationRootReadController {
         if (Objects.nonNull(favourites)) {
             modelAndView.addObject(
                     "favourites",
-                    favourites.stream()
-                            .map(
-                                    e ->
-                                            new FeatureItem(
-                                                    featureRepository.findByPath(e),
-                                                    entityAuditByEntityName,
-                                                    favourites))
-                            .toList());
+                    featureItems(
+                            favourites.stream()
+                                    .map(e -> featureRepository.findByPath(e))
+                                    .filter(Objects::nonNull)
+                                    .toList(),
+                            entityAuditByEntityName,
+                            favourites));
         }
 
         modelAndView.addObject("modules", featureRepository.getFeaturesByModule().keySet());
@@ -71,14 +72,10 @@ public class ApplicationRootReadController {
                                 e ->
                                         new ModuleItem(
                                                 e.getKey(),
-                                                e.getValue().stream()
-                                                        .map(
-                                                                f ->
-                                                                        new FeatureItem(
-                                                                                f,
-                                                                                entityAuditByEntityName,
-                                                                                favourites))
-                                                        .collect(Collectors.toList())))
+                                                featureItems(
+                                                        e.getValue(),
+                                                        entityAuditByEntityName,
+                                                        favourites)))
                         .toList());
 
         return modelAndView;
@@ -97,6 +94,8 @@ public class ApplicationRootReadController {
     @Getter
     @Setter
     private class FeatureItem {
+
+        private String createPath;
 
         private String path;
 
@@ -136,5 +135,39 @@ public class ApplicationRootReadController {
                 favourite = favouritePaths.contains(path);
             }
         }
+    }
+
+    private List<FeatureItem> featureItems(
+            final List<Feature> features,
+            final Map<String, EntityAudit> entityAuditByEntityName,
+            final Set<String> favouritePaths) {
+
+        final List<FeatureItem> featureItems = new ArrayList<>();
+
+        for (final Feature feature : features) {
+
+            if (feature.getType() == FeatureType.ENTITY_CREATE) {
+
+                continue;
+            }
+
+            final FeatureItem featureItem =
+                    new FeatureItem(feature, entityAuditByEntityName, favouritePaths);
+
+            if (feature.getType() == FeatureType.ENTITY_LIST) {
+
+                final Feature createFeature =
+                        featureRepository.findByEntityAndType(
+                                feature.getEntity(), FeatureType.ENTITY_CREATE);
+
+                if (Objects.nonNull(createFeature)) {
+                    featureItem.setCreatePath(createFeature.getPath());
+                }
+            }
+
+            featureItems.add(featureItem);
+        }
+
+        return featureItems;
     }
 }

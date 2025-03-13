@@ -9,11 +9,11 @@ public class Feature {
 
     private String module;
 
-    private String addPath;
-
     private String path;
 
     private Integer counter;
+
+    private FeatureType type;
 
     private Class<?> entity;
 
