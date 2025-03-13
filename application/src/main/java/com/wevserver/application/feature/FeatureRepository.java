@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.aop.support.AopUtils;
@@ -42,7 +41,6 @@ public class FeatureRepository {
 
                 final FeatureMapping featureMapping = method.getAnnotation(FeatureMapping.class);
                 final GetMapping featureGetMapping = method.getAnnotation(GetMapping.class);
-                final ListMapping listMapping = method.getAnnotation(ListMapping.class);
 
                 if (featureMapping == null
                         || featureGetMapping == null
@@ -58,11 +56,7 @@ public class FeatureRepository {
                 feature.setPath(featureGetMapping.value()[0]);
                 feature.setMessageCode(
                         controllerClass.getSimpleName().concat(".").concat(method.getName()));
-
-                if (Objects.nonNull(listMapping)) {
-
-                    feature.setEntityName(listMapping.entityClass().getName());
-                }
+                feature.setEntity(featureMapping.entity());
 
                 List<Feature> features = this.featuresByModule.get(module);
                 if (features == null) {

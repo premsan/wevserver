@@ -90,7 +90,7 @@ public class ApplicationRootReadController {
         final String[] components = feature.getPath().split("/");
         final String component = components[components.length - 1];
 
-        final EntityAudit entityAudit = entityAuditMap.get(feature.getEntityName());
+        final EntityAudit entityAudit = entityAuditMap.get(feature.getEntity().getName());
 
         if (entityAudit == null || entityAudit.getEntityCreatedCount() == 0) {
 

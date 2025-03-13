@@ -52,6 +52,11 @@ public class EmailProviderGmail implements EmailProvider {
                 oAuth2AuthorizedClientService.loadAuthorizedClient(
                         CLIENT_REGISTRATION_ID, principalName);
 
+        if (oAuth2AuthorizedClient.getAccessToken() == null) {
+
+            return null;
+        }
+
         final byte[] messageBytes;
 
         try {

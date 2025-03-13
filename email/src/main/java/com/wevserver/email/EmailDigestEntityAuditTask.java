@@ -39,7 +39,11 @@ public class EmailDigestEntityAuditTask {
                     emailDigestRepository.findByPrincipalName(entityAudit.getPrincipalName());
 
             FormData body =
-                    emailDigest == null ? new FormData(new HashMap<>()) : emailDigest.getBody();
+                    emailDigest == null
+                            ? new FormData(new HashMap<>())
+                            : (emailDigest.getBody() == null
+                                    ? new FormData(new HashMap<>())
+                                    : emailDigest.getBody());
 
             if (emailDigest == null) {
 

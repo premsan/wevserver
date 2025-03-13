@@ -4,7 +4,6 @@ import com.wevserver.api.ConversationList;
 import com.wevserver.api.PropertyPick;
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
-import com.wevserver.application.feature.ListMapping;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +27,6 @@ public class ConversationListController {
 
     @FeatureMapping(type = FeatureType.ENTITY_LIST, entity = Conversation.class)
     @GetMapping(ConversationList.PATH)
-    @ListMapping(entityClass = Conversation.class)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_LIST')")
     public ModelAndView conversationListGet(final ConversationList.RequestParams requestParams) {
 
