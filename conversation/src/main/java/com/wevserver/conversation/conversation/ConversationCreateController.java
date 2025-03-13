@@ -3,6 +3,7 @@ package com.wevserver.conversation.conversation;
 import com.wevserver.api.ConversationCreate;
 import com.wevserver.api.SessionDataCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.ui.ErrorMessages;
 import com.wevserver.ui.ErrorMessagesSupplier;
 import jakarta.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ public class ConversationCreateController {
     private final ErrorMessagesSupplier errorMessagesSupplier;
     private final ConversationRepository conversationRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Conversation.class)
     @GetMapping(ConversationCreate.PATH)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_CREATE')")
     public ModelAndView conversationCreateGet(

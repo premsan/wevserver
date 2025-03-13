@@ -1,6 +1,5 @@
 package com.wevserver.application.feature;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +11,11 @@ public class Feature {
 
     private String path;
 
-    private String entityName;
+    private Integer counter;
 
-    private Integer priority;
+    private FeatureType type;
+
+    private Class<?> entity;
 
     private String messageCode;
-
-    private List<String> preAuthorizeAuthorities;
 }

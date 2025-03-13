@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.aop.support.AopUtils;
@@ -25,6 +24,7 @@ public class FeatureRepository {
 
     private final Map<String, List<Feature>> featuresByModule = new HashMap<>();
     private final Map<String, Feature> featureByPath = new HashMap<>();
+    private final Map<Class<?>, Map<FeatureType, Feature>> featureByTypeByEntity = new HashMap<>();
 
     private final ApplicationContext applicationContext;
 
@@ -42,7 +42,6 @@ public class FeatureRepository {
 
                 final FeatureMapping featureMapping = method.getAnnotation(FeatureMapping.class);
                 final GetMapping featureGetMapping = method.getAnnotation(GetMapping.class);
-                final ListMapping listMapping = method.getAnnotation(ListMapping.class);
 
                 if (featureMapping == null
                         || featureGetMapping == null
@@ -56,20 +55,25 @@ public class FeatureRepository {
                 final Feature feature = new Feature();
                 feature.setModule(module);
                 feature.setPath(featureGetMapping.value()[0]);
-                feature.setPriority(featureMapping.priority());
                 feature.setMessageCode(
                         controllerClass.getSimpleName().concat(".").concat(method.getName()));
+                feature.setEntity(featureMapping.entity());
+                feature.setType(featureMapping.type());
 
-                if (Objects.nonNull(listMapping)) {
+                Map<FeatureType, Feature> featureByType =
+                        featureByTypeByEntity.get(feature.getEntity());
+                if (featureByType == null) {
 
-                    feature.setEntityName(listMapping.entityClass().getName());
+                    featureByType = new HashMap<>();
+                    featureByTypeByEntity.put(feature.getEntity(), featureByType);
                 }
+                featureByType.put(feature.getType(), feature);
 
-                List<Feature> features = this.featuresByModule.get(module);
+                List<Feature> features = featuresByModule.get(module);
                 if (features == null) {
 
                     features = new ArrayList<>();
-                    this.featuresByModule.put(feature.getModule(), features);
+                    featuresByModule.put(feature.getModule(), features);
                 }
                 features.add(feature);
                 featureByPath.put(feature.getPath(), feature);
@@ -78,12 +82,17 @@ public class FeatureRepository {
 
         for (final List<Feature> moduleFeatures : featuresByModule.values()) {
 
-            Collections.sort(moduleFeatures, Comparator.comparing(Feature::getPriority));
+            Collections.sort(moduleFeatures, Comparator.comparing(Feature::getPath));
         }
     }
 
     public Feature findByPath(final String path) {
 
         return featureByPath.get(path);
+    }
+
+    public Feature findByEntityAndType(final Class<?> entity, final FeatureType type) {
+
+        return featureByTypeByEntity.get(entity).get(type);
     }
 }

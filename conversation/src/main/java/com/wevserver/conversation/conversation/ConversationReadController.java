@@ -1,6 +1,5 @@
 package com.wevserver.conversation.conversation;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ public class ConversationReadController {
 
     private final ConversationRepository conversationRepository;
 
-    @FeatureMapping
     @GetMapping("/conversation/conversation-read/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_READ')")
     public ModelAndView conversationReadGet(@PathVariable final String id) {

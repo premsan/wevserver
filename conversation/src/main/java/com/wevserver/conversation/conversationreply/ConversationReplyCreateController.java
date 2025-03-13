@@ -5,6 +5,7 @@ import com.wevserver.api.ConversationReplyCreate;
 import com.wevserver.api.PropertyPick;
 import com.wevserver.api.SessionDataCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.conversation.conversation.Conversation;
 import com.wevserver.conversation.conversation.ConversationRepository;
 import com.wevserver.ui.ErrorMessages;
@@ -37,7 +38,7 @@ public class ConversationReplyCreateController {
     private final ConversationRepository conversationRepository;
     private final ConversationReplyRepository conversationReplyRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = ConversationReply.class)
     @GetMapping(ConversationReplyCreate.PATH)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('CONVERSATION_REPLY_CREATE')")
     public ModelAndView conversationReplyCreateGet(

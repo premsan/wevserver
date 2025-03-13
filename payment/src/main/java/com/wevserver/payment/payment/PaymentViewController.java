@@ -1,6 +1,5 @@
 package com.wevserver.payment.payment;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ public class PaymentViewController {
 
     private final PaymentRepository paymentRepository;
 
-    @FeatureMapping
     @GetMapping("/payment/payment-view/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PAYMENT_PAYMENT_VIEW')")
     public ModelAndView getPaymentView(@PathVariable String id) {

@@ -1,6 +1,7 @@
 package com.wevserver.proxyagent;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class ProxyAgentStatusController {
 
     private final WebSocketConnectionManager webSocketConnectionManager;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ACTION)
     @GetMapping("/proxyagent/proxy-agent-status")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PROXY_AGENT_STATUS')")
     public ModelAndView proxyAgentStatusGet() {
@@ -35,7 +36,6 @@ public class ProxyAgentStatusController {
         return modelAndView;
     }
 
-    @FeatureMapping
     @PostMapping("/proxyagent/proxy-agent-status")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PROXY_AGENT_STATUS')")
     public ModelAndView proxyAgentStatusPost(

@@ -38,7 +38,7 @@ public class EntityAuditHandlerInterceptor implements HandlerInterceptor {
 
         final Feature feature = featureRepository.findByPath(request.getServletPath());
 
-        if (feature == null || feature.getEntityName() == null) {
+        if (feature == null || feature.getEntity() == null) {
 
             return;
         }
@@ -48,14 +48,14 @@ public class EntityAuditHandlerInterceptor implements HandlerInterceptor {
 
         EntityAudit entityAudit =
                 entityAuditRepository.findByPrincipalNameAndEntityName(
-                        principalName, feature.getEntityName());
+                        principalName, feature.getEntity().getName());
 
         if (entityAudit == null) {
 
             entityAudit = new EntityAudit();
             entityAudit.setId(UUID.randomUUID().toString());
             entityAudit.setPrincipalName(principalName);
-            entityAudit.setEntityName(feature.getEntityName());
+            entityAudit.setEntityName(feature.getEntity().getName());
             entityAudit.setCreatedAt(System.currentTimeMillis());
         }
 

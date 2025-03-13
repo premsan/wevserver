@@ -1,6 +1,5 @@
 package com.wevserver.blog;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.asciidoctor.Options;
@@ -17,7 +16,6 @@ public class BlogViewController {
 
     private final BlogRepository blogRepository;
 
-    @FeatureMapping
     @GetMapping("/blog/blog-view/{id}")
     public ModelAndView getBlogView(final @PathVariable String id) {
 

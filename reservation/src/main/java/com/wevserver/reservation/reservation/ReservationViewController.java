@@ -5,7 +5,6 @@ import com.wevserver.application.entityaction.EntityActionMapping;
 import com.wevserver.application.entityaction.EntityActionRepository;
 import com.wevserver.application.entityintegration.EntityIntegration;
 import com.wevserver.application.entityintegration.EntityIntegrationRepository;
-import com.wevserver.application.feature.FeatureMapping;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,6 @@ public class ReservationViewController {
     private final EntityIntegrationRepository entityIntegrationRepository;
     private final ReservationRepository reservationRepository;
 
-    @FeatureMapping
     @EntityActionMapping(entity = Reservation.class)
     @GetMapping("/reservation/reservation-view/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('RESERVATION_RESERVATION_VIEW')")

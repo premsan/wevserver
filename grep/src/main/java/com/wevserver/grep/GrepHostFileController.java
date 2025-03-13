@@ -1,6 +1,7 @@
 package com.wevserver.grep;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.io.BufferedReader;
@@ -33,7 +34,7 @@ public class GrepHostFileController {
 
     private final Pattern variablePattern = Pattern.compile("\\[(.*?)]");
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ACTION)
     @GetMapping("/grep/grep-host-file")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('GREP_GREP_HOST_FILE')")
     public ModelAndView getGrepHostFile() {

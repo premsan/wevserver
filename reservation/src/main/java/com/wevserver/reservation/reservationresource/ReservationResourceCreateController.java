@@ -1,6 +1,7 @@
 package com.wevserver.reservation.reservationresource;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class ReservationResourceCreateController {
 
     private final ReservationResourceRepository reservationResourceRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = ReservationResource.class)
     @GetMapping("/reservation/reservation-resource-create")
     @PreAuthorize(
             "hasAuthority('ROLE_ADMIN') or hasAuthority('RESERVATION_RESERVATION_RESOURCE_CREATE')")

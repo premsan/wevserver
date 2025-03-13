@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jwt.SignedJWT;
 import com.wevserver.api.BroadcastCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.broadcast.BroadcastPublisher;
 import com.wevserver.security.sign.SignedToken;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class BroadcastCreateController {
     private final BroadcastPublisher broadcastPublisher;
     private final BroadcastRepository broadcastRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Broadcast.class)
     @GetMapping(BroadcastCreate.PATH)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_CREATE')")
     public ModelAndView broadcastCreateGet(

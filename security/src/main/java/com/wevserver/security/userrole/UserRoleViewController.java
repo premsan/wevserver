@@ -1,6 +1,5 @@
 package com.wevserver.security.userrole;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ public class UserRoleViewController {
 
     private final UserRoleRepository userRoleRepository;
 
-    @FeatureMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/security/user-role-view/{id}")
     public ModelAndView getUserRoleView(@PathVariable final String id) {

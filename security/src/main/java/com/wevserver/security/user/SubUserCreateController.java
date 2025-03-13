@@ -1,6 +1,7 @@
 package com.wevserver.security.user;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class SubUserCreateController {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ACTION)
     @GetMapping("/security/sub-user-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('SUB_USER_CREATE')")
     public ModelAndView subUserCreateGet() {
@@ -32,7 +33,6 @@ public class SubUserCreateController {
         return modelAndView;
     }
 
-    @FeatureMapping
     @PostMapping("/security/sub-user-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('SUB_USER_CREATE')")
     public ModelAndView subUserCreatePost(

@@ -4,8 +4,12 @@ import com.wevserver.application.entityaudit.EntityAudit;
 import com.wevserver.application.entityaudit.EntityAuditRepository;
 import com.wevserver.application.feature.Feature;
 import com.wevserver.application.feature.FeatureRepository;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.servlet.http.HttpSession;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ApplicationRootReadController {
 
     private final String FAVOURITE_URI_SESSION_ATTR_NAME = "favourite.uri";
+    private final NumberFormat numberFormat =
+            NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT);
 
     private final FeatureRepository featureRepository;
     private final EntityAuditRepository entityAuditRepository;
@@ -43,61 +49,36 @@ public class ApplicationRootReadController {
                         .stream()
                         .collect(Collectors.toMap(EntityAudit::getEntityName, item -> item));
 
-        final Set<String> favouriteList =
+        final Set<String> favourites =
                 (Set<String>) httpSession.getAttribute(FAVOURITE_URI_SESSION_ATTR_NAME);
 
-        if (Objects.nonNull(favouriteList)) {
+        if (Objects.nonNull(favourites)) {
             modelAndView.addObject(
-                    "favouriteList",
-                    favouriteList.stream()
-                            .map(
-                                    e ->
-                                            new FeatureItem(
-                                                    e,
-                                                    customizeLabel(
-                                                            entityAuditByEntityName,
-                                                            featureRepository.findByPath(e)),
-                                                    favouriteList))
-                            .toList());
+                    "favourites",
+                    featureItems(
+                            favourites.stream()
+                                    .map(e -> featureRepository.findByPath(e))
+                                    .filter(Objects::nonNull)
+                                    .toList(),
+                            entityAuditByEntityName,
+                            favourites));
         }
 
-        modelAndView.addObject("moduleList", featureRepository.getFeaturesByModule().keySet());
+        modelAndView.addObject("modules", featureRepository.getFeaturesByModule().keySet());
         modelAndView.addObject(
-                "moduleFeatureList",
+                "moduleFeatures",
                 featureRepository.getFeaturesByModule().entrySet().stream()
                         .map(
                                 e ->
                                         new ModuleItem(
                                                 e.getKey(),
-                                                e.getValue().stream()
-                                                        .map(
-                                                                f ->
-                                                                        new FeatureItem(
-                                                                                f.getPath(),
-                                                                                customizeLabel(
-                                                                                        entityAuditByEntityName,
-                                                                                        f),
-                                                                                favouriteList))
-                                                        .collect(Collectors.toList())))
+                                                featureItems(
+                                                        e.getValue(),
+                                                        entityAuditByEntityName,
+                                                        favourites)))
                         .toList());
 
         return modelAndView;
-    }
-
-    private String customizeLabel(
-            final Map<String, EntityAudit> entityAuditMap, final Feature feature) {
-
-        final String[] components = feature.getPath().split("/");
-        final String component = components[components.length - 1];
-
-        final EntityAudit entityAudit = entityAuditMap.get(feature.getEntityName());
-
-        if (entityAudit == null || entityAudit.getEntityCreatedCount() == 0) {
-
-            return component;
-        }
-
-        return component + " (" + entityAudit.getEntityCreatedCount() + ")";
     }
 
     @Getter
@@ -107,28 +88,86 @@ public class ApplicationRootReadController {
 
         private String name;
 
-        private List<FeatureItem> featureList;
+        private List<FeatureItem> features;
     }
 
     @Getter
     @Setter
     private class FeatureItem {
 
+        private String createPath;
+
         private String path;
 
-        private String text;
+        private String label;
+
+        private String counter;
 
         private Boolean favourite;
 
-        private FeatureItem(final String path, String text, final Set<String> favouriteList) {
+        private FeatureItem(
+                final Feature feature,
+                final Map<String, EntityAudit> entityAuditByEntityName,
+                final Set<String> favouritePaths) {
 
-            this.path = path;
-            this.text = text;
+            final String[] components = feature.getPath().split("/");
+            final String component = components[components.length - 1];
 
-            if (Objects.nonNull(favouriteList)) {
+            path = feature.getPath();
+            label = component;
 
-                this.favourite = favouriteList.contains(path);
+            final EntityAudit entityAudit =
+                    entityAuditByEntityName.get(feature.getEntity().getName());
+
+            if (Objects.nonNull(entityAudit)) {
+
+                final Long countSum =
+                        entityAudit.getEntityCreatedCount() + entityAudit.getEntityUpdatedCount();
+
+                if (countSum > 0) {
+
+                    counter = numberFormat.format(countSum);
+                }
+            }
+
+            if (Objects.nonNull(favouritePaths)) {
+
+                favourite = favouritePaths.contains(path);
             }
         }
+    }
+
+    private List<FeatureItem> featureItems(
+            final List<Feature> features,
+            final Map<String, EntityAudit> entityAuditByEntityName,
+            final Set<String> favouritePaths) {
+
+        final List<FeatureItem> featureItems = new ArrayList<>();
+
+        for (final Feature feature : features) {
+
+            if (feature.getType() == FeatureType.ENTITY_CREATE) {
+
+                continue;
+            }
+
+            final FeatureItem featureItem =
+                    new FeatureItem(feature, entityAuditByEntityName, favouritePaths);
+
+            if (feature.getType() == FeatureType.ENTITY_LIST) {
+
+                final Feature createFeature =
+                        featureRepository.findByEntityAndType(
+                                feature.getEntity(), FeatureType.ENTITY_CREATE);
+
+                if (Objects.nonNull(createFeature)) {
+                    featureItem.setCreatePath(createFeature.getPath());
+                }
+            }
+
+            featureItems.add(featureItem);
+        }
+
+        return featureItems;
     }
 }

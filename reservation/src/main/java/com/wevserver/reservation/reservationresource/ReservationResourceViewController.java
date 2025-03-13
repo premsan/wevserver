@@ -1,6 +1,5 @@
 package com.wevserver.reservation.reservationresource;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ public class ReservationResourceViewController {
 
     private final ReservationResourceRepository reservationResourceRepository;
 
-    @FeatureMapping
     @GetMapping("/reservation/reservation-resource-view/{id}")
     @PreAuthorize(
             "hasAuthority('ROLE_ADMIN') or hasAuthority('RESERVATION_RESERVATION_RESOURCE_VIEW')")

@@ -1,6 +1,7 @@
 package com.wevserver.reservation.reservationplan;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.reservation.reservationresource.ReservationResource;
 import com.wevserver.reservation.reservationresource.ReservationResourceRepository;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class ReservationPlanCreateController {
     private final ReservationResourceRepository reservationResourceRepository;
     private final ReservationPlanRepository reservationPlanRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = ReservationPlan.class)
     @GetMapping("/reservation/reservation-plan-create")
     @PreAuthorize(
             "hasAuthority('ROLE_ADMIN') or hasAuthority('RESERVATION_RESERVATION_PLAN_CREATE')")

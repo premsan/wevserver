@@ -1,7 +1,6 @@
 package com.wevserver.security.session;
 
 import com.wevserver.api.FavouriteUriDelete;
-import com.wevserver.application.feature.FeatureMapping;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.util.Objects;
@@ -17,7 +16,6 @@ public class FavoriteUriDeleteController {
 
     private final String SESSION_ATTR_NAME = "favourite.uri";
 
-    @FeatureMapping
     @PostMapping(FavouriteUriDelete.PATH)
     public RedirectView favouriteUriDeletePost(
             final HttpSession httpSession,

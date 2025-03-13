@@ -2,6 +2,7 @@ package com.wevserver.email;
 
 import com.wevserver.api.EmailCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.lib.FormData;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class EmailCreateController {
     private final EmailRepository emailRepository;
     private final EmailProviderLocator emailProviderLocator;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Email.class)
     @GetMapping(EmailCreate.PATH)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('EMAIL_CREATE')")
     public ModelAndView emailCreateGet(final EmailCreate.RequestParams requestParams) {
