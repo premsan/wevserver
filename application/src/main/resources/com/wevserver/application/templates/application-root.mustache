@@ -6,7 +6,7 @@
         <section class="section content">
             <h2 class="title is-2">Favourites</h2>
             <div class="block buttons">
-                {{#favouriteList}}
+                {{#features}}
                 <div class="buttons has-addons">
                     <a class="button is-dark" href="{{path}}">{{text}}</a>
                     <form method="post">
@@ -35,21 +35,21 @@
                         {{/favourite}}
                     </form>
                 </div>
-                {{/favouriteList}}
+                {{/features}}
                 <i></i>
             </div>
         </section>
         <section class="section content">
             <h2 class="title is-2">Modules</h2>
             <div class="buttons">
-                {{#moduleList}}
+                {{#modules}}
                 <a class="button is-dark" href="#{{.}}">{{.}}</a>
-                {{/moduleList}}
+                {{/modules}}
                 <i></i>
             </div>
         </section>
         <section class="section content">
-            {{#moduleFeatureList}}
+            {{#moduleFeatures}}
             <h2 class="title is-2" id="{{name}}">
                 <span>{{name}}</span>
                 <a
@@ -60,7 +60,7 @@
                 </a>
             </h2>
             <div class="block buttons">
-                {{#featureList}}
+                {{#features}}
                 <div class="buttons has-addons">
                     <button class="button">
                         <span class="icon">
@@ -98,10 +98,10 @@
                         {{/favourite}}
                     </form>
                 </div>
-                {{/featureList}}
+                {{/features}}
                 <i></i>
             </div>
-            {{/moduleFeatureList}}
+            {{/moduleFeatures}}
         </section>
     </body>
     {{>com/wevserver/ui/templates/footer-partial}}

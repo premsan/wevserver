@@ -5,7 +5,9 @@ import com.wevserver.application.entityaudit.EntityAuditRepository;
 import com.wevserver.application.feature.Feature;
 import com.wevserver.application.feature.FeatureRepository;
 import jakarta.servlet.http.HttpSession;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ApplicationRootReadController {
 
     private final String FAVOURITE_URI_SESSION_ATTR_NAME = "favourite.uri";
+    private final NumberFormat numberFormat =
+            NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT);
 
     private final FeatureRepository featureRepository;
     private final EntityAuditRepository entityAuditRepository;
@@ -43,27 +47,25 @@ public class ApplicationRootReadController {
                         .stream()
                         .collect(Collectors.toMap(EntityAudit::getEntityName, item -> item));
 
-        final Set<String> favouriteList =
+        final Set<String> favourites =
                 (Set<String>) httpSession.getAttribute(FAVOURITE_URI_SESSION_ATTR_NAME);
 
-        if (Objects.nonNull(favouriteList)) {
+        if (Objects.nonNull(favourites)) {
             modelAndView.addObject(
-                    "favouriteList",
-                    favouriteList.stream()
+                    "favourites",
+                    favourites.stream()
                             .map(
                                     e ->
                                             new FeatureItem(
-                                                    e,
-                                                    customizeLabel(
-                                                            entityAuditByEntityName,
-                                                            featureRepository.findByPath(e)),
-                                                    favouriteList))
+                                                    featureRepository.findByPath(e),
+                                                    entityAuditByEntityName,
+                                                    favourites))
                             .toList());
         }
 
-        modelAndView.addObject("moduleList", featureRepository.getFeaturesByModule().keySet());
+        modelAndView.addObject("modules", featureRepository.getFeaturesByModule().keySet());
         modelAndView.addObject(
-                "moduleFeatureList",
+                "moduleFeatures",
                 featureRepository.getFeaturesByModule().entrySet().stream()
                         .map(
                                 e ->
@@ -73,31 +75,13 @@ public class ApplicationRootReadController {
                                                         .map(
                                                                 f ->
                                                                         new FeatureItem(
-                                                                                f.getPath(),
-                                                                                customizeLabel(
-                                                                                        entityAuditByEntityName,
-                                                                                        f),
-                                                                                favouriteList))
+                                                                                f,
+                                                                                entityAuditByEntityName,
+                                                                                favourites))
                                                         .collect(Collectors.toList())))
                         .toList());
 
         return modelAndView;
-    }
-
-    private String customizeLabel(
-            final Map<String, EntityAudit> entityAuditMap, final Feature feature) {
-
-        final String[] components = feature.getPath().split("/");
-        final String component = components[components.length - 1];
-
-        final EntityAudit entityAudit = entityAuditMap.get(feature.getEntity().getName());
-
-        if (entityAudit == null || entityAudit.getEntityCreatedCount() == 0) {
-
-            return component;
-        }
-
-        return component + " (" + entityAudit.getEntityCreatedCount() + ")";
     }
 
     @Getter
@@ -107,7 +91,7 @@ public class ApplicationRootReadController {
 
         private String name;
 
-        private List<FeatureItem> featureList;
+        private List<FeatureItem> features;
     }
 
     @Getter
@@ -118,16 +102,35 @@ public class ApplicationRootReadController {
 
         private String text;
 
+        private String counter;
+
         private Boolean favourite;
 
-        private FeatureItem(final String path, String text, final Set<String> favouriteList) {
+        private FeatureItem(
+                final Feature feature,
+                final Map<String, EntityAudit> entityAuditByEntityName,
+                final Set<String> favouritePaths) {
 
-            this.path = path;
-            this.text = text;
+            final String[] components = feature.getPath().split("/");
+            final String component = components[components.length - 1];
 
-            if (Objects.nonNull(favouriteList)) {
+            path = feature.getPath();
+            text = component;
 
-                this.favourite = favouriteList.contains(path);
+            final EntityAudit entityAudit =
+                    entityAuditByEntityName.get(feature.getEntity().getName());
+
+            if (Objects.nonNull(entityAudit)) {
+
+                counter =
+                        numberFormat.format(
+                                entityAudit.getEntityCreatedCount()
+                                        + entityAudit.getEntityUpdatedCount());
+            }
+
+            if (Objects.nonNull(favouritePaths)) {
+
+                favourite = favouritePaths.contains(path);
             }
         }
     }
