@@ -1,6 +1,5 @@
 package com.wevserver.reservation.reservationplan;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ public class ReservationPlanViewController {
 
     private final ReservationPlanRepository reservationPlanRepository;
 
-    @FeatureMapping
     @GetMapping("/reservation/reservation-plan-view/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('RESERVATION_RESERVATION_PLAN_VIEW')")
     public ModelAndView getReservationPlanView(@PathVariable String id) {

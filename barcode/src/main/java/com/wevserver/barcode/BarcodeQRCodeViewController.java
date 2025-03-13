@@ -6,6 +6,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.constraints.NotBlank;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -24,7 +25,7 @@ public class BarcodeQRCodeViewController {
 
     private static final String PNG_FORMAT_NAME = "PNG";
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ACTION)
     @GetMapping("/barcode/qr-code-view")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BARCODE_QR_CODE_VIEW')")
     public ModelAndView barcodeQRCodeViewGet(final QRCodeViewGet qrCodeViewGet)

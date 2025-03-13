@@ -3,6 +3,7 @@ package com.wevserver.broadcast.broadcastserver;
 import com.nimbusds.jwt.SignedJWT;
 import com.wevserver.api.BroadcastCreate;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.security.sign.SignedToken;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class BroadcastServerCreateController {
 
     private final BroadcastServerRepository broadcastServerRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = BroadcastServer.class)
     @GetMapping("/broadcast/broadcast-server-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BROADCAST_BROADCAST_SERVER_CREATE')")
     public ModelAndView broadcastServerCreateGet(

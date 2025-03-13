@@ -56,7 +56,6 @@ public class FeatureRepository {
                 final Feature feature = new Feature();
                 feature.setModule(module);
                 feature.setPath(featureGetMapping.value()[0]);
-                feature.setPriority(featureMapping.priority());
                 feature.setMessageCode(
                         controllerClass.getSimpleName().concat(".").concat(method.getName()));
 
@@ -78,7 +77,7 @@ public class FeatureRepository {
 
         for (final List<Feature> moduleFeatures : featuresByModule.values()) {
 
-            Collections.sort(moduleFeatures, Comparator.comparing(Feature::getPriority));
+            Collections.sort(moduleFeatures, Comparator.comparing(Feature::getPath));
         }
     }
 

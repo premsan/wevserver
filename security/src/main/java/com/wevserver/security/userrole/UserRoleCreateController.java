@@ -1,6 +1,7 @@
 package com.wevserver.security.userrole;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.security.role.Role;
 import com.wevserver.security.role.RoleRepository;
 import com.wevserver.security.user.User;
@@ -33,7 +34,7 @@ public class UserRoleCreateController {
 
     private final UserRoleRepository userRoleRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = UserRole.class)
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/security/user-role-create")
     public ModelAndView getUserRoleCreate(final UserRoleCreate userRoleCreate) {

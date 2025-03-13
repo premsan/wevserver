@@ -1,6 +1,7 @@
 package com.wevserver.security.authority;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class AuthorityCreateController {
 
     private final AuthorityRepository authorityRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Authority.class)
     @GetMapping("/security/authority-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('SECURITY_AUTHORITY_CREATE')")
     public ModelAndView getAuthorityCreate() {

@@ -1,6 +1,7 @@
 package com.wevserver.payment.paymentattempt;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import com.wevserver.payment.payment.Payment;
 import com.wevserver.payment.payment.PaymentRepository;
 import com.wevserver.payment.paymentgateway.PaymentAttemptCreated;
@@ -31,7 +32,7 @@ public class PaymentAttemptCreateController {
     private final PaymentAttemptRepository paymentAttemptRepository;
     private final PaymentGatewayRepository paymentGatewayRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = PaymentAttempt.class)
     @GetMapping("/payment/payment-attempt-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PAYMENT_PAYMENT_ATTEMPT_CREATE')")
     public ModelAndView getPaymentAttemptCreate() {

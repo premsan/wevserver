@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class JsonFormatController {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ACTION)
     @GetMapping("/json/json-format")
     public ModelAndView getJsonFormat() {
 

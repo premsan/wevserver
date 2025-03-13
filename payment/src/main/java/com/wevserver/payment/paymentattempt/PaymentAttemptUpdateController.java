@@ -1,6 +1,5 @@
 package com.wevserver.payment.paymentattempt;
 
-import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.payment.paymentgateway.PaymentAttemptStatusFetch;
 import com.wevserver.payment.paymentgateway.PaymentAttemptStatusFetched;
 import com.wevserver.payment.paymentgateway.PaymentGateway;
@@ -24,7 +23,6 @@ public class PaymentAttemptUpdateController {
     private final PaymentAttemptRepository paymentAttemptRepository;
     private final PaymentGatewayRepository paymentGatewayRepository;
 
-    @FeatureMapping
     @GetMapping("/payment/payment-attempt-update/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('PAYMENT_PAYMENT_ATTEMPT_UPDATE')")
     public ModelAndView getPaymentAttemptUpdate(

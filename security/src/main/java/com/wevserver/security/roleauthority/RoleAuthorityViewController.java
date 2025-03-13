@@ -1,6 +1,5 @@
 package com.wevserver.security.roleauthority;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ public class RoleAuthorityViewController {
 
     private final RoleAuthorityRepository roleAuthorityRepository;
 
-    @FeatureMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/security/role-authority-view/{id}")
     public ModelAndView getRoleAuthorityView(@PathVariable final String id) {

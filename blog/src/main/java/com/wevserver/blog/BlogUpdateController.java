@@ -1,6 +1,5 @@
 package com.wevserver.blog;
 
-import com.wevserver.application.feature.FeatureMapping;
 import jakarta.validation.Valid;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,6 @@ public class BlogUpdateController {
 
     private final BlogRepository blogRepository;
 
-    @FeatureMapping
     @GetMapping("/blog/blog-update/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BLOG_BLOG_UPDATE')")
     public ModelAndView getBlogUpdate(@PathVariable String id) {

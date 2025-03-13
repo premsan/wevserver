@@ -1,7 +1,6 @@
 package com.wevserver.security.session;
 
 import com.wevserver.api.FavouriteUriCreate;
-import com.wevserver.application.feature.FeatureMapping;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.util.LinkedHashSet;
@@ -17,7 +16,6 @@ public class FavoriteUriCreateController {
 
     private final String SESSION_ATTR_NAME = "favourite.uri";
 
-    @FeatureMapping
     @PostMapping(FavouriteUriCreate.PATH)
     public RedirectView favouriteUriCreatePost(
             final HttpSession httpSession,

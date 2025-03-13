@@ -1,6 +1,7 @@
 package com.wevserver.security.peer;
 
 import com.wevserver.application.feature.FeatureMapping;
+import com.wevserver.application.feature.FeatureType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class PeerCreateController {
 
     private final PeerRepository peerRepository;
 
-    @FeatureMapping
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Peer.class)
     @GetMapping("/security/peer-create")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('SECURITY_PEER_CREATE')")
     public ModelAndView peerCreateGet() {

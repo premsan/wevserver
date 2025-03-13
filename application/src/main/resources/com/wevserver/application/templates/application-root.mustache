@@ -62,7 +62,16 @@
             <div class="block buttons">
                 {{#featureList}}
                 <div class="buttons has-addons">
-                    <a class="button is-dark" href="{{path}}">{{text}}</a>
+                    <button class="button">
+                        <span class="icon">
+                            <i class="fa-solid fa-plus"></i>
+                        </span>
+                    </button>
+                    <a class="button is-dark" href="{{path}}"
+                        >{{text}} {{#counter}}
+                        <span class="tag is-white mx-1"> {{counter}} </span>
+                        {{/counter}}
+                    </a>
                     <form method="post">
                         <input hidden="hidden" name="uri" value="{{path}}" />
                         <input hidden="hidden" name="redirectUri" value="/" />

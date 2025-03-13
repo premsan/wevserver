@@ -1,6 +1,5 @@
 package com.wevserver.blog;
 
-import com.wevserver.application.feature.FeatureMapping;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +16,6 @@ public class BlogDeleteController {
 
     private final BlogRepository blogRepository;
 
-    @FeatureMapping
     @GetMapping("/blog/blog-delete/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('BLOG_BLOG_DELETE')")
     public ModelAndView getBlogDelete(final @PathVariable String id) {
