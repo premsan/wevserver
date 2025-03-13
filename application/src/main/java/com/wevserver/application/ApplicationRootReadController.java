@@ -122,10 +122,13 @@ public class ApplicationRootReadController {
 
             if (Objects.nonNull(entityAudit)) {
 
-                counter =
-                        numberFormat.format(
-                                entityAudit.getEntityCreatedCount()
-                                        + entityAudit.getEntityUpdatedCount());
+                final Long countSum =
+                        entityAudit.getEntityCreatedCount() + entityAudit.getEntityUpdatedCount();
+
+                if (countSum > 0) {
+
+                    counter = numberFormat.format(countSum);
+                }
             }
 
             if (Objects.nonNull(favouritePaths)) {
