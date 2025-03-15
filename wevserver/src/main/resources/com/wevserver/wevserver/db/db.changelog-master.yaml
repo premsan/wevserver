@@ -1,19 +1,29 @@
 databaseChangeLog:
+
+  # Required dependencies
   - includeAll:
       path: com/wevserver/application/db/changelog
-  - includeAll:
-      path: com/wevserver/blog/db/changelog
-  - includeAll:
-      path: com/wevserver/broadcast/db/changelog
-  - includeAll:
-      path: com/wevserver/conversation/db/changelog
-  - includeAll:
-      path: com/wevserver/reservation/db/changelog
   - includeAll:
       path: com/wevserver/security/db/changelog
   - includeAll:
       path: com/wevserver/scheduled/db/changelog
+
+  # Optional dependencies
   - includeAll:
+      errorIfMissingOrEmpty: false
+      path: com/wevserver/blog/db/changelog
+  - includeAll:
+      errorIfMissingOrEmpty: false
+      path: com/wevserver/broadcast/db/changelog
+  - includeAll:
+      errorIfMissingOrEmpty: false
+      path: com/wevserver/conversation/db/changelog
+  - includeAll:
+      errorIfMissingOrEmpty: false
+      path: com/wevserver/reservation/db/changelog
+  - includeAll:
+      errorIfMissingOrEmpty: false
       path: com/wevserver/payment/db/changelog
   - includeAll:
+      errorIfMissingOrEmpty: false
       path: com/wevserver/email/db/changelog
