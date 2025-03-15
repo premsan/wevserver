@@ -1,10 +1,14 @@
 databaseChangeLog:
+
+  # Required dependencies
   - includeAll:
       path: com/wevserver/application/db/changelog
   - includeAll:
       path: com/wevserver/security/db/changelog
   - includeAll:
       path: com/wevserver/scheduled/db/changelog
+
+  # Optional dependencies
   - includeAll:
       errorIfMissingOrEmpty: false
       path: com/wevserver/blog/db/changelog
