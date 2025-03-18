@@ -22,24 +22,27 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
+    // Required dependencies
     implementation(project(":application"))
+    implementation(project(":db"))
+    implementation(project(":lib"))
+    implementation(project(":scheduled"))
+    implementation(project(":security"))
+    implementation(project(":ui"))
+
+    // Optional dependencies
     implementation(project(":barcode"))
     implementation(project(":blog"))
     implementation(project(":broadcast"))
     implementation(project(":conversation"))
-    implementation(project(":db"))
     implementation(project(":email"))
     implementation(project(":grep"))
     implementation(project(":json"))
-    implementation(project(":lib"))
     implementation(project(":mock"))
     implementation(project(":payment"))
     implementation(project(":reservation"))
-    implementation(project(":scheduled"))
-    implementation(project(":security"))
     implementation(project(":proxyagent"))
     implementation(project(":proxyserver"))
-    implementation(project(":ui"))
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
