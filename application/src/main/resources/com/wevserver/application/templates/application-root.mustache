@@ -16,7 +16,9 @@
             <h2 class="title is-2">Modules</h2>
             <div class="buttons">
                 {{#modules}}
-                <a class="button is-dark" href="#{{.}}">{{.}}</a>
+                <a class="button is-dark" href="#{{.}}"
+                    >{{#i18n}} {{.}} {{/i18n}}</a
+                >
                 {{/modules}}
                 <i></i>
             </div>
