@@ -6,10 +6,11 @@
         <section class="section">
             <form method="post" action="/conversation/conversation-create">
                 <div class="field">
-                    <label class="label">Name</label>
+                    <label class="label">{{#t}}name{{/t}}</label>
                     <div class="control">
                         <input class="input" type="text" name="name" {{#name}}
-                        value="{{.}}" {{/name}} placeholder="Name" />
+                        value="{{.}}" {{/name}} placeholder="{{#t}}name{{/t}}"
+                        />
                     </div>
 
                     <ul>
@@ -28,14 +29,16 @@
                 </div>
 
                 <div class="control buttons">
-                    <button type="submit" class="button">Submit</button>
+                    <button type="submit" class="button">
+                        {{#t}}submit{{/t}}
+                    </button>
                     <button
                         type="submit"
                         formaction="{{saveUri}}"
                         formmethod="post"
                         class="button"
                     >
-                        Save Draft
+                        {{#t}}save{{/t}}
                     </button>
                 </div>
             </form>

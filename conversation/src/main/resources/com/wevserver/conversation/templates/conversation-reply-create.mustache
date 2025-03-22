@@ -9,13 +9,13 @@
                 action="/conversation/conversation-reply-create"
             >
                 <div class="field">
-                    <label class="label">Conversation Id</label>
+                    <label class="label">>{{#t}}conversation-id{{/t}}</label>
                     <div class="field has-addons">
                         <div class="control is-expanded">
                             <input class="input" type="text"
                             name="conversationId" {{#conversationId}}
                             value="{{.}}" {{/conversationId}}
-                            placeholder="Conversation Id" />
+                            placeholder="{{#t}}conversation-id{{/t}}" />
                         </div>
                         <div class="control">
                             <button
@@ -24,7 +24,7 @@
                                 formmethod="post"
                                 class="button"
                             >
-                                Find
+                                {{#t}}find{{/t}}
                             </button>
                         </div>
                     </div>
@@ -36,11 +36,11 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Details</label>
+                    <label class="label">{{#t}}details{{/t}}</label>
                     <div class="control">
                         <input class="input" type="text" name="details"
                         {{#details}} value="{{.}}" {{/details}}
-                        placeholder="Details" />
+                        placeholder="{{#t}}details{{/t}}" />
                     </div>
                     <ul>
                         {{#fieldErrors.details}}
@@ -58,14 +58,16 @@
                 </div>
 
                 <div class="control buttons">
-                    <button type="submit" class="button">Submit</button>
+                    <button type="submit" class="button">
+                        {{#t}}submit{{/t}}
+                    </button>
                     <button
                         type="submit"
                         formaction="{{saveUri}}"
                         formmethod="post"
                         class="button"
                     >
-                        Save Draft
+                        {{#t}}save{{/t}}
                     </button>
                 </div>
             </form>

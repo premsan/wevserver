@@ -6,60 +6,62 @@
         <section class="section">
             <form method="post" action="/broadcast/broadcast-server-create">
                 <div class="field">
-                    <label class="label">Name</label>
+                    <label class="label">{{#t}}name{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="name"
-                            placeholder="Name"
+                            placeholder="{{#t}}name{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">URL</label>
+                    <label class="label">{{#t}}url{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="url"
-                            placeholder="URL"
+                            placeholder="{{#t}}url{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Username</label>
+                    <label class="label">{{#t}}username{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="username"
-                            placeholder="username"
+                            placeholder="{{#t}}username{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Password</label>
+                    <label class="label">{{#t}}password{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="password"
                             name="password"
-                            placeholder="password"
+                            placeholder="{{#t}}password{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Enabled</label>
+                    <label class="label">{{#t}}enabled{{/t}}</label>
                     <input type="checkbox" name="enabled" />
                 </div>
 
                 <div class="control">
-                    <button type="submit" class="button is-dark">Submit</button>
+                    <button type="submit" class="button is-dark">
+                        {{#t}}submit{{/t}}
+                    </button>
                 </div>
             </form>
         </section>

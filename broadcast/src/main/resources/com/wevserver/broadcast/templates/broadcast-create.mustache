@@ -6,31 +6,33 @@
         <section class="section">
             <form method="post" action="/broadcast/broadcast-create">
                 <div class="field">
-                    <label class="label">Name</label>
+                    <label class="label">{{#t}}name{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="name"
-                            placeholder="Name"
+                            placeholder="{{#t}}name{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">URL</label>
+                    <label class="label">{{#t}}URL{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="url"
-                            placeholder="URL"
+                            placeholder="{{#t}}URL{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="control">
-                    <button type="submit" class="button is-dark">Submit</button>
+                    <button type="submit" class="button is-dark">
+                        {{#t}}submit{{/t}}
+                    </button>
                 </div>
             </form>
         </section>
