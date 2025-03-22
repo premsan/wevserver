@@ -6,14 +6,16 @@
         <section class="section">
             <form method="post" action="/broadcast/broadcast-subscribe">
                 <div class="field">
-                    <label class="label">Open</label>
+                    <label class="label">{{#t}}open{{/t}}</label>
                     <input type="checkbox" name="open"
                     {{#broadcastSubscribe.open}} checked
                     {{/broadcastSubscribe.open}} />
                 </div>
 
                 <div class="control">
-                    <button type="submit" class="button is-dark">Submit</button>
+                    <button type="submit" class="button is-dark">
+                        {{#t}}submit{{/t}}
+                    </button>
                 </div>
             </form>
         </section>

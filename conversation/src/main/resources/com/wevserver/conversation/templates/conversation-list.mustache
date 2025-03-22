@@ -6,25 +6,25 @@
         <section class="section content">
             <form action="/conversation/conversation-list">
                 <div class="field">
-                    <label class="label">Id Equals</label>
+                    <label class="label">{{#t}}id-equals{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="idEquals"
-                            placeholder="Id Equals"
+                            placeholder="{{#t}}id-equals{{/t}}"
                         />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Name Starting With</label>
+                    <label class="label">{{#t}}name-starting-with{{/t}}</label>
                     <div class="control">
                         <input
                             class="input"
                             type="text"
                             name="nameStartingWith"
-                            placeholder="Name Starting With"
+                            placeholder="{{#t}}name-starting-with{{/t}}"
                         />
                     </div>
                 </div>
@@ -40,8 +40,12 @@
                                 >
                                     Sort By
                                 </option>
-                                <option>UPDATED_AT_ASC</option>
-                                <option>UPDATED_AT_DESC</option>
+                                <option value="UPDATED_AT_ASC">
+                                    {{#t}}updated-at-asc{{/t}}
+                                </option>
+                                <option value="UPDATED_AT_DESC">
+                                    {{#t}}updated-at-desc{{/t}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -49,7 +53,7 @@
 
                 <div class="field">
                     <div class="control">
-                        <button class="button">Find</button>
+                        <button class="button">{{#t}}find{{/t}}</button>
                     </div>
                 </div>
             </form>
@@ -72,7 +76,7 @@
                 </div>
                 <div class="block buttons">
                     {{#propertyPickRedirectUri}}
-                    <a class="button" href="{{.}}">Pick</a>
+                    <a class="button" href="{{.}}">{{#t}}pick{{/t}}</a>
                     {{/propertyPickRedirectUri}}
                 </div>
             </div>
@@ -92,10 +96,10 @@
                             <input type="hidden" name="page" />
                             <button
                                 class="pagination-link"
-                                aria-label="Next Page"
+                                aria-label="{{#t}}next-page{{/t}}"
                                 type="submit"
                             >
-                                Next Page
+                                {{#t}}next-page{{/t}}
                             </button>
                         </form>
                     </li>

@@ -4,7 +4,7 @@
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
         <section class="section content">
-            <h2 class="title is-2">Favourites</h2>
+            <h2 class="title is-2">{{#t}}favourites{{/t}}</h2>
             <div class="block buttons">
                 {{#favourites}}
                 {{>com/wevserver/application/templates/application-feature-partial}}
@@ -13,12 +13,10 @@
             </div>
         </section>
         <section class="section content">
-            <h2 class="title is-2">Modules</h2>
+            <h2 class="title is-2">{{#t}}modules{{/t}}</h2>
             <div class="buttons">
                 {{#modules}}
-                <a class="button is-dark" href="#{{.}}"
-                    >{{#i18n}} {{.}} {{/i18n}}</a
-                >
+                <a class="button is-dark" href="#{{.}}">{{.}}</a>
                 {{/modules}}
                 <i></i>
             </div>

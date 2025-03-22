@@ -6,45 +6,45 @@
         <section class="section content">
             <dl>
                 <div class="block">
-                    <dt class="label">Id</dt>
+                    <dt class="label">{{#t}}id{{/t}}</dt>
                     <dd>{{broadcastServer.id}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Version</dt>
+                    <dt class="label">{{#t}}version{{/t}}</dt>
                     <dd>{{broadcastServer.version}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Name</dt>
+                    <dt class="label">{{#t}}name{{/t}}</dt>
                     <dd>{{broadcastServer.name}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">URL</dt>
+                    <dt class="label">{{#t}}url{{/t}}</dt>
                     <dd>{{broadcastServer.url}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Username</dt>
+                    <dt class="label">{{#t}}username{{/t}}</dt>
                     <dd>{{broadcastServer.username}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Password</dt>
+                    <dt class="label">{{#t}}password{{/t}}</dt>
                     <dd>{{broadcastServer.password}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Enabled</dt>
+                    <dt class="label">{{#t}}enabled{{/t}}</dt>
                     <dd>{{broadcastServer.enabled}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Updated At</dt>
+                    <dt class="label">{{#t}}updated-at{{/t}}</dt>
                     <dd>{{broadcastServer.updatedAt}}</dd>
                 </div>
                 <div class="block">
-                    <dt class="label">Updated By</dt>
+                    <dt class="label">{{#t}}updated-by{{/t}}</dt>
                     <dd>{{broadcastServer.updatedBy}}</dd>
                 </div>
             </dl>
         </section>
         <section class="section content">
-            <h2 class="title is-2">Action</h2>
+            <h2 class="title is-2">{{#t}}actions{{/t}}</h2>
             <div class="buttons">
                 {{#actions}}
                 <a class="button is-dark" href="{{.}}" text="{{.}}">{{.}}</a>
@@ -52,7 +52,7 @@
             </div>
         </section>
         <section class="section content">
-            <h2 class="title is-2">Integration</h2>
+            <h2 class="title is-2">{{#t}}integrations{{/t}}</h2>
             <div class="buttons">
                 {{#integrations}}
                 <a class="button is-dark" href="{{.}}">{{.}}</a>

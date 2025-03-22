@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
 @RequiredArgsConstructor
-public class InternationalizationAdvice {
+public class TranslationAdvice {
 
     private final MessageSource messageSource;
 
-    @ModelAttribute("i18n")
-    public Mustache.Lambda i18n(final Locale locale) {
+    @ModelAttribute("t")
+    public Mustache.Lambda t(final Locale locale) {
         return (frag, out) -> {
             final String code = frag.execute();
             final String message = messageSource.getMessage(code.strip(), null, code, locale);
