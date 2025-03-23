@@ -47,6 +47,7 @@ CREATE TABLE "security_user" (
     "user_email" VARCHAR(256),
     "user_password_hash" VARCHAR(256),
     "user_disabled" BOOLEAN DEFAULT FALSE NOT NULL,
+    "user_settings" VARCHAR(65535),
     "user_created_at" BIGINT NOT NULL,
     "user_created_by" CHAR(36) NOT NULL,
     "user_updated_at" BIGINT NOT NULL,

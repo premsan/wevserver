@@ -49,6 +49,7 @@ public class SubUserCreateController {
                                 null,
                                 passwordEncoder.encode(password),
                                 false,
+                                null,
                                 System.currentTimeMillis(),
                                 securityContext.getAuthentication().getName(),
                                 System.currentTimeMillis(),

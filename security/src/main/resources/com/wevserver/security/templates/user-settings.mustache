@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form method="post" action="/security/user-settings">
+                <div class="field">
+                    <label class="label">{{#t}}language{{/t}}</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="language">
+                                <option disabled="disabled" selected="selected">
+                                    {{#t}}language{{/t}}
+                                </option>
+                                {{#languageOptions}}
+                                <option value="{{value}}" {{selected}}>
+                                    {{label}}
+                                </option>
+                                {{/languageOptions}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">{{#t}}timeZone{{/t}}</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="timeZone">
+                                <option disabled="disabled" selected="selected">
+                                    {{#t}}timeZone{{/t}}
+                                </option>
+                                {{#timeZoneOptions}}
+                                <option value="{{value}}" {{selected}}>
+                                    {{label}}
+                                </option>
+                                {{/timeZoneOptions}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <button type="submit" class="button is-dark">
+                        {{#t}}submit{{/t}}
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

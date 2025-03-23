@@ -1,6 +1,7 @@
 package com.wevserver.security.user;
 
 import com.wevserver.db.Auditable;
+import com.wevserver.lib.FormData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,9 @@ public class User implements Auditable {
 
     @Column("user_disabled")
     private Boolean disabled;
+
+    @Column("user_settings")
+    private FormData settings;
 
     @Column("user_created_at")
     private Long createdAt;
