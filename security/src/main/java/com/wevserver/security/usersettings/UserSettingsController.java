@@ -5,6 +5,7 @@ import com.wevserver.application.feature.FeatureType;
 import com.wevserver.lib.FormData;
 import com.wevserver.security.user.User;
 import com.wevserver.security.user.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Locale;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.RequestContext;
 
 @Controller
 @RequiredArgsConstructor
@@ -88,13 +90,17 @@ public class UserSettingsController {
     @PostMapping("/security/user-settings")
     public ModelAndView userSettingsPost(
             final HttpSession httpSession,
+            final HttpServletRequest httpServletRequest,
             final @CurrentSecurityContext SecurityContext securityContext,
             final RequestParams requestParams) {
+
+        UserSettings userSettings = null;
+        final RequestContext requestContext = new RequestContext(httpServletRequest);
 
         if (SecurityContextHolder.getContext().getAuthentication()
                 instanceof AnonymousAuthenticationToken) {
 
-            UserSettings userSettings = (UserSettings) httpSession.getAttribute("userSettings");
+            userSettings = (UserSettings) httpSession.getAttribute("userSettings");
 
             if (userSettings == null) {
 
@@ -110,8 +116,6 @@ public class UserSettingsController {
             final Optional<User> userOptional =
                     userRepository.findById(securityContext.getAuthentication().getName());
 
-            UserSettings userSettings;
-
             if (Objects.nonNull(userOptional.get().getSettings())) {
 
                 userSettings = new UserSettings(userOptional.get().getSettings().getData());
@@ -126,6 +130,10 @@ public class UserSettingsController {
             userOptional.get().setSettings(new FormData(userSettings.map()));
             userRepository.save(userOptional.get());
         }
+
+        requestContext.changeLocale(
+                Locale.of(userSettings.getLanguage()),
+                TimeZone.getTimeZone(userSettings.getTimeZone()));
 
         return new ModelAndView("redirect:/security/user-settings");
     }
