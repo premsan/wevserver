@@ -16,8 +16,8 @@ public class TranslationAdvice {
     @ModelAttribute("t")
     public Mustache.Lambda t(final Locale locale) {
         return (frag, out) -> {
-            final String code = frag.execute();
-            final String message = messageSource.getMessage(code.strip(), null, code, locale);
+            final String code = frag.execute().strip();
+            final String message = messageSource.getMessage(code, null, code, locale);
             out.write(message);
         };
     }

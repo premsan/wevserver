@@ -18,6 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,7 @@ public class ApplicationRootReadController {
     private final NumberFormat numberFormat =
             NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT);
 
+    private final MessageSource messageSource;
     private final FeatureRepository featureRepository;
     private final EntityAuditRepository entityAuditRepository;
 
@@ -64,7 +67,18 @@ public class ApplicationRootReadController {
                             favourites));
         }
 
-        modelAndView.addObject("modules", featureRepository.getFeaturesByModule().keySet());
+        modelAndView.addObject(
+                "modules",
+                featureRepository.getFeaturesByModule().keySet().stream()
+                        .map(
+                                module ->
+                                        messageSource.getMessage(
+                                                module,
+                                                null,
+                                                module,
+                                                LocaleContextHolder.getLocale()))
+                        .toList());
+
         modelAndView.addObject(
                 "moduleFeatures",
                 featureRepository.getFeaturesByModule().entrySet().stream()
@@ -110,11 +124,13 @@ public class ApplicationRootReadController {
                 final Map<String, EntityAudit> entityAuditByEntityName,
                 final Set<String> favouritePaths) {
 
-            final String[] components = feature.getPath().split("/");
-            final String component = components[components.length - 1];
-
             path = feature.getPath();
-            label = component;
+            label =
+                    messageSource.getMessage(
+                            feature.getPath(),
+                            null,
+                            feature.getPath(),
+                            LocaleContextHolder.getLocale());
 
             final EntityAudit entityAudit =
                     entityAuditByEntityName.get(feature.getEntity().getName());
