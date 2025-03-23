@@ -2,6 +2,7 @@ package com.wevserver.security.usersettings;
 
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
+import com.wevserver.lib.FormData;
 import com.wevserver.security.user.User;
 import com.wevserver.security.user.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -50,7 +51,7 @@ public class UserSettingsController {
             final Optional<User> userOptional =
                     userRepository.findById(securityContext.getAuthentication().getName());
 
-            if (userOptional.isPresent()) {
+            if (Objects.nonNull(userOptional.get().getSettings())) {
 
                 userSettings = new UserSettings(userOptional.get().getSettings().getData());
             } else {
@@ -122,6 +123,7 @@ public class UserSettingsController {
             userSettings.setLanguage(requestParams.getLanguage());
             userSettings.setTimeZone(requestParams.getTimeZone());
 
+            userOptional.get().setSettings(new FormData(userSettings.map()));
             userRepository.save(userOptional.get());
         }
 
