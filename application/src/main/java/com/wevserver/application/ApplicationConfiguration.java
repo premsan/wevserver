@@ -2,15 +2,12 @@ package com.wevserver.application;
 
 import com.wevserver.application.entityaudit.EntityAuditHandlerInterceptor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
 @RequiredArgsConstructor
@@ -29,11 +26,5 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
     @Override
     public void configureViewResolvers(final ViewResolverRegistry registry) {
         registry.viewResolver(jackson2JsonViewResolver);
-    }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-
-        return new SessionLocaleResolver();
     }
 }

@@ -4,7 +4,25 @@
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
         <section class="section">
-            <form method="post" action="/security/user-settings">
+            <form method="post" action="/security/user-locale">
+                <div class="field">
+                    <label class="label">{{#t}}country{{/t}}</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="country">
+                                <option disabled="disabled" selected="selected">
+                                    {{#t}}country{{/t}}
+                                </option>
+                                {{#countryOptions}}
+                                <option value="{{value}}" {{selected}}>
+                                    {{label}}
+                                </option>
+                                {{/countryOptions}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="field">
                     <label class="label">{{#t}}language{{/t}}</label>
                     <div class="control">

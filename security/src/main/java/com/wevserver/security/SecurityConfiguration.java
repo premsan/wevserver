@@ -24,6 +24,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,9 +45,6 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
@@ -132,8 +131,8 @@ public class SecurityConfiguration {
 
             authorities.addAll(securityProperties.getAuthenticatedGrantedAuthorities());
 
-            return new DefaultUser(
-                    user.getId(), authorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
+            return new OidcUserPrincipal(
+                    user, authorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
         };
     }
 
@@ -142,6 +141,11 @@ public class SecurityConfiguration {
             JdbcOperations jdbcOperations,
             ClientRegistrationRepository clientRegistrationRepository) {
         return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
+    }
+
+    @Bean
+    public AuthenticationTrustResolver authenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
     }
 
     @Bean
@@ -172,26 +176,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    static class DefaultUser extends DefaultOidcUser {
-
-        private String id;
-
-        public DefaultUser(
-                final String id,
-                final Collection<? extends GrantedAuthority> authorities,
-                final OidcIdToken idToken,
-                final OidcUserInfo userInfo) {
-            super(authorities, idToken, userInfo);
-
-            this.id = id;
-        }
-
-        @Override
-        public String getName() {
-            return id;
-        }
-    }
-
     @Bean
     public UserDetailsService userDetailsService(
             final SecurityProperties securityProperties,
@@ -213,17 +197,7 @@ public class SecurityConfiguration {
 
             authorities.addAll(securityProperties.getAuthenticatedGrantedAuthorities());
 
-            final org.springframework.security.core.userdetails.User user =
-                    new org.springframework.security.core.userdetails.User(
-                            userOptional.get().getId(),
-                            userOptional.get().getPasswordHash(),
-                            !userOptional.get().getDisabled(),
-                            true,
-                            true,
-                            true,
-                            authorities);
-
-            return user;
+            return new UserDetailsPrincipal(userOptional.get(), authorities);
         };
     }
 
