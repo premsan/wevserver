@@ -23,7 +23,7 @@ public class AuthenticatedSessionLocaleResolver extends SessionLocaleResolver {
                 SecurityContextHolder.getContext().getAuthentication();
 
         if (authenticationTrustResolver.isAuthenticated(authentication)
-                && authentication.getPrincipal().getClass().isAssignableFrom(UserLocale.class)) {
+                && UserLocale.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
 
             final UserLocale userLocale =
                     (UserLocale)
@@ -41,7 +41,7 @@ public class AuthenticatedSessionLocaleResolver extends SessionLocaleResolver {
                 SecurityContextHolder.getContext().getAuthentication();
 
         if (authenticationTrustResolver.isAuthenticated(authentication)
-                && authentication.getPrincipal().getClass().isAssignableFrom(UserLocale.class)) {
+                && UserLocale.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
 
             final UserLocale userLocale =
                     (UserLocale)
