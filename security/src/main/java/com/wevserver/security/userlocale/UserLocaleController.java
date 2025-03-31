@@ -4,7 +4,11 @@ import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
 import com.wevserver.security.user.User;
 import com.wevserver.security.user.UserRepository;
+import com.wevserver.ui.ErrorMessages;
+import com.wevserver.ui.ErrorMessagesSupplier;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
@@ -19,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +34,7 @@ import org.springframework.web.servlet.support.RequestContext;
 public class UserLocaleController {
 
     private final AuthenticationTrustResolver authenticationTrustResolver;
+    private final ErrorMessagesSupplier errorMessagesSupplier;
     private final UserRepository userRepository;
 
     @FeatureMapping(type = FeatureType.ACTION)
@@ -39,6 +45,60 @@ public class UserLocaleController {
                 new ModelAndView("com/wevserver/security/templates/user-locale");
 
         final RequestContext requestContext = new RequestContext(httpServletRequest);
+
+        addViewObjects(requestContext, modelAndView);
+
+        return modelAndView;
+    }
+
+    @PostMapping("/security/user-locale")
+    public ModelAndView userLocalePost(
+            final HttpServletRequest httpServletRequest,
+            @CurrentSecurityContext final SecurityContext securityContext,
+            @Valid final RequestParams requestParams,
+            final BindingResult bindingResult) {
+
+        final RequestContext requestContext = new RequestContext(httpServletRequest);
+
+        final ModelAndView modelAndView =
+                new ModelAndView("com/wevserver/security/templates/user-locale");
+
+        if (bindingResult.hasErrors()) {
+
+            final ErrorMessages errorMessages = errorMessagesSupplier.get(bindingResult);
+
+            addViewObjects(requestContext, modelAndView);
+
+            if (Objects.nonNull(errorMessages)) {
+
+                modelAndView.addObject("fieldErrors", errorMessages.getFieldErrors());
+            }
+
+            return modelAndView;
+        }
+
+        final Authentication authentication = securityContext.getAuthentication();
+
+        if (authenticationTrustResolver.isAuthenticated(authentication)) {
+
+            final Optional<User> userOptional = userRepository.findById(authentication.getName());
+
+            userOptional.get().setCountry(requestParams.getCountry());
+            userOptional.get().setLanguage(requestParams.getLanguage());
+            userOptional.get().setTimeZone(requestParams.getTimeZone());
+
+            userRepository.save(userOptional.get());
+        }
+
+        requestContext.changeLocale(
+                Locale.of(requestParams.getLanguage(), requestParams.getCountry()),
+                TimeZone.getTimeZone(requestParams.getTimeZone()));
+
+        return new ModelAndView("redirect:/security/user-locale");
+    }
+
+    private void addViewObjects(
+            final RequestContext requestContext, final ModelAndView modelAndView) {
 
         modelAndView.addObject("country", requestContext.getLocale().getCountry());
         modelAndView.addObject("language", requestContext.getLocale().getLanguage());
@@ -63,35 +123,6 @@ public class UserLocaleController {
                 Arrays.stream(TimeZone.getAvailableIDs())
                         .map(zoneId -> new TimezoneOption(zoneId, requestContext.getTimeZone()))
                         .toList());
-
-        return modelAndView;
-    }
-
-    @PostMapping("/security/user-locale")
-    public ModelAndView userLocalePost(
-            final HttpServletRequest httpServletRequest,
-            final @CurrentSecurityContext SecurityContext securityContext,
-            final RequestParams requestParams) {
-
-        final RequestContext requestContext = new RequestContext(httpServletRequest);
-        final Authentication authentication = securityContext.getAuthentication();
-
-        if (authenticationTrustResolver.isAuthenticated(authentication)) {
-
-            final Optional<User> userOptional = userRepository.findById(authentication.getName());
-
-            userOptional.get().setCountry(requestParams.getCountry());
-            userOptional.get().setLanguage(requestParams.getLanguage());
-            userOptional.get().setTimeZone(requestParams.getTimeZone());
-
-            userRepository.save(userOptional.get());
-        }
-
-        requestContext.changeLocale(
-                Locale.of(requestParams.getLanguage(), requestParams.getCountry()),
-                TimeZone.getTimeZone(requestParams.getTimeZone()));
-
-        return new ModelAndView("redirect:/security/user-locale");
     }
 
     @Getter
@@ -168,10 +199,10 @@ public class UserLocaleController {
     @Setter
     private static class RequestParams {
 
-        private String country;
+        @NotBlank private String country;
 
-        private String language;
+        @NotBlank private String language;
 
-        private String timeZone;
+        @NotBlank private String timeZone;
     }
 }

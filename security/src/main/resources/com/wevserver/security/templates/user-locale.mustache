@@ -21,6 +21,11 @@
                             </select>
                         </div>
                     </div>
+                    <ul>
+                        {{#fieldErrors.country}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.country}}
+                    </ul>
                 </div>
 
                 <div class="field">
@@ -39,6 +44,11 @@
                             </select>
                         </div>
                     </div>
+                    <ul>
+                        {{#fieldErrors.language}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.language}}
+                    </ul>
                 </div>
 
                 <div class="field">
@@ -57,6 +67,11 @@
                             </select>
                         </div>
                     </div>
+                    <ul>
+                        {{#fieldErrors.timeZone}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.timeZone}}
+                    </ul>
                 </div>
 
                 <div class="control">
