@@ -63,7 +63,7 @@ public class EmailDigestEntityAuditTask {
             body.getData()
                     .put(
                             entityAudit.getEntityName(),
-                            Arrays.asList(entityAudit.getEntityCreatedCount()));
+                            Arrays.asList(String.valueOf(entityAudit.getEntityCreatedCount())));
 
             emailDigestRepository.save(emailDigest);
         }

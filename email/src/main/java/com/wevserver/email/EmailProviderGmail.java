@@ -79,7 +79,7 @@ public class EmailProviderGmail implements EmailProvider {
             throw new RuntimeException(e);
         }
 
-        final ResponseEntity<Map<String, Object>> responseEntity =
+        final ResponseEntity<Map<String, String>> responseEntity =
                 restClient
                         .method(HttpMethod.POST)
                         .uri(GMAIL_SEND_URI)

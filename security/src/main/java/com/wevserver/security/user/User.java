@@ -37,6 +37,15 @@ public class User implements Auditable {
     @Column("user_disabled")
     private Boolean disabled;
 
+    @Column("user_country")
+    private String country;
+
+    @Column("user_language")
+    private String language;
+
+    @Column("user_time_zone")
+    private String timeZone;
+
     @Column("user_created_at")
     private Long createdAt;
 

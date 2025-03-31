@@ -16,9 +16,9 @@ import org.springframework.util.StringUtils;
 @AllArgsConstructor
 public class FormData {
 
-    private MultiValueMap<String, Object> data;
+    private MultiValueMap<String, String> data;
 
-    public FormData(final Map<String, Object> map) {
+    public FormData(final Map<String, String> map) {
 
         this.data = new LinkedMultiValueMap<>();
 
@@ -43,8 +43,7 @@ public class FormData {
                                 if (value != null) {
                                     builder.append('=');
                                     builder.append(
-                                            URLEncoder.encode(
-                                                    String.valueOf(value), StandardCharsets.UTF_8));
+                                            URLEncoder.encode(value, StandardCharsets.UTF_8));
                                 }
                             });
                 });
@@ -56,7 +55,7 @@ public class FormData {
 
         final String[] pairs = StringUtils.tokenizeToStringArray(encoded, "&");
 
-        final MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(pairs.length);
+        final MultiValueMap<String, String> map = new LinkedMultiValueMap<>(pairs.length);
 
         for (final String pair : pairs) {
             final int idx = pair.indexOf('=');

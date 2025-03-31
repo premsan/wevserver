@@ -23,6 +23,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-mustache")
 
     testImplementation(platform(libs.org.junit.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
