@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form method="post" action="/poll/poll-option-create">
+                <div class="field">
+                    <label class="label">{{#t}}name{{/t}}</label>
+                    <div class="control">
+                        {{#name}}
+
+                        <input
+                            class="input"
+                            type="text"
+                            name="name"
+                            placeholder="{{#t}}submit{{/t}}"
+                        />
+                        {{/name}}
+                    </div>
+
+                    <ul>
+                        {{#fieldErrors.name}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.name}}
+                    </ul>
+                </div>
+
+                <div>
+                    <ul>
+                        {{#globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/globalErrors}}
+                    </ul>
+                </div>
+
+                <div class="control buttons">
+                    <button type="submit" class="button">
+                        {{#t}}submit{{/t}}
+                    </button>
+                    <button type="submit" formmethod="post" class="button">
+                        {{#t}}save{{/t}}
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <form method="post" action="/poll/poll-create">
+                <div class="field">
+                    <label class="label">{{#t}}name{{/t}}</label>
+                    <div class="control">
+                        <input class="input" type="text" name="name" {{#name}}
+                        value="{{.}}" {{/name}} placeholder="{{#t}}name{{/t}}"
+                        />
+                    </div>
+
+                    <ul>
+                        {{#fieldErrors.name}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.name}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">{{#t}}details{{/t}}</label>
+                    <div class="control">
+                        <textarea
+                            class="textarea"
+                            placeholder="{{#t}}body{{/t}}"
+                            name="details"
+                            rows="10"
+                        >
+                            {{#details}} value="{{.}}" {{/details}}</textarea
+                        >
+                    </div>
+                    <ul>
+                        {{#fieldErrors.content}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.content}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">{{#t}}timeZone{{/t}}</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="timeZone">
+                                <option disabled="disabled" selected="selected">
+                                    {{#t}}timeZone{{/t}}
+                                </option>
+                                {{#timeZoneOptions}}
+                                <option value="{{value}}" selected="selected">
+                                    {{label}}
+                                </option>
+                                {{/timeZoneOptions}}
+                            </select>
+                        </div>
+                    </div>
+                    <ul>
+                        {{#fieldErrors.timeZone}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.timeZone}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">Start At</label>
+                    <div class="control">
+                        <input
+                            class="input"
+                            type="datetime-local"
+                            name="startAt"
+                            placeholder="Start At"
+                        />
+                    </div>
+                    <ul>
+                        {{#fieldErrors.startAt}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.startAt}}
+                    </ul>
+                </div>
+
+                <div class="field">
+                    <label class="label">End At</label>
+                    <div class="control">
+                        <input
+                            class="input"
+                            type="datetime-local"
+                            name="endAt"
+                            placeholder="End At"
+                        />
+                    </div>
+                    <ul>
+                        {{#fieldErrors.endAt}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/fieldErrors.endAt}}
+                    </ul>
+                </div>
+
+                <div>
+                    <ul>
+                        {{#globalErrors}}
+                        <li class="help is-danger">{{.}}</li>
+                        {{/globalErrors}}
+                    </ul>
+                </div>
+
+                <div class="control buttons">
+                    <button type="submit" class="button">
+                        {{#t}}submit{{/t}}
+                    </button>
+                    <button
+                        type="submit"
+                        formaction="{{saveUri}}"
+                        formmethod="post"
+                        class="button"
+                    >
+                        {{#t}}save{{/t}}
+                    </button>
+                </div>
+            </form>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>
