@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <nav class="section breadcrumb">
+            <ul>
+                <li>
+                    <a href="/poll/poll-list">Poll</a>
+                </li>
+                <li class="is-active">
+                    <a href="/poll/poll-read/{{poll.id}}">Read</a>
+                </li>
+            </ul>
+        </nav>
+        <section class="section content">
+            <dl>
+                <div class="block">
+                    <dt class="label">{{#t}}id{{/t}}</dt>
+                    <dd>{{poll.id}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">{{#t}}version{{/t}}</dt>
+                    <dd>{{poll.version}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">{{#t}}name{{/t}}</dt>
+                    <dd>{{poll.name}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">{{#t}}updated-at{{/t}}</dt>
+                    <dd>{{poll.updatedAt}}</dd>
+                </div>
+                <div class="block">
+                    <dt class="label">{{#t}}updated-by{{/t}}</dt>
+                    <dd>{{poll.updatedBy}}</dd>
+                </div>
+            </dl>
+        </section>
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

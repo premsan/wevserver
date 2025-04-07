@@ -3,30 +3,33 @@
     {{>com/wevserver/ui/templates/head-partial}}
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
+        <nav class="section breadcrumb">
+            <ul>
+                <li class="is-active">
+                    <a href="/poll/poll-list">Poll</a>
+                </li>
+                <li>
+                    <a href="/poll/poll-create">Create</a>
+                </li>
+            </ul>
+        </nav>
         <section class="section content">
-            <h2 class="title is-2">Query</h2>
             <form class="box" action="/poll/poll-list">
                 <div class="field">
                     <label class="label">{{#t}}id{{/t}}</label>
                     <div class="control">
-                        <input
-                            class="input"
-                            type="text"
-                            name="id"
-                            placeholder="{{#t}}id{{/t}}"
-                        />
+                        <input class="input" type="text" name="id"
+                        {{#requestParams.id}} value="{{requestParams.id}}"
+                        {{/requestParams.id}} placeholder="{{#t}}id{{/t}}" />
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">{{#t}}name{{/t}}</label>
                     <div class="control">
-                        <input
-                            class="input"
-                            type="text"
-                            name="name"
-                            placeholder="{{#t}}name{{/t}}"
-                        />
+                        <input class="input" type="text" name="name"
+                        {{#requestParams.id}} value="{{requestParams.name}}"
+                        {{/requestParams.id}} placeholder="{{#t}}name{{/t}}" />
                     </div>
                 </div>
 
@@ -83,7 +86,6 @@
             </form>
         </section>
         <section class="section content">
-            <h2 class="title is-2">Content</h2>
             {{#pollPage.content}}
             <div class="box">
                 <div class="block tags">
@@ -93,12 +95,16 @@
                 <div class="block">
                     <h4 class="title is-5">{{name}}</h4>
                 </div>
-                <div class="block buttons">
-                    {{#propertyPickRedirectUri}}
-                    <a class="button" href="{{.}}">{{#t}}pick{{/t}}</a>
-                    {{/propertyPickRedirectUri}}
-                    <a class="button is-dark" href="#">{{#t}}pick{{/t}}</a>
-                    <a class="button is-dark" href="#">{{#t}}view{{/t}}</a>
+                <div class="block">
+                    {{#_selectUri}}
+                    <a class="button is-dark" href="{{_selectUri}}"
+                        >{{#t}}select{{/t}}</a
+                    >
+                    {{/_selectUri}} {{^_selectUri}}
+                    <a class="button is-dark" href="/poll/poll-read/{{id}}"
+                        >{{#t}}view{{/t}}</a
+                    >
+                    {{/_selectUri}}
                 </div>
             </div>
             {{/pollPage.content}}

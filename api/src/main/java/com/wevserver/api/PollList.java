@@ -2,7 +2,6 @@ package com.wevserver.api;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import java.util.ArrayList;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,7 +39,9 @@ public class PollList {
         @Max(1024)
         private Integer pageSize = 32;
 
-        private PropertyPick.RequestParams propertyPick;
+        private String selectUri;
+
+        private String selectParam;
 
         @Getter
         private enum SortBy {
@@ -76,12 +77,12 @@ public class PollList {
 
             if (StringUtils.hasText(id)) {
 
-                map.add("idEquals", id);
+                map.add("id", id);
             }
 
             if (StringUtils.hasText(name)) {
 
-                map.add("nameStartingWith", name);
+                map.add("name", name);
             }
 
             if (Objects.nonNull(pageNumber)) {
@@ -97,12 +98,6 @@ public class PollList {
             if (Objects.nonNull(sortBy)) {
 
                 map.add("sortBy", String.valueOf(sortBy));
-            }
-
-            if (Objects.nonNull(propertyPick)) {
-
-                map.add("propertyPick.redirectUri", propertyPick.getRedirectUri());
-                map.addAll("propertyPick.mapping", new ArrayList<>(propertyPick.getMapping()));
             }
 
             return map;

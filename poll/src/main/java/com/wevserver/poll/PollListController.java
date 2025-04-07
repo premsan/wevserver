@@ -1,7 +1,6 @@
 package com.wevserver.poll;
 
 import com.wevserver.api.PollList;
-import com.wevserver.api.PropertyPick;
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
 import com.wevserver.ui.Pagination;
@@ -10,7 +9,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -24,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContext;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,42 +70,35 @@ public class PollListController {
         final ModelAndView modelAndView =
                 new ModelAndView("com/wevserver/poll/templates/poll-list");
 
-        final Page<PollItem> pollItemPage =
-                pollPage.map(
-                        poll1 ->
-                                new PollItem(
-                                        requestContext, poll1, requestParams.getPropertyPick()));
+        final Page<PollView> pollViewPage =
+                pollPage.map(poll1 -> new PollView(requestContext, poll1, requestParams));
 
-        modelAndView.addObject("pollPage", pollItemPage);
+        modelAndView.addObject("requestParams", requestParams);
+        modelAndView.addObject("pollPage", pollViewPage);
         modelAndView.addObject(
-                "pagination", new Pagination(httpServletRequest, pollItemPage).getModel());
+                "pagination", new Pagination(httpServletRequest, pollViewPage).getModel());
 
         return modelAndView;
     }
 
     @Getter
     @Setter
-    private static class PollItem {
+    private static class PollView {
 
         private String id;
-
-        private Long version;
 
         private String name;
 
         private String updatedAt;
 
-        private String updatedBy;
+        private String _selectUri;
 
-        private String propertyPickRedirectUri;
-
-        public PollItem(
+        public PollView(
                 final RequestContext requestContext,
                 final Poll poll,
-                final PropertyPick.RequestParams propertyPickRequestParams) {
+                final PollList.RequestParams requestParams) {
 
             this.id = poll.getId();
-            this.version = poll.getVersion();
             this.name = poll.getName();
             this.updatedAt =
                     DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
@@ -119,26 +111,14 @@ public class PollListController {
                                                             : requestContext
                                                                     .getTimeZone()
                                                                     .toZoneId()));
-            this.updatedBy = poll.getUpdatedBy();
+            if (StringUtils.hasText(requestParams.getSelectUri())
+                    && StringUtils.hasText(requestParams.getSelectParam())) {
 
-            if (Objects.nonNull(propertyPickRequestParams)) {
-
-                propertyPick(poll, propertyPickRequestParams);
+                this._selectUri =
+                        UriComponentsBuilder.fromUriString(requestParams.getSelectUri())
+                                .queryParam(requestParams.getSelectParam(), poll.getId())
+                                .toUriString();
             }
-        }
-
-        private void propertyPick(final Poll poll, final PropertyPick.RequestParams requestParams) {
-
-            final PropertyPick.ResponseParams responseParams =
-                    new PropertyPick.ResponseParams(requestParams);
-
-            responseParams.addProperty("id", poll.getId());
-            responseParams.addProperty("version", String.valueOf(poll.getVersion()));
-            responseParams.addProperty("name", String.valueOf(poll.getName()));
-            responseParams.addProperty("updatedAt", String.valueOf(poll.getUpdatedAt()));
-            responseParams.addProperty("updatedBy", String.valueOf(poll.getUpdatedBy()));
-
-            this.propertyPickRedirectUri = responseParams.buildRedirectUri();
         }
     }
 }

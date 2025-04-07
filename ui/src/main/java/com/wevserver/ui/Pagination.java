@@ -17,7 +17,7 @@ public class Pagination {
 
         final Map<String, Object> model = new HashMap<>();
 
-        if (page.getTotalPages() == 0) {
+        if (page.getTotalPages() <= 1) {
 
             return model;
         }
@@ -31,11 +31,6 @@ public class Pagination {
                                 .toUriString(),
                         page.getNumber() == 0,
                         0));
-
-        if (page.getTotalPages() == 1) {
-
-            return model;
-        }
 
         if (page.getNumber() != 0 && page.getNumber() != page.getTotalPages() - 1) {
 
