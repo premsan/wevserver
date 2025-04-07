@@ -84,56 +84,7 @@
             </div>
             {{/pollPage.content}}
         </section>
-        <section class="section">
-            <nav class="pagination" role="navigation" aria-label="pagination">
-                <a href="#" class="pagination-previous">Previous</a>
-                <a href="#" class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                    <li>
-                        <a
-                            href="#"
-                            class="pagination-link"
-                            aria-label="Goto page 1"
-                            >1</a
-                        >
-                    </li>
-                    <li>
-                        <span class="pagination-ellipsis">&hellip;</span>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            class="pagination-link"
-                            aria-label="Goto page 45"
-                            >45</a
-                        >
-                    </li>
-                </ul>
-            </nav>
-
-            <!--            <nav-->
-            <!--                class="pagination is-centered"-->
-            <!--                role="navigation"-->
-            <!--                aria-label="pagination"-->
-            <!--            >-->
-            <!--                <ul class="pagination-list">-->
-            <!--                    <li>-->
-            <!--                        <form action="/poll-list">-->
-            <!--                            <input type="hidden" name="id" />-->
-            <!--                            <input type="hidden" name="name" />-->
-            <!--                            <input type="hidden" name="page" />-->
-            <!--                            <button-->
-            <!--                                class="pagination-link"-->
-            <!--                                aria-label="{{#t}}next-page{{/t}}"-->
-            <!--                                type="submit"-->
-            <!--                            >-->
-            <!--                                {{#t}}next-page{{/t}}-->
-            <!--                            </button>-->
-            <!--                        </form>-->
-            <!--                    </li>-->
-            <!--                </ul>-->
-            <!--            </nav>-->
-        </section>
+        {{>com/wevserver/ui/templates/pagination-partial}}
     </body>
     {{>com/wevserver/ui/templates/footer-partial}}
 </html>

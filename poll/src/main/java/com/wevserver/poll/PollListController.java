@@ -4,6 +4,8 @@ import com.wevserver.api.PollList;
 import com.wevserver.api.PropertyPick;
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
+import com.wevserver.ui.Pagination;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,9 @@ public class PollListController {
     @FeatureMapping(type = FeatureType.ENTITY_LIST, entity = Poll.class)
     @GetMapping(PollList.PATH)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_LIST')")
-    public ModelAndView pollListGet(final PollList.RequestParams requestParams) {
+    public ModelAndView pollListGet(
+            final HttpServletRequest httpServletRequest,
+            final PollList.RequestParams requestParams) {
 
         final Poll poll = new Poll();
 
@@ -63,6 +67,8 @@ public class PollListController {
                 pollPage.map(poll1 -> new PollItem(poll1, requestParams.getPropertyPick()));
 
         modelAndView.addObject("pollPage", pollItemPage);
+        modelAndView.addObject(
+                "pagination", new Pagination(httpServletRequest, pollItemPage).getModel());
 
         return modelAndView;
     }
