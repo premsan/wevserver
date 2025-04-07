@@ -54,7 +54,30 @@
 
                 <div class="field">
                     <div class="control">
-                        <button class="button">{{#t}}find{{/t}}</button>
+                        <div class="select">
+                            <select name="pageSize">
+                                <option
+                                    disabled="disabled"
+                                    selected="selected"
+                                    value="value"
+                                >
+                                    Page Size
+                                </option>
+                                <option value="16">16</option>
+                                <option value="16">32</option>
+                                <option value="16">64</option>
+                                <option value="16">128</option>
+                                <option value="16">256</option>
+                                <option value="16">512</option>
+                                <option value="16">1024</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-dark">{{#t}}find{{/t}}</button>
                     </div>
                 </div>
             </form>
@@ -63,23 +86,19 @@
             <h2 class="title is-2">Content</h2>
             {{#pollPage.content}}
             <div class="box">
-                <div class="block">
+                <div class="block tags">
                     <span class="tag">{{updatedAt}}</span>
+                    <span class="tag">{{id}}</span>
                 </div>
                 <div class="block">
-                    <a
-                        class="button is-responsive is-dark"
-                        href="/conversation/conversation-read/{{id}}"
-                        >{{id}}</a
-                    >
-                </div>
-                <div class="block">
-                    <p>{{name}}</p>
+                    <h4 class="title is-5">{{name}}</h4>
                 </div>
                 <div class="block buttons">
                     {{#propertyPickRedirectUri}}
                     <a class="button" href="{{.}}">{{#t}}pick{{/t}}</a>
                     {{/propertyPickRedirectUri}}
+                    <a class="button is-dark" href="#">{{#t}}pick{{/t}}</a>
+                    <a class="button is-dark" href="#">{{#t}}view{{/t}}</a>
                 </div>
             </div>
             {{/pollPage.content}}

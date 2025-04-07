@@ -6,10 +6,15 @@ import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
 import com.wevserver.ui.Pagination;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.RequestContext;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +37,8 @@ public class PollListController {
     public ModelAndView pollListGet(
             final HttpServletRequest httpServletRequest,
             final PollList.RequestParams requestParams) {
+
+        final RequestContext requestContext = new RequestContext(httpServletRequest);
 
         final Poll poll = new Poll();
 
@@ -64,7 +72,10 @@ public class PollListController {
                 new ModelAndView("com/wevserver/poll/templates/poll-list");
 
         final Page<PollItem> pollItemPage =
-                pollPage.map(poll1 -> new PollItem(poll1, requestParams.getPropertyPick()));
+                pollPage.map(
+                        poll1 ->
+                                new PollItem(
+                                        requestContext, poll1, requestParams.getPropertyPick()));
 
         modelAndView.addObject("pollPage", pollItemPage);
         modelAndView.addObject(
@@ -83,19 +94,31 @@ public class PollListController {
 
         private String name;
 
-        private Long updatedAt;
+        private String updatedAt;
 
         private String updatedBy;
 
         private String propertyPickRedirectUri;
 
         public PollItem(
-                final Poll poll, final PropertyPick.RequestParams propertyPickRequestParams) {
+                final RequestContext requestContext,
+                final Poll poll,
+                final PropertyPick.RequestParams propertyPickRequestParams) {
 
             this.id = poll.getId();
             this.version = poll.getVersion();
             this.name = poll.getName();
-            this.updatedAt = poll.getUpdatedAt();
+            this.updatedAt =
+                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                            .withLocale(LocaleContextHolder.getLocale())
+                            .format(
+                                    Instant.ofEpochMilli(poll.getUpdatedAt())
+                                            .atZone(
+                                                    requestContext.getTimeZone() == null
+                                                            ? ZoneId.systemDefault()
+                                                            : requestContext
+                                                                    .getTimeZone()
+                                                                    .toZoneId()));
             this.updatedBy = poll.getUpdatedBy();
 
             if (Objects.nonNull(propertyPickRequestParams)) {
