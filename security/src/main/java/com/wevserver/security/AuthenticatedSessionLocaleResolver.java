@@ -2,6 +2,7 @@ package com.wevserver.security;
 
 import com.wevserver.security.userlocale.UserLocale;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -28,7 +29,18 @@ public class AuthenticatedSessionLocaleResolver extends SessionLocaleResolver {
             final UserLocale userLocale =
                     (UserLocale)
                             SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return Locale.of(userLocale.language(), userLocale.country());
+
+            if (Objects.nonNull(userLocale.language()) && Objects.nonNull(userLocale.country())) {
+
+                return Locale.of(userLocale.language(), userLocale.country());
+            }
+
+            if (Objects.nonNull(userLocale.language())) {
+
+                return Locale.of(userLocale.language());
+            }
+
+            return null;
         }
 
         return null;
@@ -46,7 +58,10 @@ public class AuthenticatedSessionLocaleResolver extends SessionLocaleResolver {
             final UserLocale userLocale =
                     (UserLocale)
                             SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return TimeZone.getTimeZone(userLocale.timeZone());
+
+            return userLocale.timeZone() == null
+                    ? null
+                    : TimeZone.getTimeZone(userLocale.timeZone());
         }
 
         return null;

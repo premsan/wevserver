@@ -39,10 +39,7 @@ public class ConversationListController {
             final Optional<Conversation> conversationOptional =
                     conversationRepository.findById(requestParams.getIdEquals());
 
-            if (conversationOptional.isPresent()) {
-
-                conversationList.add(conversationOptional.get());
-            }
+            conversationOptional.ifPresent(conversationList::add);
 
             conversationPage = new PageImpl<>(conversationList);
 
