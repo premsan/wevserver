@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -18,6 +19,10 @@ public class PollOption {
     @Id
     @Column("poll_option_id")
     private String id;
+
+    @Version
+    @Column("poll_option_version")
+    private Integer version;
 
     @Column("poll_option_poll_id")
     private String pollId;
