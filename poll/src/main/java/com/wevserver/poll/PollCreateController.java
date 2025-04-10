@@ -33,7 +33,9 @@ public class PollCreateController {
 
     @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Poll.class)
     @GetMapping(PollCreate.PATH)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_CREATE')")
+    @PreAuthorize(
+            "hasAuthority('ROLE_ADMIN') or hasAuthority('/poll') or"
+                    + " hasAuthority('/poll/poll-create')")
     public ModelAndView pollCreateGet(final PollCreate.RequestParams requestParams) {
 
         final ModelAndView modelAndView =

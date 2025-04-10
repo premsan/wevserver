@@ -4,7 +4,7 @@
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
         <section class="section">
-            <form method="post" action="/poll/poll-option-create">
+            <form method="post" action="/poll/poll-option-create/{{pollId}}">
                 <div class="field">
                     <label class="label">{{#t}}name{{/t}}</label>
                     <div class="control">

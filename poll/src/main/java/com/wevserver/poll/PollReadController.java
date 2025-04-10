@@ -22,7 +22,9 @@ public class PollReadController {
     private final PollRepository pollRepository;
 
     @GetMapping("/poll/poll-read/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_READ')")
+    @PreAuthorize(
+            "hasAuthority('ROLE_ADMIN') or hasAuthority('/poll') or hasAuthority('/poll/poll-read')"
+                    + " or hasPermission(#id, '/poll/poll-read')")
     public ModelAndView pollReadGet(@PathVariable final String id) {
 
         final Optional<Poll> pollOptional = pollRepository.findById(id);

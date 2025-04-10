@@ -32,7 +32,9 @@ public class PollListController {
 
     @FeatureMapping(type = FeatureType.ENTITY_LIST, entity = Poll.class)
     @GetMapping(PollList.PATH)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_LIST')")
+    @PreAuthorize(
+            "hasAuthority('ROLE_ADMIN') or hasAuthority('/poll') or"
+                    + " hasAuthority('/poll/poll-list')")
     public ModelAndView pollListGet(
             final HttpServletRequest httpServletRequest,
             final PollList.RequestParams requestParams) {
