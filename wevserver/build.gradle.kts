@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":json"))
     implementation(project(":mock"))
     implementation(project(":payment"))
+    implementation(project(":poll"))
     implementation(project(":reservation"))
     implementation(project(":proxyagent"))
     implementation(project(":proxyserver"))

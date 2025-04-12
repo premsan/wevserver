@@ -26,4 +26,7 @@ databaseChangeLog:
       path: com/wevserver/payment/db/changelog
   - includeAll:
       errorIfMissingOrEmpty: false
+      path: com/wevserver/poll/db/changelog
+  - includeAll:
+      errorIfMissingOrEmpty: false
       path: com/wevserver/email/db/changelog

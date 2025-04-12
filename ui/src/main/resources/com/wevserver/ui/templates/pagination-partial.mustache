@@ -1,0 +1,50 @@
+<section class="section">
+    <nav class="pagination" role="navigation" aria-label="pagination">
+        {{#pagination.previousPage}}
+        <a href="{{pagination.previousPage}}" class="pagination-previous"
+            >Previous</a
+        >
+        {{/pagination.previousPage}} {{#pagination.nextPage}}
+        <a href="{{pagination.nextPage}}" class="pagination-previous"
+            >Next page</a
+        >
+        {{/pagination.nextPage}}
+
+        <ul class="pagination-list">
+            {{#pagination.firstPage}}
+            <li>
+                <a
+                    href="{{link}}"
+                    class="pagination-link {{#current}} is-current {{/current}}"
+                    aria-label="Goto page 0"
+                    >0</a
+                >
+            </li>
+            {{/pagination.firstPage}} {{#pagination.currentPage}}
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+                <a
+                    href="{{link}}"
+                    class="pagination-link {{#current}} is-current {{/current}}"
+                    aria-label="Goto page {{number}}"
+                    >{{number}}</a
+                >
+            </li>
+            {{/pagination.currentPage}} {{#pagination.lastPage}}
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+                <a
+                    href="{{link}}"
+                    class="pagination-link {{#current}} is-current {{/current}}"
+                    aria-label="Goto page {{number}}"
+                    >{{number}}</a
+                >
+            </li>
+            {{/pagination.lastPage}}
+        </ul>
+    </nav>
+</section>

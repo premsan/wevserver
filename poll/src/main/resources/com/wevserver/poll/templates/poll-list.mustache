@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section">
+            <a class="block button is-dark" href="/#poll">
+                <span class="icon is-small">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Poll Module</span>
+            </a>
+            <a class="block button is-dark" href="/poll/poll-create">
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>Poll Create</span>
+            </a>
+        </section>
+        <section class="section">
+            <form class="box" action="/poll/poll-list">
+                <div class="field">
+                    <label class="label">{{#t}}id{{/t}}</label>
+                    <div class="control">
+                        <input class="input" type="text" name="id"
+                        {{#requestParams.id}} value="{{requestParams.id}}"
+                        {{/requestParams.id}} placeholder="{{#t}}id{{/t}}" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">{{#t}}name{{/t}}</label>
+                    <div class="control">
+                        <input class="input" type="text" name="name"
+                        {{#requestParams.id}} value="{{requestParams.name}}"
+                        {{/requestParams.id}} placeholder="{{#t}}name{{/t}}" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="select">
+                            <select name="sortBy">
+                                <option
+                                    disabled="disabled"
+                                    selected="selected"
+                                    value="value"
+                                >
+                                    Sort By
+                                </option>
+                                <option value="UPDATED_AT_ASC">
+                                    {{#t}}updated-at-asc{{/t}}
+                                </option>
+                                <option value="UPDATED_AT_DESC">
+                                    {{#t}}updated-at-desc{{/t}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="select">
+                            <select name="pageSize">
+                                <option
+                                    disabled="disabled"
+                                    selected="selected"
+                                    value="value"
+                                >
+                                    Page Size
+                                </option>
+                                <option value="16">16</option>
+                                <option value="16">32</option>
+                                <option value="16">64</option>
+                                <option value="16">128</option>
+                                <option value="16">256</option>
+                                <option value="16">512</option>
+                                <option value="16">1024</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-dark">{{#t}}find{{/t}}</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="section">
+            <p class="title">Poll</p>
+            {{#pollPage.content}}
+            <div class="box">
+                <div class="block tags">
+                    <span class="tag">{{updatedAt}}</span>
+                    <span class="tag">{{id}}</span>
+                </div>
+                <div class="block">
+                    <h4 class="title is-5">{{name}}</h4>
+                </div>
+                <div class="block">
+                    {{#_selectUri}}
+                    <a class="button is-dark" href="{{_selectUri}}"
+                        >{{#t}}select{{/t}}</a
+                    >
+                    {{/_selectUri}} {{^_selectUri}}
+                    <a class="button is-dark" href="/poll/poll-read/{{id}}"
+                        >{{#t}}view{{/t}}</a
+                    >
+                    {{/_selectUri}}
+                </div>
+            </div>
+            {{/pollPage.content}}
+        </section>
+        {{>com/wevserver/ui/templates/pagination-partial}}
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>
