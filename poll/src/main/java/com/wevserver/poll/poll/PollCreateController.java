@@ -1,9 +1,10 @@
-package com.wevserver.poll;
+package com.wevserver.poll.poll;
 
 import com.wevserver.api.PollCreate;
 import com.wevserver.api.SessionDataCreate;
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
+import com.wevserver.security.HasPermission;
 import jakarta.validation.Valid;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -14,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -31,11 +31,9 @@ public class PollCreateController {
 
     private final PollRepository pollRepository;
 
-    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Poll.class)
+    @HasPermission
     @GetMapping(PollCreate.PATH)
-    @PreAuthorize(
-            "hasAuthority('ROLE_ADMIN') or hasAuthority('/poll') or"
-                    + " hasAuthority('/poll/poll-create')")
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Poll.class)
     public ModelAndView pollCreateGet(final PollCreate.RequestParams requestParams) {
 
         final ModelAndView modelAndView =
@@ -65,9 +63,9 @@ public class PollCreateController {
         return modelAndView;
     }
 
-    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Poll.class)
+    @HasPermission
     @PostMapping(PollCreate.PATH)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_CREATE')")
+    @FeatureMapping(type = FeatureType.ENTITY_CREATE, entity = Poll.class)
     public ModelAndView pollCreatePost(
             @Valid final PollCreate.RequestParams requestParams,
             final BindingResult bindingResult,

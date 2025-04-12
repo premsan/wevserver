@@ -1,8 +1,9 @@
-package com.wevserver.poll;
+package com.wevserver.poll.poll;
 
 import com.wevserver.api.PollList;
 import com.wevserver.application.feature.FeatureMapping;
 import com.wevserver.application.feature.FeatureType;
+import com.wevserver.security.HasPermission;
 import com.wevserver.ui.Pagination;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -16,7 +17,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +30,9 @@ public class PollListController {
 
     private final PollRepository pollRepository;
 
-    @FeatureMapping(type = FeatureType.ENTITY_LIST, entity = Poll.class)
+    @HasPermission
     @GetMapping(PollList.PATH)
-    @PreAuthorize(
-            "hasAuthority('ROLE_ADMIN') or hasAuthority('/poll') or"
-                    + " hasAuthority('/poll/poll-list')")
+    @FeatureMapping(type = FeatureType.ENTITY_LIST, entity = Poll.class)
     public ModelAndView pollListGet(
             final HttpServletRequest httpServletRequest,
             final PollList.RequestParams requestParams) {

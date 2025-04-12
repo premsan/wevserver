@@ -1,4 +1,4 @@
-package com.wevserver.poll;
+package com.wevserver.poll.poll;
 
 import com.wevserver.db.Auditable;
 import lombok.AllArgsConstructor;

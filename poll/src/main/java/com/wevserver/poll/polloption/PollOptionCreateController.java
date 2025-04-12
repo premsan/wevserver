@@ -1,5 +1,6 @@
-package com.wevserver.poll;
+package com.wevserver.poll.polloption;
 
+import com.wevserver.security.HasPermission;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -31,8 +31,8 @@ public class PollOptionCreateController {
 
     private final PollOptionRepository pollOptionRepository;
 
+    @HasPermission
     @GetMapping("/poll/poll-option-create/{pollId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_POLL_OPTION_CREATE')")
     public ModelAndView pollOptionCreateGet(
             final @PathVariable String pollId,
             final @RequestParam(defaultValue = "10") Integer size) {
@@ -46,8 +46,8 @@ public class PollOptionCreateController {
         return modelAndView;
     }
 
+    @HasPermission
     @PostMapping("/poll/poll-option-create/{pollId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('POLL_OPTION_CREATE')")
     public ModelAndView pollOptionCreatePost(
             @PathVariable String pollId,
             @Valid final RequestParams requestParams,

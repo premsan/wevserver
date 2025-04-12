@@ -1,4 +1,4 @@
-package com.wevserver.poll;
+package com.wevserver.poll.polloption;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

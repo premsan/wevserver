@@ -1,5 +1,6 @@
-package com.wevserver.poll;
+package com.wevserver.poll.polloption;
 
+import com.wevserver.security.HasPermission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ public class PollOptionListController {
 
     private final PollOptionRepository pollOptionRepository;
 
+    @HasPermission
     @GetMapping("/poll/poll-option-list/{pollId}")
     public ModelAndView pollOptionReadGet(@PathVariable String pollId) {
 

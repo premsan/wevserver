@@ -1,4 +1,4 @@
-package com.wevserver.poll;
+package com.wevserver.poll.polloption;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;

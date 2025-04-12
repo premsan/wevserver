@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{>com/wevserver/ui/templates/head-partial}}
+    {{>com/wevserver/ui/templates/header-partial}}
+    <body>
+        <section class="section content">
+            {{#pollOptions}}
+            <div class="box">
+                <div class="block tags">
+                    <span class="tag">{{id}}</span>
+                </div>
+                <div class="block">
+                    <h4 class="title is-5">{{name}}</h4>
+                </div>
+                <div class="block">
+                    {{#pollVote}}
+
+                    <form method="post" action="/poll/poll-vote-delete/{{id}}">
+                        <input
+                            hidden="hidden"
+                            name="redirectUri"
+                            value="/poll/poll-vote-view/{{poll.id}}"
+                        />
+                        <button type="submit" class="button">
+                            {{#t}}unvote{{/t}}
+                        </button>
+                    </form>
+
+                    {{/pollVote}} {{^pollVote}}
+
+                    <form method="post" action="/poll/poll-vote-create">
+                        <input
+                            hidden="hidden"
+                            name="pollOptionId"
+                            value="{{id}}"
+                        />
+                        <input
+                            hidden="hidden"
+                            name="redirectUri"
+                            value="/poll/poll-vote-view/{{poll.id}}"
+                        />
+                        <button type="submit" class="button is-dark">
+                            {{#t}}vote{{/t}}
+                        </button>
+                    </form>
+
+                    {{/pollVote}}
+                </div>
+            </div>
+            {{/pollOptions}}
+        </section>
+        {{>com/wevserver/ui/templates/pagination-partial}}
+    </body>
+    {{>com/wevserver/ui/templates/footer-partial}}
+</html>

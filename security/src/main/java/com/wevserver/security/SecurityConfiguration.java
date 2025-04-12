@@ -29,6 +29,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolverIm
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -201,7 +202,8 @@ public class SecurityConfiguration {
         };
     }
 
-    public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
+    public static class CustomAuthorizationRequestResolver
+            implements OAuth2AuthorizationRequestResolver {
 
         private final DefaultOAuth2AuthorizationRequestResolver delegate;
 
@@ -258,5 +260,10 @@ public class SecurityConfiguration {
                     .scopes(scopes)
                     .build();
         }
+    }
+
+    @Bean
+    static AnnotationTemplateExpressionDefaults templateExpressionDefaults() {
+        return new AnnotationTemplateExpressionDefaults();
     }
 }

@@ -1,4 +1,4 @@
-package com.wevserver.poll;
+package com.wevserver.poll.polloption;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

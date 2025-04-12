@@ -1,5 +1,6 @@
-package com.wevserver.poll;
+package com.wevserver.poll.poll;
 
+import com.wevserver.security.HasPermission;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +21,8 @@ public class PollReadController {
 
     private final PollRepository pollRepository;
 
+    @HasPermission
     @GetMapping("/poll/poll-read/{id}")
-    @PreAuthorize(
-            "hasAuthority('ROLE_ADMIN') or hasAuthority('/poll') or hasAuthority('/poll/poll-read')"
-                    + " or hasPermission(#id, '/poll/poll-read')")
     public ModelAndView pollReadGet(@PathVariable final String id) {
 
         final Optional<Poll> pollOptional = pollRepository.findById(id);
