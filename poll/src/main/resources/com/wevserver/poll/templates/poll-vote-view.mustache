@@ -3,7 +3,15 @@
     {{>com/wevserver/ui/templates/head-partial}}
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
-        <section class="section content">
+        <section class="section">
+            <a class="block button is-dark" href="/poll/poll-read/{{poll.id}}">
+                <span class="icon is-small">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Poll</span>
+            </a>
+        </section>
+        <section class="section">
             {{#pollOptions}}
             <div class="box">
                 <div class="block tags">

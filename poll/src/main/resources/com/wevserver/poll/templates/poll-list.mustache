@@ -3,17 +3,21 @@
     {{>com/wevserver/ui/templates/head-partial}}
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
-        <nav class="section breadcrumb">
-            <ul>
-                <li class="is-active">
-                    <a href="/poll/poll-list">Poll</a>
-                </li>
-                <li>
-                    <a href="/poll/poll-create">Create</a>
-                </li>
-            </ul>
-        </nav>
-        <section class="section content">
+        <section class="section">
+            <a class="block button is-dark" href="/#poll">
+                <span class="icon is-small">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Poll Module</span>
+            </a>
+            <a class="block button is-dark" href="/poll/poll-create">
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>Poll Create</span>
+            </a>
+        </section>
+        <section class="section">
             <form class="box" action="/poll/poll-list">
                 <div class="field">
                     <label class="label">{{#t}}id{{/t}}</label>
@@ -85,7 +89,8 @@
                 </div>
             </form>
         </section>
-        <section class="section content">
+        <section class="section">
+            <p class="title">Poll</p>
             {{#pollPage.content}}
             <div class="box">
                 <div class="block tags">

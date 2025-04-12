@@ -4,7 +4,10 @@
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
         <section class="section">
-            <a class="block button is-dark" href="/poll/poll-read/{{poll.id}}">
+            <a
+                class="block button is-dark"
+                href="/poll/poll-read/{{pollOption.pollId}}"
+            >
                 <span class="icon is-small">
                     <i class="fas fa-arrow-left"></i>
                 </span>
@@ -14,26 +17,8 @@
         <section class="section">
             <form
                 method="post"
-                action="/poll/poll-option-create?pollId={{poll.id}}"
+                action="/poll/poll-option-delete/{{pollOption.id}}"
             >
-                <div class="field">
-                    <label class="label">{{#t}}name{{/t}}</label>
-                    <div class="control">
-                        <input
-                            class="input"
-                            type="text"
-                            name="name"
-                            placeholder="{{#t}}submit{{/t}}"
-                        />
-                    </div>
-
-                    <ul>
-                        {{#fieldErrors.name}}
-                        <li class="help is-danger">{{.}}</li>
-                        {{/fieldErrors.name}}
-                    </ul>
-                </div>
-
                 <div>
                     <ul>
                         {{#globalErrors}}

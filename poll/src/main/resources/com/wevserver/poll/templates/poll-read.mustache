@@ -3,16 +3,14 @@
     {{>com/wevserver/ui/templates/head-partial}}
     {{>com/wevserver/ui/templates/header-partial}}
     <body>
-        <nav class="section breadcrumb">
-            <ul>
-                <li>
-                    <a href="/poll/poll-list">Poll</a>
-                </li>
-                <li class="is-active">
-                    <a href="/poll/poll-read/{{poll.id}}">Read</a>
-                </li>
-            </ul>
-        </nav>
+        <section class="section">
+            <a class="block button is-dark" href="/poll/poll-list">
+                <span class="icon is-small">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Poll List</span>
+            </a>
+        </section>
         <section class="section content">
             <dl>
                 <div class="block">
@@ -39,21 +37,17 @@
         </section>
         <section class="section">
             <h2 class="title is-2">{{#t}}Actions{{/t}}</h2>
-            <div class="buttons">
-                <div class="buttons has-addons">
-                    <a class="button" href="/poll/poll-option-create/{{id}}">
-                        <span class="icon">
-                            <i class="fa-solid fa-plus"></i>
-                        </span>
-                    </a>
-                    <a
-                        class="button is-dark"
-                        href="/poll/poll-option-list/{{id}}"
-                        >Options
-                    </a>
-                </div>
+            <div class="block buttons">
+                <a
+                    class="button is-dark"
+                    href="/poll/poll-option-list?pollId={{id}}"
+                    >Options
+                </a>
                 <a class="button is-dark" href="/poll/poll-vote-view/{{id}}"
                     >Vote
+                </a>
+                <a class="button is-dark" href="/poll/poll-summary-view/{{id}}"
+                    >Summary
                 </a>
             </div>
         </section>

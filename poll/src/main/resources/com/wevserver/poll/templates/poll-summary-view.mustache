@@ -10,17 +10,9 @@
                 </span>
                 <span>Poll</span>
             </a>
-            <a
-                class="block button is-dark"
-                href="/poll/poll-option-create?pollId={{poll.id}}"
-            >
-                <span class="icon">
-                    <i class="fa-solid fa-plus"></i>
-                </span>
-                <span>Poll Option Create</span>
-            </a>
         </section>
         <section class="section">
+            <p class="block title">{{#t}}Poll Summary{{/t}}</p>
             {{#pollOptions}}
             <div class="box">
                 <div class="block tags">
@@ -29,12 +21,9 @@
                 <div class="block">
                     <h4 class="title is-5">{{name}}</h4>
                 </div>
-                <div class="block">
-                    <a
-                        class="button is-dark"
-                        href="/poll/poll-option-delete/{{id}}"
-                        >{{#t}}delete{{/t}}</a
-                    >
+                <div class="block tags has-addons">
+                    <span class="tag is-dark">Vote Count</span>
+                    <span class="tag">{{pollVoteCount}}</span>
                 </div>
             </div>
             {{/pollOptions}}

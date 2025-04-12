@@ -1,12 +1,13 @@
-package com.wevserver.poll.pollvote;
+package com.wevserver.poll;
 
 import com.wevserver.poll.poll.PollRepository;
 import com.wevserver.poll.polloption.PollOption;
 import com.wevserver.poll.polloption.PollOptionRepository;
+import com.wevserver.poll.pollvote.PollVote;
+import com.wevserver.poll.pollvote.PollVoteRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -21,19 +22,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
-public class PollVoteViewController {
+public class PollSummaryViewController {
 
     private final PollRepository pollRepository;
     private final PollOptionRepository pollOptionRepository;
     private final PollVoteRepository pollVoteRepository;
 
-    @GetMapping("/poll/poll-vote-view/{pollId}")
-    public ModelAndView pollVoteViewGet(
+    @GetMapping("/poll/poll-summary-view/{pollId}")
+    public ModelAndView pollSummaryViewGet(
             @PathVariable String pollId,
             @CurrentSecurityContext final SecurityContext securityContext) {
 
         final ModelAndView modelAndView =
-                new ModelAndView("com/wevserver/poll/templates/poll-vote-view");
+                new ModelAndView("com/wevserver/poll/templates/poll-summary-view");
 
         final List<PollOption> pollOptions = pollOptionRepository.findByPollId(pollId);
 
@@ -42,10 +43,12 @@ public class PollVoteViewController {
                         pollOptions.stream().map(PollOption::getId).collect(Collectors.toSet()),
                         securityContext.getAuthentication().getName());
 
-        final Map<String, PollVote> pollOptionIdPollVote = new HashMap<>();
-        for (final PollVote pollVote : pollVotes) {
+        final Map<String, Long> pollOptionIdPollVoteCount = new HashMap<>();
+        for (final PollOption pollOption : pollOptions) {
 
-            pollOptionIdPollVote.put(pollVote.getPollOptionId(), pollVote);
+            final Long pollVoteCount = pollVoteRepository.countByPollOptionId(pollOption.getId());
+
+            pollOptionIdPollVoteCount.put(pollOption.getId(), pollVoteCount);
         }
 
         modelAndView.addObject("poll", pollRepository.findById(pollId).orElse(null));
@@ -57,17 +60,8 @@ public class PollVoteViewController {
                                     final PollOptionView pollOptionView = new PollOptionView();
                                     pollOptionView.setId(pollOption.getId());
                                     pollOptionView.setName(pollOption.getName());
-
-                                    final PollVote pollVote =
-                                            pollOptionIdPollVote.get(pollOption.getId());
-
-                                    if (Objects.nonNull(pollVote)) {
-
-                                        final PollVoteView pollVoteView = new PollVoteView();
-                                        pollVoteView.setId(pollVote.getId());
-
-                                        pollOptionView.setPollVote(pollVoteView);
-                                    }
+                                    pollOptionView.setPollVoteCount(
+                                            pollOptionIdPollVoteCount.get(pollOption.getId()));
 
                                     return pollOptionView;
                                 })
@@ -84,13 +78,6 @@ public class PollVoteViewController {
 
         private String name;
 
-        private PollVoteView pollVote;
-    }
-
-    @Getter
-    @Setter
-    private static class PollVoteView {
-
-        private String id;
+        private Long pollVoteCount;
     }
 }

@@ -9,4 +9,6 @@ public interface PollVoteRepository
 
     Set<PollVote> findByPollOptionIdInAndVoteBy(
             final Set<String> pollOptionId, final String voteBy);
+
+    long countByPollOptionId(final String pollOptionId);
 }
